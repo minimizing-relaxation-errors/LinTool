@@ -1,0 +1,12 @@
+# Ignore locally built files
+/bin
+/build
+
+# Personal configs
+*.vscode
+*.asv
+
+/results
+/workload
+
+**compile_commands.json
