@@ -1,16 +1,39 @@
 # SCRIPT DESCRIPTION
 # Run script, enter file name of file to be processed (including file ending)
-
+import csv
 import os
+import sys
+import pandas as pd
 f = None
+# input file
+filename = sys.argv[1]
+# linearization function
+# version = sys.argv[2]
 
-# input
-filename = input()
+## Time stamp class, creating object containing 4 timestamps
+class Timestamp:
+    def __init__(self, enq_s, enq_e, deq_s, deq_e):
+        self.enq_start = enq_s
+        self.enq_end = enq_e
+        self.deq_start = deq_s
+        self.deq_end = deq_e
+    # we know the enq times before the deq times so we have a function to add them later
+    def update_deq(self, deq_s, deq_e):
+        self.deq_start = deq_s
+        self.deq_end = deq_e
 
-f = open("timestamps/" + filename, "r")
+## initiate dict for timestamps
+timestamps = dict()
 
-for line in f:
-    print(line)
-    
-#    words = lines.split(" ")
-#    if words[1] == "PUT":
+with open("timestamps/" + filename, newline='') as csvfile:
+    filereader = csv.reader(csvfile)
+    for row in filereader:
+        ## if function is put (enqueue)
+        if row[2] == 'PUT':
+            timestamps.update({row[1]: Timestamp(int(row[3]), int(row[4]), None, None)}) ## add value : (timestamp object with enq timestamps, also typecast to ints)
+        ## if function is get (dequeue)
+        elif row[2] == 'GET':
+            time = timestamps.get(row[1]) ## find existing timestamp object
+            time.update_deq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
+            timestamps.update({row[1]: time}) ## update dict with all timestamps
+
