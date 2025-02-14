@@ -5,10 +5,12 @@ import os
 import sys
 import pandas as pd
 f = None
+from naiveLin import naive_lin
+from computeRankError import compute_rank_error
 # input file
 filename = sys.argv[1]
 # linearization function
-# version = sys.argv[2]
+version = sys.argv[2]
 
 ## Time stamp class, creating object containing 4 timestamps
 class Timestamp:
@@ -37,3 +39,10 @@ with open("timestamps/" + filename, newline='') as csvfile:
             time.update_deq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
             timestamps.update({row[1]: time}) ## update dict with all timestamps
 
+
+match version:
+    case "naive":
+        (puts, gets) = naive_lin(timestamps)
+        compute_rank_error(puts, gets)
+
+        

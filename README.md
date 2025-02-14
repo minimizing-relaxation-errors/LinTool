@@ -6,3 +6,8 @@ There is a filepath dependency between semantic-relaxation repository and this o
 
 ## Python package dependencies
 - pandas
+
+### Tool structure goal
+- parse data from file
+-> linearize
+-> compute rank error
