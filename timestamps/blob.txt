@@ -245,3 +245,55 @@ K_mode , 0
 mean_relaxation , 0.0411
 max_relaxation , 2
 variance_relaxation , 0.0402
+
+
+LinTool/timestamps/dcbo-timestamps-1739802261103475200.csv
+BEFORE size is, 512
+AFTER size is, 478
+putting_count_total , 854
+putting_count_total_succ , 854
+putting_perc_succ ,      100.0
+putting_perc ,       49.1
+putting_effective ,       49.1
+removing_count_total , 887
+removing_count_total_succ , 887
+removing_perc_succ ,      100.0
+removing_perc ,       50.9
+removing_effective ,       50.9
+num_threads , 2
+Mops , 1.741
+Ops , 1741000.00
+mean_relaxation , 0.8410
+max_relaxation , 2
+variance_relaxation , 0.3934
+Null_Count , 0
+Hop_Count , 0
+Slide_Count , 0
+Width , 1
+Choices (d) , 2
+
+
+LinTool\timestamps\dcbo-timestamps-1739802597904954624.csv
+BEFORE size is, 512
+AFTER size is, 861
+putting_count_total , 34239
+putting_count_total_succ , 34239
+putting_perc_succ ,      100.0
+putting_perc ,       50.3
+putting_effective ,       50.3
+removing_count_total , 33889
+removing_count_total_succ , 33889
+removing_perc_succ ,      100.0
+removing_perc ,       49.7
+removing_effective ,       49.7
+num_threads , 2
+Mops , 4.258
+Ops , 4258000.00
+mean_relaxation , 1.4601
+max_relaxation , 4
+variance_relaxation , 0.2841
+Null_Count , 0
+Hop_Count , 0
+Slide_Count , 0
+Width , 1
+Choices (d) , 2

@@ -32,7 +32,7 @@ def compute_rank_error(puts, gets):
 	for deq_val, deq_timestamp in gets_sorted.items():
 		rank_error = 0
 
-		for enq_val, enq_timestamp in puts_sorted.items():
+		for enq_val, enq_timestamp in puts_sorted.items():		# Sometimes gives max_rank_error which is one too high
 		#for index in range(enq_start_index, enq_length-1):
 			#enq_val, enq_timestamp  = list(puts.items())[index]
 			if deq_val != enq_val: 
