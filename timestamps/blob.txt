@@ -1,1 +1,218 @@
 hej!
+
+LinTool/timestamps/dcbo-timestamps-1739786180267074560.csv
+Initial, 1024 
+Range, 9999999 
+Algorithm, OPTIK 
+Sizeof initial, 8.00 KB is 0.01 MB
+** rounding up range (to make it power of 2): old: 9999999 / new: 16777216
+[ALLOC] initializing allocator with fs size: 10000 objects
+BEFORE size is, 1024
+AFTER size is, 1124 
+putting_count_total , 11371      
+putting_count_total_succ , 11371      
+putting_perc_succ ,      100.0 
+putting_perc ,       50.2 
+putting_effective ,       50.2 
+removing_count_total , 11271      
+removing_count_total_succ , 11271      
+removing_perc_succ ,      100.0 
+removing_perc ,       49.8 
+removing_effective ,       49.8 
+num_threads , 2 
+Mops , 22.642
+Ops , 22642000.00
+mean_relaxation , 0.6558
+max_relaxation , 7
+variance_relaxation , 0.9148
+Null_Count , 0
+Hop_Count , 0
+Slide_Count , 0
+Width , 1
+Choices (d) , 2
+
+
+LinTool/timestamps/dcbo-timestamps-1739786238035070208.csv
+Initial, 1024 
+Range, 9999999 
+Algorithm, OPTIK 
+Sizeof initial, 8.00 KB is 0.01 MB
+** rounding up range (to make it power of 2): old: 9999999 / new: 16777216
+[ALLOC] initializing allocator with fs size: 10000 objects
+BEFORE size is, 1024
+AFTER size is, 1075 
+putting_count_total , 7071       
+putting_count_total_succ , 7071       
+putting_perc_succ ,      100.0 
+putting_perc ,       50.2 
+putting_effective ,       50.2 
+removing_count_total , 7020       
+removing_count_total_succ , 7020       
+removing_perc_succ ,      100.0 
+removing_perc ,       49.8 
+removing_effective ,       49.8 
+num_threads , 3 
+Mops , 14.091
+Ops , 14091000.00
+mean_relaxation , 0.6791
+max_relaxation , 6
+variance_relaxation , 0.8143
+Null_Count , 0
+Hop_Count , 0
+Slide_Count , 0
+Width , 1
+Choices (d) , 2
+
+
+
+LinTool/timestamps/dcbo-timestamps-1739786278148713984.csv
+Initial, 1024 
+Range, 9999999 
+Algorithm, OPTIK 
+Sizeof initial, 8.00 KB is 0.01 MB
+** rounding up range (to make it power of 2): old: 9999999 / new: 16777216
+[ALLOC] initializing allocator with fs size: 10000 objects
+BEFORE size is, 1024
+AFTER size is, 835 
+putting_count_total , 10457      
+putting_count_total_succ , 10457      
+putting_perc_succ ,      100.0 
+putting_perc ,       49.6 
+putting_effective ,       49.6 
+removing_count_total , 10646      
+removing_count_total_succ , 10646      
+removing_perc_succ ,      100.0 
+removing_perc ,       50.4 
+removing_effective ,       50.4 
+num_threads , 5 
+Mops , 21.103
+Ops , 21103000.00
+mean_relaxation , 1.0304
+max_relaxation , 7
+variance_relaxation , 1.4587
+Null_Count , 0
+Hop_Count , 0
+Slide_Count , 0
+Width , 1
+Choices (d) , 2
+
+
+LinTool/timestamps/2Ddq-timestamps-1739786363090339584.csv
+Initial, 1024 
+Range, 9999999 
+Algorithm, OPTIK 
+Sizeof initial, 64.00 KB is 0.06 MB
+** rounding up range (to make it power of 2): old: 9999999 / new: 16777216
+[ALLOC] initializing allocator with fs size: 10000 objects
+BEFORE size is, 1024
+AFTER size is, 769 
+putting_count_total , 4774       
+putting_count_total_succ , 4774       
+putting_perc_succ ,      100.0 
+putting_perc ,       48.7 
+putting_effective ,       48.7 
+removing_count_total , 5029       
+removing_count_total_succ , 5029       
+removing_perc_succ ,      100.0 
+removing_perc ,       51.3 
+removing_effective ,       51.3 
+num_threads , 4 
+Mops , 4.902
+Ops , 4901500.00
+Push_CAS_fails , 4091
+Pop_CAS_fails , 2587
+Null_Count , 0
+Hop_Count , 41702
+Slide_Count , 10825
+Width , 1
+Depth , 1
+Relaxation_bound, 0
+K_mode , 0
+mean_relaxation , 0.3687
+max_relaxation , 4
+variance_relaxation , 0.4146
+
+
+LinTool/timestamps/2Ddq-timestamps-1739786628294251520.csv
+BEFORE size is, 1024
+AFTER size is, 932 
+putting_count_total , 4958       
+putting_count_total_succ , 4958       
+putting_perc_succ ,      100.0 
+putting_perc ,       49.5 
+putting_effective ,       49.5 
+removing_count_total , 5050       
+removing_count_total_succ , 5050       
+removing_perc_succ ,      100.0 
+removing_perc ,       50.5 
+removing_effective ,       50.5 
+num_threads , 3 
+Mops , 10.008
+Ops , 10008000.00
+Push_CAS_fails , 2735
+Pop_CAS_fails , 1033
+Null_Count , 0
+Hop_Count , 37800
+Slide_Count , 11030
+Width , 1
+Depth , 1
+Relaxation_bound, 0
+K_mode , 0
+mean_relaxation , 0.3844
+max_relaxation , 6
+variance_relaxation , 0.4498
+
+
+LinTool/timestamps/faaq-timestamps-1739786709637637376.csv
+Initial, 1024 
+Range, 9999999 
+Algorithm, OPTIK 
+Sizeof initial, 8.00 KB is 0.01 MB
+** rounding up range (to make it power of 2): old: 9999999 / new: 16777216
+[ALLOC] initializing allocator with fs size: 10000 objects
+BEFORE size is, 1024
+AFTER size is, 1146 
+putting_count_total , 9027       
+putting_count_total_succ , 9027       
+putting_perc_succ ,      100.0 
+putting_perc ,       50.3 
+putting_effective ,       50.3 
+removing_count_total , 8905       
+removing_count_total_succ , 8905       
+removing_perc_succ ,      100.0 
+removing_perc ,       49.7 
+removing_effective ,       49.7 
+num_threads , 2 
+Mops , 17.932
+Ops , 17932000.00
+mean_relaxation , 0.4613
+max_relaxation , 5
+variance_relaxation , 0.6225
+Null_Count , 0
+Hop_Count , 0
+Slide_Count , 0
+
+
+
+LinTool/timestamps/faaq-timestamps-1739786838751042816.csv
+BEFORE size is, 1024
+AFTER size is, 1002 
+putting_count_total , 10005      
+putting_count_total_succ , 10005      
+putting_perc_succ ,      100.0 
+putting_perc ,       49.9 
+putting_effective ,       49.9 
+removing_count_total , 10027      
+removing_count_total_succ , 10027      
+removing_perc_succ ,      100.0 
+removing_perc ,       50.1 
+removing_effective ,       50.1 
+num_threads , 3 
+Mops , 20.032
+Ops , 20032000.00
+mean_relaxation , 0.6346
+max_relaxation , 6
+variance_relaxation , 0.8898
+Null_Count , 0
+Hop_Count , 0
+Slide_Count , 
