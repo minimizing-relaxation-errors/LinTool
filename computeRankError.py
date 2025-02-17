@@ -17,13 +17,18 @@ def compute_rank_error(puts, gets):
 	puts_sorted = dict(sorted(puts.items(), key=lambda x:x[1]))
 	gets_sorted = dict(sorted(gets.items(), key=lambda x:x[1]))
 
-	print(puts_sorted)
-	print(gets_sorted)
-
 	tot_get = len(gets)
+	
+
+	tot_put = len(puts)
+	
+
+	print("Tot puts and gets: ", tot_get + tot_put)
 
 	#enq_start_index = 0
 	enq_length = len(puts)
+	print(len(puts_sorted))
+	
 	for deq_val, deq_timestamp in gets_sorted.items():
 		rank_error = 0
 
@@ -31,11 +36,11 @@ def compute_rank_error(puts, gets):
 		#for index in range(enq_start_index, enq_length-1):
 			#enq_val, enq_timestamp  = list(puts.items())[index]
 			if deq_val != enq_val: 
-				print("Not equal: ", deq_val, enq_val)
 				rank_error += 1
 			else: 
 				#enq_start_index += 1
 				puts_sorted.pop(enq_val)
+				print(len(puts_sorted))
 				break
 
 		tot_rank_error += rank_error
@@ -44,6 +49,8 @@ def compute_rank_error(puts, gets):
 
 	mean_rank_error = tot_rank_error / tot_get
 
+	print("Tot get: ", tot_get)
+	print("Tot puts: ", tot_put)
 	print("Total rank error: ", tot_rank_error)
 	print("Max rank error: ", max_rank_error)
 	print("Mean rank error: ", mean_rank_error)
@@ -52,7 +59,7 @@ def compute_rank_error(puts, gets):
 
 # TEST DATA -----------------------------------------------------------
 # value : timestamp
-puts = {
+"""puts = {
 	1111 : 1,
 	2222 : 2,
 	3333 : 3,
@@ -68,4 +75,4 @@ gets = {
 	5555 : 10	# rank error: 0
 }
 
-compute_rank_error(puts, gets)
+compute_rank_error(puts, gets)"""

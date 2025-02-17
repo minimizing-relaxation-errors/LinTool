@@ -47,7 +47,7 @@ with open("timestamps/" + filename, newline='') as csvfile:
                 time = timestamps.get(row[1]) ## find existing timestamp object
                 time.update_deq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
                 timestamps.update({row[1]: time}) ## update dict with all timestamps
-            else: timestamps.update({row[1]: Timestamp(int(row[3]), int(row[4]), None, None)})
+            else: timestamps.update({row[1]: Timestamp(None, None, int(row[3]), int(row[4]))})
 
 
 

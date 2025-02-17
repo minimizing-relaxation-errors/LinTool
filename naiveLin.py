@@ -4,8 +4,9 @@ def naive_lin(inp: dict):
     puts = dict()
     gets = dict()
     for i in inp:
-        timestamp = inp[i] 
+        timestamp = inp[i]
         puts.update({i: timestamp.enq_start})
-        gets.update({i: timestamp.deq_start})
+        if timestamp.deq_start != None:
+            gets.update({i: timestamp.deq_start})
 
     return (puts,gets)

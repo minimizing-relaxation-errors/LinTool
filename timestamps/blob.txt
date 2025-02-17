@@ -216,3 +216,32 @@ variance_relaxation , 0.8898
 Null_Count , 0
 Hop_Count , 0
 Slide_Count , 
+
+LinTool/timestamps/2Ddq-timestamps-1739799372031224320.csv
+BEFORE size is, 512
+AFTER size is, 605
+putting_count_total , 2503
+putting_count_total_succ , 2503
+putting_perc_succ ,      100.0
+putting_perc ,       50.9
+putting_effective ,       50.9
+removing_count_total , 2410
+removing_count_total_succ , 2410
+removing_perc_succ ,      100.0
+removing_perc ,       49.1
+removing_effective ,       49.1
+num_threads , 2
+Mops , 4.913
+Ops , 4913000.00
+Push_CAS_fails , 224
+Pop_CAS_fails , 39
+Null_Count , 0
+Hop_Count , 16378
+Slide_Count , 5423
+Width , 1
+Depth , 1
+Relaxation_bound, 0
+K_mode , 0
+mean_relaxation , 0.0411
+max_relaxation , 2
+variance_relaxation , 0.0402
