@@ -24,6 +24,10 @@ class Timestamp:
         self.deq_start = deq_s
         self.deq_end = deq_e
 
+    def update_enq(self, enq_s, enq_e):
+        self.enq_end = enq_e
+        self.enq_start = enq_s
+
 ## initiate dict for timestamps
 timestamps = dict()
 
@@ -32,12 +36,19 @@ with open("timestamps/" + filename, newline='') as csvfile:
     for row in filereader:
         ## if function is put (enqueue)
         if row[2] == 'PUT':
-            timestamps.update({row[1]: Timestamp(int(row[3]), int(row[4]), None, None)}) ## add value : (timestamp object with enq timestamps, also typecast to ints)
+            if row[1] in timestamps.keys():
+                time = timestamps.get(row[1]) ## find existing timestamp object
+                time.update_enq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
+                timestamps.update({row[1]: time})
+            else: timestamps.update({row[1]: Timestamp(int(row[3]), int(row[4]), None, None)}) ## add value : (timestamp object with enq timestamps, also typecast to ints)
         ## if function is get (dequeue)
         elif row[2] == 'GET':
-            time = timestamps.get(row[1]) ## find existing timestamp object
-            time.update_deq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
-            timestamps.update({row[1]: time}) ## update dict with all timestamps
+            if row[1] in timestamps.keys():
+                time = timestamps.get(row[1]) ## find existing timestamp object
+                time.update_deq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
+                timestamps.update({row[1]: time}) ## update dict with all timestamps
+            else: timestamps.update({row[1]: Timestamp(int(row[3]), int(row[4]), None, None)})
+
 
 
 match version:
