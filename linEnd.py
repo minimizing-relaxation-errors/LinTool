@@ -1,5 +1,5 @@
 
-def naive_start(inp: dict):
+def naive_end(inp: dict):
     puts = dict()
     gets = dict()
     for i in inp:
