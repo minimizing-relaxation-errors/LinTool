@@ -1,4 +1,6 @@
-def naive_lin(inp: dict):
+from linearizationTool import Timestamp
+
+def naive_start(inp: dict):
     puts = dict()
     gets = dict()
     for i in inp:

@@ -7,7 +7,8 @@ import os
 import sys
 import pandas as pd
 f = None
-from naiveLin import naive_lin
+from linStart import naive_start
+from linEnd import naive_end
 from computeRankError import compute_rank_error
 # input file
 filename = sys.argv[1]
@@ -54,8 +55,11 @@ with open("timestamps/" + filename, newline='') as csvfile:
 
 
 match version:
-    case "naive":
-        (puts, gets) = naive_lin(timestamps)
+    case "start":
+        (puts, gets) = naive_start(timestamps)
+        compute_rank_error(puts, gets)
+    case "end":
+        (puts,gets) = naive_end(timestamps)
         compute_rank_error(puts, gets)
 
         
