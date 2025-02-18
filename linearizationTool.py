@@ -1,5 +1,7 @@
 # SCRIPT DESCRIPTION
-# Run script, enter file name of file to be processed (including file ending)
+# Parses a timestamp file and calls linearization function on the file content, 
+# and calls a compute rank error function on the linearization.
+# Takes filename and type of linearization function as input.
 import csv
 import os
 import sys

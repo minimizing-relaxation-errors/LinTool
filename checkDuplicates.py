@@ -1,9 +1,12 @@
 # SCRIPT DESCRIPTION
-# Run script, enter file name of file to be processed (including file ending)
+# Checks if there are any duplicate values in a timestamp file.
+# Script takes filename as input.
+
 import csv
 import sys
 import pandas as pd
 f = None
+
 # input file
 filename = sys.argv[1]
 

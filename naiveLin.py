@@ -1,5 +1,3 @@
-#from linearizationTool import Timestamp
-
 def naive_lin(inp: dict):
     puts = dict()
     gets = dict()
