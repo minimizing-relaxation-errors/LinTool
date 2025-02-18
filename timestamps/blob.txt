@@ -316,8 +316,69 @@ Ops , 3594727.27
 mean_relaxation , 1.1673
 max_relaxation , 3
 variance_relaxation , 0.1602
+Choices (d) , 2Initial, 1024 
+Range, 8192 
+Algorithm, OPTIK 
+
+
+dcbo-faaaq server run
+Sizeof initial, 8.00 KB is 0.01 MB
+[ALLOC] initializing allocator with fs size: 10000 objects
+BEFORE size is, 1024
+AFTER size is, 383 
+putting_count_total , 48219      
+putting_count_total_succ , 48219      
+putting_perc_succ ,      100.0 
+putting_perc ,       49.7 
+putting_effective ,       49.7 
+removing_count_total , 48859      
+removing_count_total_succ , 48859      
+removing_perc_succ ,      100.0 
+removing_perc ,       50.3 
+removing_effective ,       50.3 
+num_threads , 20 
+Mops , 9.708
+Ops , 9707800.00
+mean_relaxation , 2.7525
+max_relaxation , 21
+variance_relaxation , 4.6194
 Null_Count , 0
 Hop_Count , 0
 Slide_Count , 0
 Width , 1
 Choices (d) , 2
+Choices (d) , 2
+Initial, 1024 
+Range, 8192 
+Algorithm, OPTIK 
+Sizeof initial, 64.00 KB is 0.06 MB
+
+2Dd-queue server run
+[ALLOC] initializing allocator with fs size: 10000 objects
+BEFORE size is, 1024
+AFTER size is, 1113 
+putting_count_total , 7305       
+putting_count_total_succ , 7305       
+putting_perc_succ ,      100.0 
+putting_perc ,       50.3 
+putting_effective ,       50.3 
+removing_count_total , 7216       
+removing_count_total_succ , 7215       
+removing_perc_succ ,      100.0 
+removing_perc ,       49.7 
+removing_effective ,       49.7 
+num_threads , 20 
+Mops , 1.452
+Ops , 1452000.00
+Push_CAS_fails , 30062
+Pop_CAS_fails , 32201
+Null_Count , 0
+Hop_Count , 108603
+Slide_Count , 15543
+Width , 1
+Depth , 1
+Relaxation_bound, 0
+K_mode , 0
+mean_relaxation , 0.1657
+max_relaxation , 5
+variance_relaxation , 0.2129
