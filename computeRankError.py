@@ -18,14 +18,10 @@ def compute_rank_error(puts, gets):
 	gets_sorted = dict(sorted(gets.items(), key=lambda x:x[1]))
 
 	tot_get = len(gets)
-	
-
 	tot_put = len(puts)
 	
-
 	print("Tot puts and gets: ", tot_get + tot_put)
 
-	#enq_start_index = 0
 	enq_length = len(puts)
 	print(len(puts_sorted))
 	
@@ -33,8 +29,6 @@ def compute_rank_error(puts, gets):
 		rank_error = 0
 
 		for enq_val, enq_timestamp in puts_sorted.items():		# Sometimes gives max_rank_error which is one too high
-		#for index in range(enq_start_index, enq_length-1):
-			#enq_val, enq_timestamp  = list(puts.items())[index]
 			if deq_val != enq_val: 
 				rank_error += 1
 			else: 
