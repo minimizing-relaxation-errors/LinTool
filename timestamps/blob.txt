@@ -297,3 +297,27 @@ Hop_Count , 0
 Slide_Count , 0
 Width , 1
 Choices (d) , 2
+
+FRÅN ODYSSEUS
+LinTool\timestamps\dcbo-timestamps-1739874599682632448.csv
+putting_count_total , 19748
+putting_count_total_succ , 19748
+putting_perc_succ ,      100.0
+putting_perc ,       49.9
+putting_effective ,       49.9
+removing_count_total , 19794
+removing_count_total_succ , 19794
+removing_perc_succ ,      100.0
+removing_perc ,       50.1
+removing_effective ,       50.1
+num_threads , 2
+Mops , 3.595
+Ops , 3594727.27
+mean_relaxation , 1.1673
+max_relaxation , 3
+variance_relaxation , 0.1602
+Null_Count , 0
+Hop_Count , 0
+Slide_Count , 0
+Width , 1
+Choices (d) , 2
