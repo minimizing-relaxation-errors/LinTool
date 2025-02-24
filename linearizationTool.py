@@ -10,6 +10,7 @@ f = None
 from linStart import naive_start
 from linEnd import naive_end
 from computeRankError import compute_rank_error
+from linMid import naive_mid
 # input file
 filename = sys.argv[1]
 # linearization function
@@ -61,5 +62,10 @@ match version:
     case "end":
         (puts,gets) = naive_end(timestamps)
         compute_rank_error(puts, gets)
+    case "mid":
+        (puts, gets) = naive_mid(timestamps)
+        print("mean timestamp")
+        compute_rank_error(puts, gets)
+
 
         
