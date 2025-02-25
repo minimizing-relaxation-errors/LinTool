@@ -59,7 +59,7 @@ def get_timestamps_from_file(filename):
                         else: timestamps.update({row[1]: Timestamp(None, None, int(row[3]), int(row[4]))})
     return timestamps
 
-def plot(file_selection, all_timestamps, all_lin_methods):
+def plot(file_selection):
         all_timestamps = []
         all_lin_methods = []
 

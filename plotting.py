@@ -49,30 +49,3 @@ def create_plot(rank_error_type: StatType, file_selection, all_results, all_lin_
     plt.title(title) 
     plt.legend() 
     plt.show() 
-
-
-def plot(file_selection, all_timestamps, all_lin_methods):
-        for filename in file_selection:
-            all_timestamps.append(get_timestamps_from_file(filename))
-
-        results_start = []                                        # list of tuples
-        results_end = []
-
-        for ts in all_timestamps:
-            (start_puts, start_gets) = naive_start(ts)
-            results_start.append(compute_rank_error(start_puts, start_gets))
-            (end_puts, end_gets) = naive_end(ts)
-            results_end.append(compute_rank_error(start_puts, start_gets))
-        
-        all_lin_methods.append("Start timestamps")
-        all_lin_methods.append("End timestamps")
-
-        print_data(file_selection, results_start, all_lin_methods[0])
-        print_data(file_selection, results_end, all_lin_methods[1])
-
-        all_results = []
-        all_results.append(results_start)
-        all_results.append(results_end)
-
-        # Creates plot which shows MEAN relaxation error for start and end methods
-        create_plot(StatType.MEAN, file_selection, all_results, all_lin_methods)
