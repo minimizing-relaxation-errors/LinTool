@@ -1,26 +1,32 @@
 # SCRIPT DESCRIPTION
-# filename: name of a file to compute. Ignored if version == "plot"
-# version: name of a linearization method, or "plot" to plot comparisons between methods
-# Parses timestamp file(s) and calls linearization function on the file content, 
+# Takes two arguments <filename> <linearization method>
+# Parses timestamp and calls linearization function on the file content, 
 # and calls a compute rank error function on the linearization.
-# Takes filename and type of linearization function as input.
+
+# If no arguments are set, it will use hard coded values to generate bar plots,
+# for multiple files and linearization methods.
 import csv
 import sys
-import glob
-import os
+from enum import Enum, auto
 
-f = None
+f = None # TODO: Do we need this?
 from linStart import naive_start
 from linEnd import naive_end
 from computeRankError import compute_rank_error
 from linMid import naive_mid
-from plotting import create_plot, StatType
-# input file
-filename = sys.argv[1]          # TODO: Vore najs om det gick att göra denna optional på något sätt, för plot-körningar # det går med andra metoder för att ta arbument fråt command line
-# linearization function
-version = sys.argv[2]
+from plotting import create_plot, Measurement
+
+arg1 = "" # TODO: Kind of an ugly fix to make them "optional"
+arg2 = "" 
+if len(sys.argv) == 2:
+    arg1 = sys.argv[1] # input file or measurement for plot mode
+    arg2 = sys.argv[2] # linearization method or plot mode
 
 
+class Linearization(Enum):
+    Start = auto()
+    End = auto()
+    Mid = auto()
 
 ## Time stamp class, creating object containing 4 timestamps
 class Timestamp:
@@ -59,48 +65,35 @@ def get_timestamps_from_file(filename):
                         else: timestamps.update({row[1]: Timestamp(None, None, int(row[3]), int(row[4]))})
     return timestamps
 
-def plot(file_selection):
-        all_timestamps = []
-        all_lin_methods = []
-
-        for filename in file_selection:
-            all_timestamps.append(get_timestamps_from_file(filename))
-
-        results_start = []                                        # list of tuples
-        results_end = []
-
-        for ts in all_timestamps:
-            (start_puts, start_gets) = naive_start(ts)
-            results_start.append(compute_rank_error(start_puts, start_gets))
-            (end_puts, end_gets) = naive_end(ts)
-            results_end.append(compute_rank_error(start_puts, start_gets))
-        
-        all_lin_methods.append("Start timestamps")
-        all_lin_methods.append("End timestamps")
-
-        print_data(file_selection, results_start, all_lin_methods[0])
-        print_data(file_selection, results_end, all_lin_methods[1])
-
-        all_results = []
-        all_results.append(results_start)
-        all_results.append(results_end)
-
-        # Creates plot which shows MEAN relaxation error for start and end methods
-        create_plot(StatType.MEAN, file_selection, all_results, all_lin_methods)
-
-# Returns a list of timestamp lists and a list of filenames
-# TODO: Maybe remove
-def get_timestamps_from_all_files():
+# Outputs a list of lists
+# Each sublist holds the results computed from a certain linearization method, for the entire file selection
+def compute_result_plot_mode(file_selection, all_lin_methods):
     all_timestamps = []
-    all_filenames = []
-    for file in glob.glob("./timestamps/*.csv", recursive=True):    # This takes a couple of seconds...
-        file_name = os.path.relpath(file, "./timestamps/")
-        all_timestamps.append(get_timestamps_from_file(file_name))
-        all_filenames.append(file_name)
-    return (all_timestamps, all_filenames)
+    for filename in file_selection:
+        all_timestamps.append(get_timestamps_from_file(filename))
 
-def print_data(all_filenames, all_results, lin_method):
-    print("\nLinearization method: ", lin_method)
+    all_results = []
+    # For each linearization method, 
+    for lm in all_lin_methods:
+        # compute rank error for each file
+        temp_result = []    # TODO: NEED TO TEST AND COMPARE TO PRINTED OUTPUT TO MAKE SURE ALL RESULTS ARE IN CORRECT ORDER
+        for ts in all_timestamps:
+            match lm:
+                case Linearization.Start:
+                    (start_puts, start_gets) = naive_start(ts)
+                    temp_result.append(compute_rank_error(start_puts, start_gets)) 
+                case Linearization.End:
+                    (end_puts, end_gets) = naive_end(ts)
+                    temp_result.append(compute_rank_error(end_puts, end_gets))
+                case Linearization.Mid:
+                    (mid_puts, mid_gets) = naive_mid(ts)
+                    temp_result.append(compute_rank_error(mid_puts, mid_gets))
+        all_results.append(temp_result)
+    return all_results
+
+# Prints rank error information for each file, for a certain linearization method
+def print_data(all_filenames, all_results, lin_method: Linearization):
+    print("\nLinearization method: ", lin_method.name)
     for index, res in enumerate(all_results):
         (tot_put, tot_get, tot_rank_error, max_rank_error, mean_rank_error, rank_error_variance) = res
         print("\nFile name: ", all_filenames[index])
@@ -112,27 +105,34 @@ def print_data(all_filenames, all_results, lin_method):
         print("Rank error variance: ", rank_error_variance)
 
 
-# TODO: Maybe we should have an input argument (perhaps the first arg) to determine which type of relaxation results we want to plot for
-match version:
+results = []
+files = [arg1]
+match arg2:
     case "start":
-        results = []
-        files = [filename]
-        (puts,gets) = naive_start(get_timestamps_from_file(filename))
+        (puts,gets) = naive_start(get_timestamps_from_file(arg1))
         results.append(compute_rank_error(puts, gets))
-        print_data(files, results, "START TIMESTAMPS")
+        print_data(files, results, Linearization.Start)
     case "end":
-        results = []
-        files = [filename]
-        (puts,gets) = naive_end(get_timestamps_from_file(filename))
+        (puts,gets) = naive_end(get_timestamps_from_file(arg1))
         results.append(compute_rank_error(puts, gets))
-        print_data(files, results, "END TIMESTAMPS")
+        print_data(files, results, Linearization.End)
     case "mid":
-        results = []
-        files = [filename]
-        (puts, gets) = naive_mid(get_timestamps_from_file(filename))
+        (puts, gets) = naive_mid(get_timestamps_from_file(arg1))
         results.append(compute_rank_error(puts, gets))
-        print_data(files, results, "MID TIMESTAMPS")
-    case "plot":
-        #(all_timestamps, all_filenames) = get_timestamps_from_all_files() # We probably don't wanna get all of them now that I think of it
+        print_data(files, results, Linearization.Mid)
+    case _:
+        # TODO: could be set in a json file or something
         file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
-        plot(file_selection)
+        all_lin_methods = [Linearization.Start, Linearization.Mid, Linearization.End]
+        measurement = Measurement.Mean
+
+        all_results = compute_result_plot_mode(file_selection, all_lin_methods)
+        
+        for i, lm in enumerate(all_lin_methods):
+            print_data(file_selection, all_results[i], lm)      # TODO: NEED TO PROPERLY TEST AND COMPARE TO PREVIOUS PRINTOUTS
+        #print_data(file_selection, results_start, all_lin_methods[0])
+        #print_data(file_selection, results_end, all_lin_methods[1])
+
+        # Creates plot which shows MEAN relaxation error for start and end methods
+        create_plot(measurement, file_selection, all_results, all_lin_methods)
+
