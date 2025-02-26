@@ -28,6 +28,8 @@ class Linearization(Enum):
     Start = auto()
     End = auto()
     Mid = auto()
+    Twentyfive = auto()
+    Seventyfive = auto()
 
 ## Time stamp class, creating object containing 4 timestamps
 class Timestamp:
@@ -89,6 +91,12 @@ def compute_result_plot_mode(file_selection, all_lin_methods):
                 case Linearization.Mid:
                     (mid_puts, mid_gets) = naive_mid(ts)
                     temp_result.append(compute_rank_error(mid_puts, mid_gets))
+                case Linearization.Twentyfive:
+                    (two_five_puts, two_five_gets) = naive_two_five(ts)
+                    temp_result.append(compute_rank_error(two_five_puts, two_five_gets))
+                case Linearization.Seventyfive:
+                    (seven_five_puts, sevel_five_gets) = naive_seven_five(ts)
+                    temp_result.append(compute_rank_error(seven_five_puts, sevel_five_gets))
         all_results.append(temp_result)
     return all_results
 
@@ -122,14 +130,14 @@ match arg2:
         results.append(compute_rank_error(puts, gets))
 
         print_data(files, results, Linearization.Mid)
-    case "twofiv":
+    case "twofive":
         (puts, gets) = naive_two_five(get_timestamps_from_file(arg1))
         results.append(compute_rank_error(puts, gets))
-        print_data(files, results, "25 TIMESTAMPS")
-    case "sevfiv": 
+        print_data(files, results, Linearization.Twentyfive)
+    case "sevenfive": 
         (puts, gets) = naive_seven_five(get_timestamps_from_file(arg1))
         results.append(compute_rank_error(puts, gets))
-        print_data(files, results, "75 TIMESTAMPS")
+        print_data(files, results, Linearization.Seventyfive)
     case _:
         # TODO: could be set in a json file or something
         file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
