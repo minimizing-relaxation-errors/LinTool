@@ -43,9 +43,4 @@ def compute_rank_error(puts, gets):
     
 	rank_error_variance = rank_error_variance / (tot_get - 1)
 
-	print("Number of put operations: ", tot_put)
-	print("Number of get operations: ", tot_get)
-	print("Max rank error: ", max_rank_error)
-	print("Total rank error: ", tot_rank_error)
-	print("Mean rank error: ", mean_rank_error)
-	print("Rank error variance: ", rank_error_variance)
+	return (tot_put, tot_get, tot_rank_error, max_rank_error, mean_rank_error, rank_error_variance)
