@@ -5,10 +5,10 @@ def naive_seven_five(inp: dict ):
     gets = dict()
     for i in inp:
         timestamp = inp[i]
-        mid = (timestamp.enq_start + timestamp.enq_end*3) / 4
-        puts.update({i: mid})
+        at_third_quarter = (timestamp.enq_start + timestamp.enq_end*3) / 4
+        puts.update({i: at_third_quarter})
         if timestamp.deq_start != None:
-            mid = (timestamp.deq_start + timestamp.deq_end*3) / 4
-            gets.update({i: mid})
+            at_third_quarter = (timestamp.deq_start + timestamp.deq_end*3) / 4
+            gets.update({i: at_third_quarter})
     return (puts, gets)
 

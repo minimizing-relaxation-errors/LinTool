@@ -5,10 +5,10 @@ def naive_two_five(inp: dict ):
     gets = dict()
     for i in inp:
         timestamp = inp[i]
-        mid = (timestamp.enq_start*3 + timestamp.enq_end) / 4
-        puts.update({i: mid})
+        at_first_quarter = (timestamp.enq_start*3 + timestamp.enq_end) / 4
+        puts.update({i: at_first_quarter})
         if timestamp.deq_start != None:
-            mid = (timestamp.deq_start*3 + timestamp.deq_end) / 4
-            gets.update({i: mid})
+            at_first_quarter = (timestamp.deq_start*3 + timestamp.deq_end) / 4
+            gets.update({i: at_first_quarter})
     return (puts, gets)
 
