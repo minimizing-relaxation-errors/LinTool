@@ -8,8 +8,6 @@
 import csv
 import sys
 from enum import Enum, auto
-
-f = None # TODO: Do we need this?
 from linStart import naive_start
 from linEnd import naive_end
 from computeRankError import compute_rank_error
@@ -18,7 +16,7 @@ from plotting import create_plot, Measurement
 
 arg1 = "" # TODO: Kind of an ugly fix to make them "optional"
 arg2 = "" 
-if len(sys.argv) == 2:
+if len(sys.argv) == 3:
     arg1 = sys.argv[1] # input file or measurement for plot mode
     arg2 = sys.argv[2] # linearization method or plot mode
 
