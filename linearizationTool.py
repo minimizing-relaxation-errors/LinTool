@@ -12,6 +12,8 @@ from linStart import naive_start
 from linEnd import naive_end
 from computeRankError import compute_rank_error
 from linMid import naive_mid
+from linSevFiv import naive_seven_five
+from lintwofiv import naive_two_five
 from plotting import create_plot, Measurement
 
 arg1 = ""
@@ -19,6 +21,7 @@ arg2 = ""
 if len(sys.argv) == 3:
     arg1 = sys.argv[1] # input file or measurement for plot mode
     arg2 = sys.argv[2] # linearization method or plot mode
+
 
 
 class Linearization(Enum):
@@ -117,7 +120,16 @@ match arg2:
     case "mid":
         (puts, gets) = naive_mid(get_timestamps_from_file(arg1))
         results.append(compute_rank_error(puts, gets))
+
         print_data(files, results, Linearization.Mid)
+    case "twofiv":
+        (puts, gets) = naive_two_five(get_timestamps_from_file(arg1))
+        results.append(compute_rank_error(puts, gets))
+        print_data(files, results, "25 TIMESTAMPS")
+    case "sevfiv": 
+        (puts, gets) = naive_seven_five(get_timestamps_from_file(arg1))
+        results.append(compute_rank_error(puts, gets))
+        print_data(files, results, "75 TIMESTAMPS")
     case _:
         # TODO: could be set in a json file or something
         file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
