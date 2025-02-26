@@ -14,7 +14,7 @@ from computeRankError import compute_rank_error
 from linMid import naive_mid
 from plotting import create_plot, Measurement
 
-arg1 = "" # TODO: Kind of an ugly fix to make them "optional"
+arg1 = ""
 arg2 = "" 
 if len(sys.argv) == 3:
     arg1 = sys.argv[1] # input file or measurement for plot mode
@@ -74,7 +74,7 @@ def compute_result_plot_mode(file_selection, all_lin_methods):
     # For each linearization method, 
     for lm in all_lin_methods:
         # compute rank error for each file
-        temp_result = []    # TODO: NEED TO TEST AND COMPARE TO PRINTED OUTPUT TO MAKE SURE ALL RESULTS ARE IN CORRECT ORDER
+        temp_result = []
         for ts in all_timestamps:
             match lm:
                 case Linearization.Start:
@@ -127,9 +127,7 @@ match arg2:
         all_results = compute_result_plot_mode(file_selection, all_lin_methods)
         
         for i, lm in enumerate(all_lin_methods):
-            print_data(file_selection, all_results[i], lm)      # TODO: NEED TO PROPERLY TEST AND COMPARE TO PREVIOUS PRINTOUTS
-        #print_data(file_selection, results_start, all_lin_methods[0])
-        #print_data(file_selection, results_end, all_lin_methods[1])
+            print_data(file_selection, all_results[i], lm)
 
         # Creates plot which shows MEAN relaxation error for start and end methods
         create_plot(measurement, file_selection, all_results, all_lin_methods)
