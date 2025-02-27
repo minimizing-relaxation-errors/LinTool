@@ -4,7 +4,6 @@
 
 import csv
 import sys
-import pandas as pd
 f = None
 
 # input file
