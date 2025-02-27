@@ -16,11 +16,11 @@ from linSevFiv import naive_seven_five
 from lintwofiv import naive_two_five
 from plotting import create_plot, Measurement
 
-arg1 = ""
-arg2 = "" 
+filename = ""
+version = "" 
 if len(sys.argv) == 3:
-    arg1 = sys.argv[1] # input file or measurement for plot mode
-    arg2 = sys.argv[2] # linearization method or plot mode
+    filename = sys.argv[1] # input file or measurement for plot mode
+    version = sys.argv[2] # linearization method or plot mode
 
 
 
@@ -115,27 +115,27 @@ def print_data(all_filenames, all_results, lin_method: Linearization):
 
 
 results = []
-files = [arg1]
-match arg2:
+files = [filename]
+match version:
     case "start":
-        (puts,gets) = naive_start(get_timestamps_from_file(arg1))
+        (puts,gets) = naive_start(get_timestamps_from_file(filename))
         results.append(compute_rank_error(puts, gets))
         print_data(files, results, Linearization.Start)
     case "end":
-        (puts,gets) = naive_end(get_timestamps_from_file(arg1))
+        (puts,gets) = naive_end(get_timestamps_from_file(filename))
         results.append(compute_rank_error(puts, gets))
         print_data(files, results, Linearization.End)
     case "mid":
-        (puts, gets) = naive_mid(get_timestamps_from_file(arg1))
+        (puts, gets) = naive_mid(get_timestamps_from_file(filename))
         results.append(compute_rank_error(puts, gets))
 
         print_data(files, results, Linearization.Mid)
     case "twofive":
-        (puts, gets) = naive_two_five(get_timestamps_from_file(arg1))
+        (puts, gets) = naive_two_five(get_timestamps_from_file(filename))
         results.append(compute_rank_error(puts, gets))
         print_data(files, results, Linearization.Twentyfive)
     case "sevenfive": 
-        (puts, gets) = naive_seven_five(get_timestamps_from_file(arg1))
+        (puts, gets) = naive_seven_five(get_timestamps_from_file(filename))
         results.append(compute_rank_error(puts, gets))
         print_data(files, results, Linearization.Seventyfive)
     case _:
