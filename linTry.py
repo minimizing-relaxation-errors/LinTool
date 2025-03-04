@@ -1,6 +1,6 @@
 from computeRankError import compute_rank_error
 
-def try_onehundred(inp: dict, num):
+def try_num(inp: dict, num):
     puts = dict()
     gets = dict()
     for i in inp:
@@ -17,10 +17,10 @@ def exhaustive_ratio(inp: dict):
     opt_ratio = 0.01
     num = 25
     for i in range(num):
-        (puts, gets) = try_onehundred(inp, i/num)
+        (puts, gets) = try_num(inp, i/num)
         (tot_put, tot_get, tot_rank_error, max_rank_error, mean_rank_error, rank_error_variance) = compute_rank_error(puts, gets)
         if tot_rank_error < min :
             min = tot_rank_error
             opt_ratio = i/num
 
-    return try_onehundred(inp, opt_ratio)
+    return try_num(inp, opt_ratio)
