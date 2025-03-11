@@ -14,6 +14,7 @@ from computeRankError import compute_rank_error
 from linMid import naive_mid
 from linSevFiv import naive_seven_five
 from lintwofiv import naive_two_five
+from linLP import linear_programming
 from plotting import create_plot, Measurement
 
 filename = ""
@@ -30,6 +31,7 @@ class Linearization(Enum):
     Mid = auto()
     Twentyfive = auto()
     Seventyfive = auto()
+    LP = auto()
 
 ## Time stamp class, creating object containing 4 timestamps
 class Timestamp:
@@ -138,6 +140,8 @@ match version:
         (puts, gets) = naive_seven_five(get_timestamps_from_file(filename))
         results.append(compute_rank_error(puts, gets))
         print_data(files, results, Linearization.Seventyfive)
+    case "lp":
+        linear_programming() # TODO: Want to input ordering list and take output properly
     case _:
         # TODO: could be set in a json file or something
         file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
