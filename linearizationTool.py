@@ -14,11 +14,8 @@ from computeRankError import compute_rank_error
 from linMid import naive_mid
 from linSevFiv import naive_seven_five
 from lintwofiv import naive_two_five
-<<<<<<< HEAD
 from linLP import linear_programming
-=======
 from linTry import exhaustive_ratio
->>>>>>> 37b7f22f483e9ac8e98a4a082dacd998e7c581ac
 from plotting import create_plot, Measurement
 
 filename = ""
@@ -35,11 +32,8 @@ class Linearization(Enum):
     Mid = auto()
     Twentyfive = auto()
     Seventyfive = auto()
-<<<<<<< HEAD
     LP = auto()
-=======
     TryTwentyFive = auto()
->>>>>>> 37b7f22f483e9ac8e98a4a082dacd998e7c581ac
 
 ## Time stamp class, creating object containing 4 timestamps
 class Timestamp:
