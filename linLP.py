@@ -101,4 +101,5 @@ testdict_has_rank_error = {                    # Har min rank error 4. Motsvarar
         #5: ([0,1,2,3],[None])
     }
 
-linear_programming(testdict_no_rank_error)
+if __name__=="__main__":
+    linear_programming(testdict_no_rank_error)

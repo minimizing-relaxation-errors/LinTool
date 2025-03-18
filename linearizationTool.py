@@ -117,48 +117,50 @@ def print_data(all_filenames, all_results, lin_method: Linearization):
         print("Mean rank error: ", mean_rank_error)
         print("Rank error variance: ", rank_error_variance)
 
+def main():
+    results = []
+    files = [filename]
+    match version:
+        case "start":
+            (puts,gets) = naive_start(get_timestamps_from_file(filename))
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.Start)
+        case "end":
+            (puts,gets) = naive_end(get_timestamps_from_file(filename))
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.End)
+        case "mid":
+            (puts, gets) = naive_mid(get_timestamps_from_file(filename))
+            results.append(compute_rank_error(puts, gets))
 
-results = []
-files = [filename]
-match version:
-    case "start":
-        (puts,gets) = naive_start(get_timestamps_from_file(filename))
-        results.append(compute_rank_error(puts, gets))
-        print_data(files, results, Linearization.Start)
-    case "end":
-        (puts,gets) = naive_end(get_timestamps_from_file(filename))
-        results.append(compute_rank_error(puts, gets))
-        print_data(files, results, Linearization.End)
-    case "mid":
-        (puts, gets) = naive_mid(get_timestamps_from_file(filename))
-        results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.Mid)
+        case "twofive":
+            (puts, gets) = naive_two_five(get_timestamps_from_file(filename))
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.Twentyfive)
+        case "sevenfive": 
+            (puts, gets) = naive_seven_five(get_timestamps_from_file(filename))
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.Seventyfive)
+        case "lp":
+            linear_programming() # TODO: Want to input ordering list and take output properly
+        case "try25":
+            (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.TryTwentyFive)
+        case _:
+            # TODO: could be set in a json file or something
+            file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
+            all_lin_methods = [Linearization.Start, Linearization.Mid, Linearization.End]
+            measurement = Measurement.Mean
 
-        print_data(files, results, Linearization.Mid)
-    case "twofive":
-        (puts, gets) = naive_two_five(get_timestamps_from_file(filename))
-        results.append(compute_rank_error(puts, gets))
-        print_data(files, results, Linearization.Twentyfive)
-    case "sevenfive": 
-        (puts, gets) = naive_seven_five(get_timestamps_from_file(filename))
-        results.append(compute_rank_error(puts, gets))
-        print_data(files, results, Linearization.Seventyfive)
-    case "lp":
-        linear_programming() # TODO: Want to input ordering list and take output properly
-    case "try25":
-        (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
-        results.append(compute_rank_error(puts, gets))
-        print_data(files, results, Linearization.TryTwentyFive)
-    case _:
-        # TODO: could be set in a json file or something
-        file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
-        all_lin_methods = [Linearization.Start, Linearization.Mid, Linearization.End]
-        measurement = Measurement.Mean
+            all_results = compute_result_plot_mode(file_selection, all_lin_methods)
+            
+            for i, lm in enumerate(all_lin_methods):
+                print_data(file_selection, all_results[i], lm)
 
-        all_results = compute_result_plot_mode(file_selection, all_lin_methods)
-        
-        for i, lm in enumerate(all_lin_methods):
-            print_data(file_selection, all_results[i], lm)
+            # Creates plot which shows MEAN relaxation error for start and end methods
+            create_plot(measurement, file_selection, all_results, all_lin_methods)
 
-        # Creates plot which shows MEAN relaxation error for start and end methods
-        create_plot(measurement, file_selection, all_results, all_lin_methods)
-
+if __name__=="__main__":
+    main()
