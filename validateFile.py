@@ -16,7 +16,7 @@ with open("timestamps/" + filename, newline='') as csvfile:
 
     enq_fails = 0
     deq_fails = 0
-    deq_end_enq_start_fail = 0
+    deq_end_enq_start_fails = 0
     for key in timestamps:
         timestamp = timestamps[key]
         # "Asserts" enqueue start is before enqueue end
@@ -43,10 +43,14 @@ with open("timestamps/" + filename, newline='') as csvfile:
         occ = keys.count(key)
         key_occ[key] = occ
     
+    duplicates = {}
     for key, value in key_occ.items():
         if(value > 2):
+            duplicates[key] = value
             print("Key: ", key, " occurs ", value, " times across both enq and deq operations")
 
+    print("Number of duplicate values: ", len(duplicates))
+    print("Number of DEQ ends before ENQ starts: ", deq_end_enq_start_fails)
     print("Number of ENQ ends before starts: ", enq_fails)
     print("Number of DEQ ends before starts: ", deq_fails)
     
