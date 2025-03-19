@@ -17,6 +17,7 @@ from lintwofiv import naive_two_five
 from linLP import linear_programming
 from linTry import exhaustive_ratio
 from plotting import create_plot, Measurement
+from timestamp import Timestamp
 
 filename = ""
 version = "" 
@@ -35,21 +36,6 @@ class Linearization(Enum):
     LP = auto()
     TryTwentyFive = auto()
 
-## Time stamp class, creating object containing 4 timestamps
-class Timestamp:
-    def __init__(self, enq_s, enq_e, deq_s, deq_e):
-        self.enq_start = enq_s
-        self.enq_end = enq_e
-        self.deq_start = deq_s
-        self.deq_end = deq_e
-    # we know the enq times before the deq times so we have a function to add them later
-    def update_deq(self, deq_s, deq_e):
-        self.deq_start = deq_s
-        self.deq_end = deq_e
-
-    def update_enq(self, enq_s, enq_e):
-        self.enq_end = enq_e
-        self.enq_start = enq_s
 
 def get_timestamps_from_file(filename):
     timestamps = dict() ## initiate dict for timestamps
@@ -153,7 +139,6 @@ def main():
             file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
             all_lin_methods = [Linearization.Start, Linearization.Mid, Linearization.End]
             measurement = Measurement.Mean
-
             all_results = compute_result_plot_mode(file_selection, all_lin_methods)
             
             for i, lm in enumerate(all_lin_methods):
@@ -161,6 +146,7 @@ def main():
 
             # Creates plot which shows MEAN relaxation error for start and end methods
             create_plot(measurement, file_selection, all_results, all_lin_methods)
+
 
 if __name__=="__main__":
     main()

@@ -37,3 +37,21 @@ each enq and deq value limited by the start and end value of the operation.
 
 find possible orderings by looking at overlapping timespans 
 choose one with minimal rank error.
+
+Ordering if two operations have the same optimal timestamp?
+- test which gives better total ?
+- choose arbitrarily because it is alot of computation…?
+
+
+is our problem NP-c? prove by reduction perhaps
+then we know that we can't find an optimal solution in poly time
+
+## pickling orders
+to save an ordering from a timestamp file, put it in the list under order in the match case in linearizationTool.py. and run it with _ order as argument
+
+to use the orderings you need to unpickle it
+
+```
+with open('saved_dictionary.pkl', 'rb') as f:
+    loaded_dict = pickle.load(f)
+```
