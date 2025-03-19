@@ -17,9 +17,7 @@ from lintwofiv import naive_two_five
 from linLP import linear_programming
 from linTry import exhaustive_ratio
 from plotting import create_plot, Measurement
-from timeOrdering import ordering_reduction, is_valid_order
 from timestamp import Timestamp
-from math import inf 
 
 filename = ""
 version = "" 
@@ -163,10 +161,9 @@ def main():
             
             for i, lm in enumerate(all_lin_methods):
                 print_data(file_selection, all_results[i], lm)
-                
+
             # Creates plot which shows MEAN relaxation error for start and end methods
             create_plot(measurement, file_selection, all_results, all_lin_methods)
-            
-    
+
 if __name__=="__main__":
     main()
