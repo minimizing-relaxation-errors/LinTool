@@ -7,6 +7,8 @@
 # for multiple files and linearization methods.
 import csv
 import sys
+import datetime
+import pickle
 from enum import Enum, auto
 from linStart import naive_start
 from linEnd import naive_end
@@ -17,6 +19,9 @@ from lintwofiv import naive_two_five
 from linLP import linear_programming
 from linTry import exhaustive_ratio
 from plotting import create_plot, Measurement
+from timeOrdering import ordering_reduction, is_valid_order
+from timestamp import Timestamp
+from math import inf 
 
 filename = ""
 version = "" 
@@ -35,6 +40,8 @@ class Linearization(Enum):
     LP = auto()
     TryTwentyFive = auto()
 
+
+'''
 ## Time stamp class, creating object containing 4 timestamps
 class Timestamp:
     def __init__(self, enq_s, enq_e, deq_s, deq_e):
@@ -51,6 +58,7 @@ class Timestamp:
         self.enq_end = enq_e
         self.enq_start = enq_s
 
+'''
 def get_timestamps_from_file(filename):
     timestamps = dict() ## initiate dict for timestamps
     with open("timestamps/" + filename, newline='') as csvfile:
@@ -148,19 +156,31 @@ def main():
             (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.TryTwentyFive)
+        case "order":
+            print(datetime.datetime.now())
+            files = ["2Ddo-timestamps-118478521276761.csv","dcbo-timestamps-118558826109609.csv","faaq-timestamps-118615192087660.csv"]
+            for file_name in files:
+                file = get_timestamps_from_file(file_name)
+                ordername = "orders/" + file_name +".pkl"
+                #print(len(file))
+                red = ordering_reduction(file)
+                (feas, num, bmiss, miss) = is_valid_order(red)
+                with open(ordername, 'wb') as f:
+                    pickle.dump(red, f)
+                #print(len(red))
+                print(datetime.datetime.now())
+                #print(red)
+                print(feas, num, bmiss, miss)
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
             all_lin_methods = [Linearization.Start, Linearization.Mid, Linearization.End]
             measurement = Measurement.Mean
-
             all_results = compute_result_plot_mode(file_selection, all_lin_methods)
             
             for i, lm in enumerate(all_lin_methods):
                 print_data(file_selection, all_results[i], lm)
-
-            # Creates plot which shows MEAN relaxation error for start and end methods
-            create_plot(measurement, file_selection, all_results, all_lin_methods)
-
+            
+    
 if __name__=="__main__":
     main()
