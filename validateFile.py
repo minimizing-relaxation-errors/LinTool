@@ -17,13 +17,14 @@ with open("timestamps/" + filename, newline='') as csvfile:
     enq_fails = 0
     deq_fails = 0
     deq_end_enq_start_fail = 0
-    for i in timestamps:
-        timestamp = timestamps[i]
+    for key in timestamps:
+        timestamp = timestamps[key]
         # "Asserts" enqueue start is before enqueue end
         if timestamp.enq_start > timestamp.enq_end:
+            #print("ENQ FAIL! ", key)
             enq_fails += 1
         # "Asserts" that dequeue start is before dequeue end
-        if timestamp.deq_start is not None:
+        if timestamp.deq_start != None:
             if timestamp.deq_start > timestamp.deq_end:
                 deq_fails += 1
         # "Asserts" that dequeue end is after enqueue start
