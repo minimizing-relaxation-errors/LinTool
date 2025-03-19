@@ -165,5 +165,6 @@ def main():
             # Creates plot which shows MEAN relaxation error for start and end methods
             create_plot(measurement, file_selection, all_results, all_lin_methods)
 
+
 if __name__=="__main__":
     main()
