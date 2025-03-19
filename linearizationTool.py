@@ -180,6 +180,9 @@ def main():
             
             for i, lm in enumerate(all_lin_methods):
                 print_data(file_selection, all_results[i], lm)
+                
+            # Creates plot which shows MEAN relaxation error for start and end methods
+            create_plot(measurement, file_selection, all_results, all_lin_methods)
             
     
 if __name__=="__main__":
