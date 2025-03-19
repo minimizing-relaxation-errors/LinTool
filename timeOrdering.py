@@ -1,77 +1,7 @@
 from timestamp import Timestamp
-
-''' # small test case with known ordering (works)
-test = {
-    1: Timestamp(301, 308, 312, 318),
-    2: Timestamp(303, 311, 313, 317),
-    3: Timestamp(306, 312, 315, 320),
-    4: Timestamp(310, 315, 319, 322)
-}
-'''
- # slightly larger test for ordering, including None deq values (works)
-test = {
-    1: Timestamp(1,6,21,32),
-    2: Timestamp(2,10,16,27),
-    3: Timestamp(5,7,30,38),
-    4: Timestamp(14, 24, 35, 39),
-    5: Timestamp(20, 34, 43, 44),
-    6: Timestamp(29, 37, None, None),
-    7: Timestamp(9,13, 23,33),
-    8: Timestamp(12,17, 40, 45),
-    9: Timestamp(4,11, 25, 36),
-    10: Timestamp(15, 22, 31, 41),
-    11: Timestamp(41, 46, None, None),
-    12: Timestamp(19, 26, 36, 40),
-    13: Timestamp(3, 8, 18, 28),
-    14: Timestamp(47, 48, 50, 50),
-    17: Timestamp(44, 45, 50, 50),
-    15: Timestamp(47, 48, 50, 50),
-    16: Timestamp(46, 47, 49, 50),
-    18: Timestamp(44,45,46,51),
-    19: Timestamp(31, 33, 45, 51),
-    #820237: Timestamp(321728, 321984, 670400, 670912),
-    #818692: Timestamp(321216, 321472, 670144, 670656),
-    #820737: Timestamp(322240, 322496, 670656, 670656),
-    #819717: Timestamp(334016, 334272, 670656, 670656),
-    #821258: Timestamp(338368, 338624,  670656, 670656),
-    #805390: Timestamp(339904, 340416, 671680, 670912),
-    #808203: Timestamp(340672, 340928, 671168, 670912),
-    238089: Timestamp(1742310392178550528,1742310392178550784,1742310392178797824,1742310392178797568),
-    245510: Timestamp(1742310392178569216,1742310392178569472,1742310392178798336,1742310392178797824),
-    241163: Timestamp(1742310392178555392,1742310392178555392,1742310392178798336,1742310392178797824),
-}
-
-test2 = {
-    1 : Timestamp(0, 5, 20, 32),
-    2 : Timestamp(1, 9, 15, 26),
-    3 : Timestamp(4, 6, 29, 40),
-    4 : Timestamp(13, 23, 36, 41),
-    5 : Timestamp(19, 35, 46, 47),
-    6 : Timestamp(28, 39, None, None),
-    7 : Timestamp(8, 12, 22, 33),
-    8 : Timestamp(11, 16, 42, 50),
-    9 : Timestamp(3, 10, 24, 37),
-    10 : Timestamp( 14, 21, 30, 44),
-    11 : Timestamp(44, 54, None, None),
-    12 : Timestamp(18, 25, 37, 42),
-    13 : Timestamp(2, 7, 17, 27),
-
-    14 : Timestamp(159, 160, 163, 163),
-    17 : Timestamp(147, 150, 163, 163),
-    15 : Timestamp(157, 160, 163, 163),
-    16 : Timestamp(154, 157, 161, 163),
-    18 : Timestamp(147, 150, 164, 170),
-    19 : Timestamp(130, 132, 165, 170),
-    20 : Timestamp(131, 133, 166, 170),
-    820737 : Timestamp(76, 77, 88, 88),
-    819717 : Timestamp(78, 79, 88, 88),
-    821258 : Timestamp(80, 81, 88, 88),
-    818692 : Timestamp(72, 73, 86, 88),
-    820237 : Timestamp(74, 75, 87, 95),
-    808203 : Timestamp(84, 85, 98, 95),
-    805390 : Timestamp(82, 83, 99, 95),
-}
-
+import datetime
+import pickle
+from linearizationTool import get_timestamps_from_file
 
 def ordering_reduction(inp: dict):
     #inp = dict(sorted(inp.items(), key=lambda x:x[1].enq_start)) # at this point this is kindof useless but it could be used to reduces the number of js we look at (from start untill all overlapped are passed or something)
@@ -205,12 +135,20 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
     return feasible_positions, num, no_missing_pos, missing, 
 
 def main():
-    blorb = timestamp_reduction(test)
-    for b in blorb:
-        #print(b, blorb[b])
-        print(b,":", blorb[b].enq_start, blorb[b].enq_end, blorb[b].deq_start, blorb[b].deq_end)
-
-    #print(is_valid_order(blorb))
+    print(datetime.datetime.now())
+    files = ["2Ddo-timestamps-118478521276761.csv","dcbo-timestamps-118558826109609.csv","faaq-timestamps-118615192087660.csv"]
+    for filename in files:
+        file = get_timestamps_from_file(filename)
+        ordername = "orders/" + filename +".pkl"
+        #print(len(file))
+        red = ordering_reduction(file)
+        (feas, num, bmiss, miss) = is_valid_order(red)
+        with open(ordername, 'wb') as f:
+            pickle.dump(red, f)
+        #print(len(red))
+        print(datetime.datetime.now())
+        #print(red)
+        print(feas, num, bmiss, miss)
 
 if __name__== "__main__":
     main()

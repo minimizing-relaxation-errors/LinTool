@@ -7,8 +7,6 @@
 # for multiple files and linearization methods.
 import csv
 import sys
-import datetime
-import pickle
 from enum import Enum, auto
 from linStart import naive_start
 from linEnd import naive_end
@@ -156,21 +154,6 @@ def main():
             (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.TryTwentyFive)
-        case "order":
-            print(datetime.datetime.now())
-            files = ["2Ddo-timestamps-118478521276761.csv","dcbo-timestamps-118558826109609.csv","faaq-timestamps-118615192087660.csv"]
-            for file_name in files:
-                file = get_timestamps_from_file(file_name)
-                ordername = "orders/" + file_name +".pkl"
-                #print(len(file))
-                red = ordering_reduction(file)
-                (feas, num, bmiss, miss) = is_valid_order(red)
-                with open(ordername, 'wb') as f:
-                    pickle.dump(red, f)
-                #print(len(red))
-                print(datetime.datetime.now())
-                #print(red)
-                print(feas, num, bmiss, miss)
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
