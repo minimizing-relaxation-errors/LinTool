@@ -128,15 +128,17 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
                         else: continue
 
         else: continue
-
-                
-
-    
     return feasible_positions, num, no_missing_pos, missing, 
+
+def un_pickle(filename):
+    picklename = "orders/" + filename +".pkl"
+    with open(picklename, 'rb') as f:
+        order_dict = pickle.load(f)
+    return order_dict
 
 def main():
     print(datetime.datetime.now())
-    files = ["2Ddo-timestamps-118478521276761.csv","dcbo-timestamps-118558826109609.csv","faaq-timestamps-118615192087660.csv"]
+    files = ["2Ddo-n16-d1-w16-l128.csv","2Ddo-n16-d10-w16-l128.csv","dcbo-n16-d1-w16.csv","dcbo-n16-d10-w16.csv","faaaq-n16-d1.csv","faaaq-n16-d10.csv"]
     for filename in files:
         file = get_timestamps_from_file(filename)
         ordername = "orders/" + filename +".pkl"
