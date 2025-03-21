@@ -1,6 +1,5 @@
 from timestamp import Timestamp
 import datetime
-import pickle
 from linearizationTool import get_timestamps_from_file
 
 def ordering_reduction(inp: dict):
@@ -130,19 +129,14 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
         else: continue
     return feasible_positions, num, no_missing_pos, missing, 
 
-def un_pickle(filename):
-    picklename = "orders/" + filename +".pkl"
-    with open(picklename, 'rb') as f:
-        order_dict = pickle.load(f)
-    return order_dict
 
 def main():
     print(datetime.datetime.now())
     files = ["2Ddo-n16-d1-w16-l128.csv","2Ddo-n16-d10-w16-l128.csv","dcbo-n16-d1-w16.csv","dcbo-n16-d10-w16.csv","faaaq-n16-d1.csv","faaaq-n16-d10.csv"]
     for filename in files:
-        file = get_timestamps_from_file(filename)
         ordername = "orders/" + filename +".pkl"
         #print(len(file))
+        file = get_timestamps_from_file(filename)
         red = ordering_reduction(file)
         (feas, num, bmiss, miss) = is_valid_order(red)
         with open(ordername, 'wb') as f:
