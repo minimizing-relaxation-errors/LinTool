@@ -1,4 +1,4 @@
-from timestamp import un_pickle
+from utils.un_pickle import un_pickle
 
 def ordering_lin(filename):
     inp = dict()
@@ -169,7 +169,7 @@ def ordering_lin(filename):
                     break
                     
 
-def assign_one_overlap(shorts, non_assigned, sets, nq_index, dq_index) -> {sets, non_assigned, nq_index, dq_index}:
+def assign_one_overlap(shorts, non_assigned, sets, nq_index, dq_index):# -> #{sets, non_assigned, nq_index, dq_index}:
     for item in shorts.items(): 
         #print(item)
         if item[1][0] == item[1][1]: ## for the ones with one overlapp 
@@ -184,19 +184,19 @@ def assign_one_overlap(shorts, non_assigned, sets, nq_index, dq_index) -> {sets,
 
     return sets, non_assigned, nq_index, dq_index
 
-def assign_no_overlap(no_overlap, nq_index, dq_index) -> {no_overlap, nq_index, dq_index}:
+def assign_no_overlap(no_overlap, nq_index, dq_index): #-> {no_overlap, nq_index, dq_index}:
     return None
 
-def assign_long_overlap(longs: dict, half_set: dict, nq_index, dq_index) -> {longs,half_ass, nq_index, dq_index}:
+def assign_long_overlap(longs: dict, half_set: dict, nq_index, dq_index):# -> {longs,half_ass, nq_index, dq_index}:
     return(longs, half_set, nq_index, dq_index)
         
-def resolve_conflict(half_set, nq_index, dq_index) -> {half_set, nq_index, dq_index}:
+def resolve_conflict(half_set, nq_index, dq_index):# -> {half_set, nq_index, dq_index}:
     print()
 
 def assing_split(longs, nq_index, dq_index, ):
     return None
 
-def create_overlaps(inp) -> {short_overlaps, long_overlaps, nones}:
+def create_overlaps(inp):# -> {short_overlaps, long_overlaps, nones}:
     for i in inp.keys():
         (enqs, deqs) = inp[i]
         overlap = ()

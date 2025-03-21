@@ -17,6 +17,7 @@ from lin_methods.lin_twentyfive import naive_two_five
 from lin_methods.lin_order_LP import integer_linear_programming
 from lin_methods.lin_window_timestamp_LP import windowed_non_integer_linear_programming
 from lin_methods.lin_try import exhaustive_ratio, plot_tries
+from lin_methods.linOrdering import ordering_lin
 
 from utils.compute_rank_error import compute_rank_error
 from utils.plotting import create_plot, Measurement
@@ -169,6 +170,9 @@ if __name__=="__main__":
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.TryTwentyFive)
             print_time_diff(start_t, end_t)
+        case "linord":
+            ordering_lin(filename)
+
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv"]
