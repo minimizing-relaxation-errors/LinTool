@@ -23,6 +23,15 @@ Configure which files, which linearization methods and which measurements should
 
 Run linearizationTool.py without input arguments. Example (Windows): ```py linearizationTool.py```.
 
+# Code information
+
+## Flow in linearizationTool.py
+Responsible calling linearization methods, as well as potential pre and post-processing of data required for the linearization method (see below).
+
+## Two types of linearization methods
+Linearization methods are either timestamp or order based. Hence they either
+- Expect a timestamp dict which contain value and start and end timestamps for enqueue and dequeue respectively. And output two dicts (puts, gets) which each contain values and decided timestamps for the operation.
+- Expect an ordering dict which contains value and a tuple (potential enqueue orders, potential dequeue orders). And output a dict which contain values and tuples (decided enqueue order, decided dequeue order). 
 
 # Ideas for algorithm development
 some sort of sliding window solution looking at about 10-15 values and then sliding the window about half of the width. aligning the values in the window as good as possible (map reduce?)
