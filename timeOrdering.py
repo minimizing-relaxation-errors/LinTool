@@ -1,6 +1,7 @@
 from timestamp import Timestamp
 import datetime
 from linearizationTool import get_timestamps_from_file
+import pickle
 
 def ordering_reduction(inp: dict):
     #inp = dict(sorted(inp.items(), key=lambda x:x[1].enq_start)) # at this point this is kindof useless but it could be used to reduces the number of js we look at (from start untill all overlapped are passed or something)

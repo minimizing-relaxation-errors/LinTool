@@ -17,6 +17,7 @@ from lintwofiv import naive_two_five
 from linLP import linear_programming
 from linTry import exhaustive_ratio
 from plotting import create_plot, Measurement
+from linOrdering import ordering_lin
 from timestamp import Timestamp
 
 filename = ""
@@ -103,6 +104,7 @@ def print_data(all_filenames, all_results, lin_method: Linearization):
         print("Mean rank error: ", mean_rank_error)
         print("Rank error variance: ", rank_error_variance)
 
+
 def main():
     results = []
     files = [filename]
@@ -134,6 +136,8 @@ def main():
             (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.TryTwentyFive)
+        case "linord":
+            ordering_lin(filename)
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
