@@ -33,6 +33,12 @@ Linearization methods are either timestamp or order based. Hence they either
 - Expect a timestamp dict which contain value and start and end timestamps for enqueue and dequeue respectively. And output two dicts (puts, gets) which each contain values and decided timestamps for the operation.
 - Expect an ordering dict which contains value and a tuple (potential enqueue orders, potential dequeue orders). And output a dict which contain values and tuples (decided enqueue order, decided dequeue order). 
 
+# Code information
+
+## Pikle
+un_pickle is in timestamp.py
+
+
 # Ideas for algorithm development
 some sort of sliding window solution looking at about 10-15 values and then sliding the window about half of the width. aligning the values in the window as good as possible (map reduce?)
 sorting by some good value (try 25)
@@ -64,3 +70,16 @@ to use the orderings you need to unpickle it
 with open('saved_dictionary.pkl', 'rb') as f:
     loaded_dict = pickle.load(f)
 ```
+
+
+
+# Tests
+- check timestamp file (kind of exists)
+- check output linearization points - that enq linearization points are before deq linearization points
+    - probably requires comparing ordering to timestamp. consider if this is required
+- check that output linearization points/ordering all have unique timestamp/ordering
+
+# Important notes
+- vi kan skriva algoritmer som bara funkar för mindre input. “<100000 eller 10000 eller 1000”
+- tänk på det som inf när deq inte finns, 
+- vill kunna se rank error av varje dequeue.

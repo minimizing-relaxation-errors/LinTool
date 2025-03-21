@@ -14,10 +14,11 @@ from computeRankError import compute_rank_error
 from linMid import naive_mid
 from linSevFiv import naive_seven_five
 from lintwofiv import naive_two_five
-from linLP import linear_programming
+from windowLinLP import windowed_linear_programming
 from linTry import exhaustive_ratio
 from plotting import create_plot, Measurement
-from timestamp import Timestamp
+from timestamp import Timestamp, un_pickle
+from decidedOrderingToTimestamp import order_to_timestamp
 
 filename = ""
 version = "" 
@@ -129,7 +130,10 @@ def main():
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.Seventyfive)
         case "lp":
-            linear_programming() # TODO: Want to input ordering list and take output properly
+            decided_ordering_dict = windowed_linear_programming(un_pickle(filename))
+            (puts, gets) = order_to_timestamp(get_timestamps_from_file(filename), decided_ordering_dict)
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.LP)
         case "try25":
             (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))

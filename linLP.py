@@ -1,6 +1,13 @@
 import cvxpy as cp
 import numpy as np
 
+# NOTE: This solution is pretty useless for high number of operations. This is just a step in the development.
+
+
+# NOTE DEQ INF
+
+# TODO: Needs to translate the ordering into a timestamp dictionary again
+
 # Creates two arrays of cvxpy variable arrays, one for enqueue operations and one for dequeue operations
 # Each variable array corresponds a single enq/deq operation
 # Each variable corresponds to a potential order of the enq/deq operation
@@ -15,9 +22,10 @@ import numpy as np
 def get_variable_matrix(inp:dict, n):
     E = []
     D = []
-    for i, tuple in enumerate(inp.values()):
+    for i in range(0,n):
         # TODO: Want to NOT APPEND when tuple[1] contains None. However, that will mess with the order in objective function. This current solution simply cannot handle deq None.            
         E.append(cp.Variable(n, integer=True))
+    for i in range(0,n):     
         D.append(cp.Variable(n, integer=True))
     return (E, D)
 
@@ -90,7 +98,6 @@ testdict_no_rank_error = {                    # Har ingen rank error
         2: ([0,1,2,3],[0,1,2]),
         3: ([0,1,2,3],[0,1,2,3]),
         4: ([1,2,3],[2,3]),
-        #5: ([1,2],[None])
     }
 
 testdict_has_rank_error = {                    # Har min rank error 4. Motsvarar dock ej value.
@@ -98,8 +105,39 @@ testdict_has_rank_error = {                    # Har min rank error 4. Motsvarar
         2: ([0,1], [2,3]),
         3: ([2,3],[0,1]),
         4: ([2,3],[0,1]),
-        #5: ([0,1,2,3],[None])
     }
 
+testdict_no_none = {
+    1: ([0,1,2,3,4],[0,1,2,3,4,5,6]),       # 0 0
+    2: ([0,1,2,3,4,5],[0,1,2,3,4]),         # 1 1
+    3: ([0,1,2,3,4],[2,3,4,5,6,7,8]),       # 2 2
+    4: ([6,7,8,9,10],[4,5,6,7,8]),          # 6 4
+    5: ([7,8,9,10,11],[9,10]),              # 7 9
+    6: ([6,7,8,9,10,11],[1,2,3,4,5,6]),     # 8 3
+    7: ([3,4,5,6],[0,1,2,3,4,5,6]),         # 3 5
+    8: ([5,6,7,8],[7,8,9,10]),              # 5 7
+    9: ([0,1,2,3,4,5],[0,1,2,3,4,5,6,7,8]), # 4 6
+    10: ([6,7,8,9,10],[2,3,4,5,6,7,8,9]),   # 9 8
+    11: ([9,10,11,12], [11,12,13]),         # 10 11
+    12: ([7,8,9,10,11],[9,10,11,12]),       # 11 12
+    13: ([12],[8,9,10,11,12])               # 12 10
+}
+
+testdict_with_none = {
+    1: ([0,1,2,3,4],[0,1,2,3,4,5,6]),       
+    2: ([0,1,2,3,4,5],[0,1,2,3,4]),         
+    3: ([0,1,2,3,4],[2,3,4,5,6,7,8]),       
+    4: ([6,7,8,9,10], [None]),          
+    5: ([7,8,9,10,11],[9,10]),              
+    6: ([6,7,8,9,10,11],[1,2,3,4,5,6]),     
+    7: ([3,4,5,6],[0,1,2,3,4,5,6]),         
+    8: ([5,6,7,8],[7,8,9,10]),              
+    9: ([0,1,2,3,4,5],[0,1,2,3,4,5,6,7,8]), 
+    10: ([6,7,8,9,10],[2,3,4,5,6,7,8,9]),   
+    11: ([9,10,11,12], [None]),         
+    12: ([7,8,9,10,11],[9,10,11,12]),       
+    13: ([12],[8,9,10,11,12])               
+}
+
 if __name__=="__main__":
-    linear_programming(testdict_no_rank_error)
+    linear_programming(testdict_no_none)
