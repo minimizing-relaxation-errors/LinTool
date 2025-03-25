@@ -1,7 +1,8 @@
 # Expects timestamp dict of form: { value: Timestamp(enq start timestamp, enq end timestamp, deq start timestamp, deq end timestamp)}
 # Expects ordering dict of form: {value: enq order, deq order}
 # Outputs two dictionaries, one for enq and one for deq, each of the form {value : timestamp}
-# NOTE: Not testet yet
+# NOTE: There is no guarantee that there will be an output. May cast exception due to selected ordering that is inputted here.
+# NOTE: Not systematically tested yet
 def order_to_timestamp(timestamp_dict: dict, ordering_dict: dict):
 
     gets = {}

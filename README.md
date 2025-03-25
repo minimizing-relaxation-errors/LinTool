@@ -31,9 +31,19 @@ linearizationTool.py is responsible for calling linearization methods, as well a
 It assumes all files from which data is obtained exist in their respective folders (timestamps or ordering)
 
 ## Two types of linearization methods
-Linearization methods are either timestamp or order based. Hence they either
-- Take as input: a timestamp dict which contain (operation) value as key and a tuple (start timestamp, end timestamp) as value, for enqueue and dequeue respectively. And output: two dicts as a tuple (puts, gets) which each contain (operation) values and decided timestamps for the operation.
-- Takes as input: an ordering dict which contains value and a tuple (potential enqueue orders, potential dequeue orders). And output: a dict which contain values and tuples (decided enqueue order, decided dequeue order). 
+Linearization methods are either timestamp or order based. Hence they either...
+
+Take as input: a timestamp dict which contain (operation) value as key and a tuple (start timestamp, end timestamp) as value, for enqueue and dequeue respectively. 
+
+And output: two dicts as a tuple (puts, gets) which each contain (operation) values and decided timestamps for the operation.
+
+Or...
+
+Takes as input: an ordering dict which contains value and a tuple (potential enqueue orders, potential dequeue orders). 
+
+And output: a dict which contain values and tuples (decided enqueue order, decided dequeue order). 
+
+For this output, linearizationTool.py needs to call order_to_timestamp in decidedOrderingToTimestamp.py to convert the order dict to two timestamp dict, which can then be inputted into the compute_rank_error function.
 
 ## Utility files and functions
 (To be written)
