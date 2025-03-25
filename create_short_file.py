@@ -6,23 +6,25 @@ from linearizationTool import get_timestamps_from_file
 # (Removes dequeue None values)
 # Creates another .csv file with 'length' number of operations (with earliest dequeue start values)
 
-def create_short_file(filename, length):
+def create_short_file(filename, length_str):
+    length = int(length_str)
     timestamps = get_timestamps_from_file(filename)
 
+    timestamps_no_none = {}
     # Remove none to enable easy sorting
     for (k,v) in timestamps.items():
-        if(v.deq_start is None):
-            del timestamps[k]
+        if(v.deq_start != None):
+            timestamps_no_none[k] = v
 
     # Sort on deq_start (ascending)
-    timestamps_sorted_on_deq = dict(sorted(timestamps.items(), key=lambda x: x[1].deq_start))
+    timestamps_sorted_on_deq = dict(sorted(timestamps_no_none.items(), key=lambda x: x[1].deq_start))
 
     # Save max_length first items from sorted dict
     timestamps_small = {k: v for i, (k, v) in enumerate(timestamps_sorted_on_deq.items()) if i < length} 
 
     
     # Prints used for confirming results
-    print("timestamps file length: ", len(timestamps_small))
+    print("timestamps dict length: ", len(timestamps_small))
     nr_deqs = 0
     nr_enqs = 0
     for ts in timestamps_small.values():
@@ -38,7 +40,7 @@ def create_short_file(filename, length):
         iterable_for_csv.append([0, k, "GET", v.deq_start, v.deq_end])
 
     # Create csv
-    new_filename = "timestamps/" + "short-" + length + "-" + filename
+    new_filename = "timestamps/" + "short-" + length_str + "-" + filename
     with open(new_filename, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(iterable_for_csv)
@@ -47,5 +49,5 @@ def create_short_file(filename, length):
 
 if __name__=="__main__":
     filename = sys.argv[1] # input file or measurement for plot mode
-    length = sys.argv[2] # linearization method or plot mode
-    create_short_file(filename, length)
+    length_str = sys.argv[2] # linearization method or plot mode
+    create_short_file(filename, length_str)
