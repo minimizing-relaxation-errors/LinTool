@@ -8,6 +8,10 @@ from timestamp import Timestamp
 
 # TODO: Document shit
 
+
+# NOTE: 2025-03-21: Problemen sedan tidigare är kvar. Har testkört på olika storlekar av input. Får problem på:
+#        decided_enq_ordering.append(int(np.dot(E[i].value, all_enq_orders))). Verkar vara E-problem.
+
 # NOTE: 2025-03-20: Nu kör den, och jag har ett par basic tester för att se om outputten är rimlig.
 #       Men den fungerar inte med window (fungerar helt utan window). 
 #       Tar bara bort alla som redan valts från kommande potential positions. 
@@ -25,8 +29,8 @@ from timestamp import Timestamp
 # TODO: Alternativ till att ta bort tagna indexes. Kanske gå igenom alla från start och ta bestäm för de som bara har en siffra.
 #       Eller typ kolla alla som har <span antal att välja på och kör linear programming på dem??
 
-span = 15500
-step = 15500 # TODO: Shoudl try with step = span when the algorithm works. Might not make a difference in the results.
+span = 300
+step = 300 # TODO: Shoudl try with step = span when the algorithm works. Might not make a difference in the results.
 diff = span - step # must be positive probably
 
 # TODO: Borde göra ett test som kollar att varje bestämd order faktiskt finns som alternativ i original_dict
@@ -72,7 +76,7 @@ def windowed_linear_programming(inp: dict):
     # TODO: I probably want to simply remove all dict entries with deq order list set to None
     #           OR JUST MAKE THEM INF
     # Parsing to handle None values
-    total_length = len(inp)
+    total_length = len(inp)    # TODO: När jag börjar på start = 50 och kör till total_length = 100 så får jag också fel, så något är wack där. kolla dokumenten
     parsed_inp = {}
     count = 0
     for (key, (v1,v2)) in inp.items():
@@ -91,9 +95,10 @@ def windowed_linear_programming(inp: dict):
     complete_enq_ordering = []
     complete_deq_ordering = []
 
+    print("💅💅💅💅💅 total length: ", total_length)
     while start < total_length:
         # TODO: needs to be able to handle the last items which are maybe not evenly divisable with i
-
+        print("🥒🥒🥒🥒🥒🥒🥒")
         end = start+span
         if(end > total_length): end = total_length                          # TODO: This is a bit funky. Perhaps it should simply optimize over the >= span final items. Since the last span otherwise just shrinks and does the optimization maybe uneccessarily at the end
         subset_list_values = [list_values[x] for x in range(start, end)]
@@ -106,11 +111,12 @@ def windowed_linear_programming(inp: dict):
         #print(parsed_inp)
 
         # Remove the decided on orderings from the ENTIRE dict
-        for (key, (v1,v2)) in parsed_inp.items():
+        # TODO: Denna orsakar ibland NoneType-problem för att den tommer någon senare parsed_inp.item helt och när den då försöker iterera v2 blir det fel.
+        """for (key, (v1,v2)) in parsed_inp.items():
             for item in complete_enq_ordering:
                 if item in v1: parsed_inp[key] = (v1.remove(item), v2)
             for item in complete_deq_ordering:
-                if item in v2: parsed_inp[key] = (v1, v2.remove(item))
+                if item in v2: parsed_inp[key] = (v1, v2.remove(item))"""
         start += step
 
     # TODO: Do None check here
@@ -127,6 +133,8 @@ def windowed_linear_programming(inp: dict):
 
 
     test_if_valid(parsed_inp, solution)
+
+    return solution
 
 
     # TODO: Need to remake dict to actually output
@@ -153,10 +161,17 @@ def linear_programming_for_window(inp_list):
     enq_order_set = set()
     deq_order_set = set()
 
+    print("💖💖 ENQ ORDER LIST LENGTH: ", len(enq_order_list))
+    print("💖💖 DEQ ORDER LIST LENGTH: ", len(deq_order_list))
+
     # Consider each corresponding enq and deq order list
     for i in range(0, nr_enqs):
         enq_order_set.update(enq_order_list[i])
+        print(deq_order_list[i])
         deq_order_set.update(deq_order_list[i])
+
+    print("💖💖 Dequeue order set: ", deq_order_set)
+    print("💖💖 Dequeue order set LENGTH : ", len(deq_order_set)) 
 
     # Array with potential orders (sorted, no duplicates)
     all_enq_orders = np.array(sorted(list(enq_order_set)))   # Detta är ganska cursed
@@ -228,7 +243,7 @@ def linear_programming_for_window(inp_list):
     ######### DEFINE OBJECTIVE FUNCTION
     potential_enq_order = np.array(E)
     potential_deq_order = np.array(D)
-    """print("Potential enq order: ", potential_enq_order)
+    print("Potential enq order: ", potential_enq_order)
     print("Potential deq order: ", potential_deq_order)
     print("All enq order: ", all_enq_orders)
     print("All deq order: ", all_deq_orders)
@@ -236,7 +251,7 @@ def linear_programming_for_window(inp_list):
     print("⚠️ Potential deq order shape", potential_deq_order.shape)
     print("⚠️ ALL enq order shape", all_enq_orders.shape)
     print("⚠️ ALL deq order shape", all_deq_orders.shape)
-    print("Multiplication: ", cp.vstack(potential_enq_order) @ all_enq_orders )"""
+    print("Multiplication: ", cp.vstack(potential_enq_order) @ all_enq_orders )
     objective_function = cp.Minimize(cp.sum(cp.abs(cp.vstack(potential_enq_order) @ all_enq_orders - cp.vstack(potential_deq_order) @ all_deq_orders)))
     
     ######### DEFINE AND SOLVE PROBLEM
@@ -250,17 +265,23 @@ def linear_programming_for_window(inp_list):
     for d in D:
         print("Solution to d:", d.value)
 
+    print("🍃🍃🍃🍃🍃🍃🍃STATUS ",problem.status)
     ######### CHECK SOLUTION FEASIBILITY
-    status = problem.status
-    if status in [cp.INFEASIBLE, cp.UNBOUNDED]:
-        print("No solution found.")
-        return (None, None)
+    # TODO: DO this some other time, and make sure to catch the return in the other function 
+    #status = problem.status
+    #if status in [cp.INFEASIBLE, cp.UNBOUNDED]:
+    #    print("No solution found.")
+    #    return (None, None)
 
     ######### OUTPUT THE STEP FIRST ORDERS
     decided_enq_ordering = []
     decided_deq_ordering = []
+    print("🦄 enq orders: ", all_enq_orders)
+    print("🐔 deq orders: ", all_deq_orders)
     for i in range(0,min(step,len(inp_list))):
-        decided_enq_ordering.append(int(np.dot(E[i].value, all_enq_orders)))
+        #if(E[i].value is None): print("🚗🚗🚗🚗🚗🚗🚗🚗🚗🚗🚗🚗🚗🚗")
+        #else: print("E[i].value: ", E[i].value)
+        decided_enq_ordering.append(int(np.dot(E[i].value, all_enq_orders)))   # FÅR PROBLEM HÄR FÖR ATT LÖSINGEN INTE FINNS
         decided_deq_ordering.append(int(np.dot(D[i].value, all_deq_orders)))
 
     return (decided_enq_ordering, decided_deq_ordering)

@@ -4,42 +4,90 @@ This is a linearization tool for minimizing relaxation errors (rank errors) in q
 # Instructions for running
 
 ## Ensure correct filepath setup
-There is a filepath dependency between semantic-relaxation repository and this one. The filepath for outputting timestamps (in sematic-relaxation > Include > relaxation_linearization_timestamp.c) should be set to the "timestamps" folder in this project.
-
 In the semantic-relaxation repo, we have added functionality to generate timestamp files for some queues (2Dd_optimized, d-cbo, faaaq).
+
+There is a filepath dependency between semantic-relaxation repository and this one. The filepath for outputting timestamp files (defined in sematic-relaxation > Include > relaxation_linearization_timestamp.c) should be set to the "timestamps" folder in this repo.
 
 ## Python package dependencies
 - numpy
 - matplotlib.pyplot
+- (and more)
 
 ## How to run
 ### Option 1: Run a single file and linearization method
-Run the linearizationTool.py script with input arguments ```<filename> <linearization method>```. 
+Run the linearizationTool.py script with input arguments `<filename> <linearization method>`. 
 
-Example (Windows): ```py linearizationTool.py dcbo-n16-d10-w8.csv start```
+Example (Windows): `py linearizationTool.py dcbo-n16-d10-w8.csv start`
 
 ### Option 2: Run in plot mode
 Configure which files, which linearization methods and which measurements should be used in the file linearizationTool.py. 
 
-Run linearizationTool.py without input arguments. Example (Windows): ```py linearizationTool.py```.
+Run linearizationTool.py without input arguments. Example (Windows): `py linearizationTool.py`.
 
 # Code information
 
 ## Flow in linearizationTool.py
-Responsible calling linearization methods, as well as potential pre and post-processing of data required for the linearization method (see below).
+linearizationTool.py is responsible for calling linearization methods, as well as potential pre and post-processing of data required for the linearization method (see below).
+It assumes all files from which data is obtained exist in their respective folders (timestamps or ordering)
 
 ## Two types of linearization methods
 Linearization methods are either timestamp or order based. Hence they either
-- Expect a timestamp dict which contain value and start and end timestamps for enqueue and dequeue respectively. And output two dicts (puts, gets) which each contain values and decided timestamps for the operation.
-- Expect an ordering dict which contains value and a tuple (potential enqueue orders, potential dequeue orders). And output a dict which contain values and tuples (decided enqueue order, decided dequeue order). 
+- Take as input: a timestamp dict which contain (operation) value as key and a tuple (start timestamp, end timestamp) as value, for enqueue and dequeue respectively. And output: two dicts as a tuple (puts, gets) which each contain (operation) values and decided timestamps for the operation.
+- Takes as input: an ordering dict which contains value and a tuple (potential enqueue orders, potential dequeue orders). And output: a dict which contain values and tuples (decided enqueue order, decided dequeue order). 
 
-# Code information
+## Utility files and functions
+(To be written)
 
-## Pikle
-un_pickle is in timestamp.py
+# Preparing files
+To prepare files, the workflow is as follows: Either generate a .csv file from the semantic-relaxation repo, or use an existing .csv file to create a shorter version, using create_short_file.py in this repo. Then, if using a linearization method that requires an ordering format, use timeOrdering.py to create a .pkl file containing the order. Using the function un_pickle, you can extract the order as a dictionary.
 
+## Generate .csv file from semantic-relaxation repo
+Requires Linux or using WSL on Windows.
 
-# Ideas for algorithm development
+Must use the [semantic-relaxation](https://github.com/minimizing-relaxation-errors/semantic-relaxation) repo which is under the same [Github organization](https://github.com/minimizing-relaxation-errors) as this repo. And when compiling, you must use our flag enable generating timestamps.
+
+Compile with our APPROX flag and VALIDATESIZE=0 per recommendation from supervisor: 
+
+`VALIDATESIZE=0 make faaaq RELAXATION_ANALYSIS=APPROX`
+
+Where "faaaq" is the name of the data structure. We have implemented generating timestamps for faaaq, dcbo-faaaq, 2Dd-queue and 2Dd-queue_optimized.
+
+Run using the binary file of the compiled data structure:
+
+`./bin/faaaq -n 16 -d 1`
+
+-n is the flag for number of cores to use, and -d is the flag for number of milliseconds to run. See the [semantic-relaxation](https://github.com/minimizing-relaxation-errors/semantic-relaxation) repo README for more information on these flags.
+
+## Create shorter .csv file
+During development, smaller files have been necessary to test methods on. There is a utility function create_short_file() in create_short_file.py which removes all operations with dequeue value None (to enable sorting), then keeps the "length" first dequeues and their corresponding enqueues.
+
+Run script with inputs \<filename> and \<length>, where filename is an existing .csv file's filename and length is the number of values (and length of generated file). This generates a file that is placed in the timestamp folder, with a name different from but based on the inputted filename.
+
+Example (Windows): `py create_short_file.py faaaq-n15-d10.csv 300`
+
+## Create potential orders (pickling 🥒)
+Configure which files are to be pickled by writing the filenames in timeOrdering.py (in the list "files"). 
+
+Then run the ordering script. Example Windows: `py timeOrdering.py`
+
+This creates a file "filename.pkl" in orders folder.
+
+### Unpickle
+
+There is a function un_pickle (currently in timestamp.py, but will be moved). This function takes a filename and assumes there is a .pkl file with this name. It then extracts the data (potential orders) and outputs it as a dictionary of the form: { operation_value : ([potential enq orders], [potential deq orders]) }. 
+
+The un_pickle function is called from linearizationTool before calling a linearization method that expects orders as input.
+
+# Linearization methods
+## Idas very good linearization method
+(To be written)
+
+## Linear programming
+Scales badly :D
+Requires ordering.
+(To be written)
+
+# Ideas for algorithm development (TODO)
 some sort of sliding window solution looking at about 10-15 values and then sliding the window about half of the width. aligning the values in the window as good as possible (map reduce?)
 sorting by some good value (try 25)
 
@@ -61,25 +109,13 @@ Ordering if two operations have the same optimal timestamp?
 is our problem NP-c? prove by reduction perhaps
 then we know that we can't find an optimal solution in poly time
 
-## pickling orders
-to save an ordering from a timestamp file, put it in the list under order in the match case in linearizationTool.py. and run it with _ order as argument
-
-to use the orderings you need to unpickle it
-
-```
-with open('saved_dictionary.pkl', 'rb') as f:
-    loaded_dict = pickle.load(f)
-```
-
-
-
-# Tests
+# Tests (TODO)
 - check timestamp file (kind of exists)
 - check output linearization points - that enq linearization points are before deq linearization points
     - probably requires comparing ordering to timestamp. consider if this is required
 - check that output linearization points/ordering all have unique timestamp/ordering
 
-# Important notes
+# Viktiga kommentarer från handledaremöte (TEMP)
 - vi kan skriva algoritmer som bara funkar för mindre input. “<100000 eller 10000 eller 1000”
 - tänk på det som inf när deq inte finns, 
 - vill kunna se rank error av varje dequeue.
