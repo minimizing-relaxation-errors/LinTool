@@ -15,7 +15,7 @@ from linMid import naive_mid
 from linSevFiv import naive_seven_five
 from lintwofiv import naive_two_five
 from linLP import linear_programming
-from linTry import exhaustive_ratio
+from linTry import exhaustive_ratio, plot_tries
 from plotting import create_plot, Measurement
 from linOrdering import ordering_lin
 from timestamp import Timestamp
@@ -133,9 +133,15 @@ def main():
         case "lp":
             linear_programming() # TODO: Want to input ordering list and take output properly
         case "try25":
-            (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
-            results.append(compute_rank_error(puts, gets))
-            print_data(files, results, Linearization.TryTwentyFive)
+            plot = True
+            if not plot:
+                (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename), False)
+                results.append(compute_rank_error(puts, gets))
+                print_data(files, results, Linearization.TryTwentyFive)
+            else: 
+                res = exhaustive_ratio(get_timestamps_from_file(filename), plot)
+                plot_tries(res)
+
         case "linord":
             ordering_lin(filename)
         case _:
