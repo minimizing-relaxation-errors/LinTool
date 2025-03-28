@@ -6,7 +6,9 @@
 # If no arguments are set, it will use hard coded values to generate bar plots,
 # for multiple files and linearization methods.
 import csv
+import math
 import sys
+import datetime
 from enum import Enum, auto
 from linStart import naive_start
 from linEnd import naive_end
@@ -14,11 +16,13 @@ from computeRankError import compute_rank_error
 from linMid import naive_mid
 from linSevFiv import naive_seven_five
 from lintwofiv import naive_two_five
-from windowLinLP import windowed_linear_programming
+from order_LP import integer_linear_programming
+from window_timestamp_LP import windowed_non_integer_linear_programming
 from linTry import exhaustive_ratio
 from plotting import create_plot, Measurement
 from timestamp import Timestamp, un_pickle
 from decidedOrderingToTimestamp import order_to_timestamp
+from test_timestamp_dict import test_timestamp_dict
 
 filename = ""
 version = "" 
@@ -35,6 +39,7 @@ class Linearization(Enum):
     Twentyfive = auto()
     Seventyfive = auto()
     LP = auto()
+    LPO = auto()
     TryTwentyFive = auto()
 
 
@@ -99,19 +104,36 @@ def print_data(all_filenames, all_results, lin_method: Linearization):
         print("\nFile name: ", all_filenames[index])
         print("Number of put operations: ", tot_put)
         print("Number of get operations: ", tot_get)
-        print("Max rank error: ", max_rank_error)
-        print("Total rank error: ", tot_rank_error)
-        print("Mean rank error: ", mean_rank_error)
-        print("Rank error variance: ", rank_error_variance)
+        print("Max rank error: ", round(max_rank_error,2))
+        print("Total rank error: ", round(tot_rank_error,2))
+        print("Mean rank error: ", round(mean_rank_error,2))
+        print("Rank error variance: ", round(rank_error_variance,2))
+
+def print_time_diff(start_t, end_t):
+    diff = (end_t-start_t)
+    print("Time:", (diff / datetime.timedelta(microseconds=1))/1000000) # TODO: Might want to do some fancier printouts here later (hours/seconds/milliseconds/microseconds)
+
+def start_time():
+    print(datetime.datetime.now())
+    start_t = datetime.datetime.now()
+    return start_t
+
+def end_time():
+    end_t = datetime.datetime.now()
+    print(datetime.datetime.now())
+    return end_t
 
 def main():
     results = []
     files = [filename]
     match version:
         case "start":
+            start_t = start_time()
             (puts,gets) = naive_start(get_timestamps_from_file(filename))
+            end_t = end_time()
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.Start)
+            print_time_diff(start_t, end_t)
         case "end":
             (puts,gets) = naive_end(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
@@ -129,15 +151,34 @@ def main():
             (puts, gets) = naive_seven_five(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.Seventyfive)
+        case "lpo": # LP with orders
+            timestamps = get_timestamps_from_file(filename)
+            start_t = start_time()   
+            decided_ordering_dict = integer_linear_programming(un_pickle(filename))    
+            end_t = end_time()
+            (puts, gets) = order_to_timestamp(timestamps, decided_ordering_dict)
+            res = test_timestamp_dict(puts, gets, timestamps)
+            if res:
+                results.append(compute_rank_error(puts, gets))
+                print_data(files, results, Linearization.LPO)
+            print_time_diff(start_t, end_t)
         case "lp":
-            decided_ordering_dict = windowed_linear_programming(un_pickle(filename))
-            (puts, gets) = order_to_timestamp(get_timestamps_from_file(filename), decided_ordering_dict)
-            results.append(compute_rank_error(puts, gets))
-            print_data(files, results, Linearization.LP)
+            original_timestamps = get_timestamps_from_file(filename)
+            start_t = start_time()
+            (puts, gets) = windowed_non_integer_linear_programming(original_timestamps, 400, 200)
+            end_t = end_time()
+            res = test_timestamp_dict(puts, gets, original_timestamps)
+            if res:
+                results.append(compute_rank_error(puts, gets))
+                print_data(files, results, Linearization.LP)
+            print_time_diff(start_t, end_t)
         case "try25":
+            start_t = start_time()
             (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
+            end_t = end_time()
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.TryTwentyFive)
+            print_time_diff(start_t, end_t)
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]

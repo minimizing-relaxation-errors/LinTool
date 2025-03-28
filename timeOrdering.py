@@ -148,7 +148,7 @@ test = {
 
 def main():
     print(datetime.datetime.now())
-    files = ["faaq-timestamps-155479470172.csv"]
+    files = ["short-900-dcbo-n16-d1-w16.csv"]
     for filename in files:
         ordername = "orders/" + filename +".pkl"
         #print(len(file))
