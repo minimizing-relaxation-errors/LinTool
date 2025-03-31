@@ -49,7 +49,7 @@ For this output, linearizationTool.py needs to call order_to_timestamp in decide
 (To be written)
 
 # Preparing files
-To prepare files, the workflow is as follows: Either generate a .csv file from the semantic-relaxation repo, or use an existing .csv file to create a shorter version, using create_short_file.py in this repo. Then, if using a linearization method that requires an ordering format, use timeOrdering.py to create a .pkl file containing the order. Using the function un_pickle, you can extract the order as a dictionary.
+To prepare files, the workflow is as follows: Either generate a .csv file from the semantic-relaxation repo, or use an existing .csv file to create a shorter version, using create_short_file.py in this repo. Then, if using a linearization method that requires an ordering format, use time_ordering.py to create a .pkl file containing the order. Using the function un_pickle, you can extract the order as a dictionary.
 
 ## Generate .csv file from semantic-relaxation repo
 Requires Linux or using WSL on Windows.
@@ -76,15 +76,15 @@ Run script with inputs \<filename> and \<length>, where filename is an existing 
 Example (Windows): `py create_short_file.py faaaq-n15-d10.csv 300`
 
 ## Create potential orders (pickling 🥒)
-Configure which files are to be pickled by writing the filenames in timeOrdering.py (in the list "files"). 
+Configure which files are to be pickled by writing the filenames in time_ordering.py (in the list "files"). 
 
-Then run the ordering script. Example Windows: `py timeOrdering.py`
+Then run the ordering script. Example Windows: `py time_ordering.py`
 
 This creates a file "filename.pkl" in orders folder.
 
 ### Unpickle
 
-There is a function un_pickle (currently in timestamp.py, but will be moved). This function takes a filename and assumes there is a .pkl file with this name. It then extracts the data (potential orders) and outputs it as a dictionary of the form: { operation_value : ([potential enq orders], [potential deq orders]) }. 
+There is a function un_pickle that takes a filename and assumes there is a .pkl file with this name. It then extracts the data (potential orders) and outputs it as a dictionary of the form: { operation_value : ([potential enq orders], [potential deq orders]) }. 
 
 The un_pickle function is called from linearizationTool before calling a linearization method that expects orders as input.
 
