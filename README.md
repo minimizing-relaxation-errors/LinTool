@@ -119,6 +119,9 @@ Ordering if two operations have the same optimal timestamp?
 is our problem NP-c? prove by reduction perhaps
 then we know that we can't find an optimal solution in poly time
 
+# Ideas for proving things
+We know the relaxation error can be at most size of window in 2Dd. I.e. number of items that can be dequeued. 
+
 # Tests (TODO)
 - check timestamp file (kind of exists)
 - check output linearization points - that enq linearization points are before deq linearization points
