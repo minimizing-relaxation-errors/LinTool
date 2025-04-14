@@ -119,6 +119,11 @@ Ordering if two operations have the same optimal timestamp?
 is our problem NP-c? prove by reduction perhaps
 then we know that we can't find an optimal solution in poly time
 
+
+## Ordering algorithm notes
+- när vi gör om ordering till timestamp så kan element senare inte få en valid timestamp pga att de innan har "tryckt upp" senaste timestampen för högt.
+- skulle krävas att göra en "pass" efter varje eller innan varje assignment där man kollar att alla med order innan en själv okcså har end timestamp innan sin egen start timestamp
+
 # Ideas for proving things
 We know the relaxation error can be at most size of window in 2Dd. I.e. number of items that can be dequeued. 
 

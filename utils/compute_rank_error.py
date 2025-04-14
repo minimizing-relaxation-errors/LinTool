@@ -14,8 +14,6 @@ def compute_rank_error(puts, gets):
 	tot_get = len(gets)
 	tot_put = len(puts)
 	
-	enq_length = len(puts)
-
 	rank_error_list = []
 	
 	for deq_val, deq_timestamp in gets_sorted.items():

@@ -1,7 +1,7 @@
 import math
 import cvxpy as cp
 import numpy as np
-from timestamp import Timestamp
+from utils.timestamp import Timestamp
 
 # A non-integer linear programming script
 # Here, CVXPY variables represent enq and deq timestamps respectively

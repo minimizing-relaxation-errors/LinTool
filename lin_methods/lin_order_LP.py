@@ -1,10 +1,11 @@
 import cvxpy as cp
 import numpy as np
-from file_tests.test_order_dict import test_if_valid
+from tests.test_order_dict import test_if_valid
 
 # NOTE: This integer linear programming script works for at most ~10 input. And it is not a windowed solution.
 # NOTE: There are two known issues. 
-#       1)  Since it simply assigns orders for operations in early subproblems and removes those orders from 
+#       1)  (Problem occurred when it was implemented as a windowed solution) 
+#           Since it simply assigns orders for operations in early subproblems and removes those orders from 
 #           later operations, there is a risk that later operations have no available orders to be assigned to.
 #
 #       2)  It can assign a total order which is not possible to convert to a timeline, 
@@ -33,7 +34,7 @@ def integer_linear_programming(inp: dict):
     count = 0
     for (key, (v1,v2)) in inp.items():
         if None in v2: 
-            parsed_inp[key] = (v1,[total_length+count]) # Add order after those actually available to the other dequeues. Orders are zero indexed. 
+            parsed_inp[key] = (v1,[total_length+count]) # Add order after those actually available. Orders are zero indexed. 
             count += 1
         else: parsed_inp[key] = (v1, v2)
 
@@ -43,12 +44,13 @@ def integer_linear_programming(inp: dict):
     deq_order_list = [parsed_inp_list[x][1] for x in range(0, len(parsed_inp_list))]
     nr_enqs = len(enq_order_list)
 
-    # Create sets to flatten the lists of lists into one set, which excludes duplicates
+    # Create sets to flatten the lists of lists into two set, which excludes duplicates
     enq_order_set = set()
     deq_order_set = set()
     for i in range(0, nr_enqs):
         enq_order_set.update(enq_order_list[i])
-        if deq_order_list[i] != None:                  # If deq list nonexistant, don't include
+        if deq_order_list[i] != None:                  # If deq list nonexistant, don't include. Shouldn't happen.
+            print("Dequeue list non-existant. Execution continues but Dequeue None values are not handled correctly.")
             deq_order_set.update(deq_order_list[i])
 
     # Array with potential orders (sorted, no duplicates)

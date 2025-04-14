@@ -5,27 +5,27 @@
 
 # If no arguments are set, it will use hard coded values to generate bar plots,
 # for multiple files and linearization methods.
-import csv
 import sys
 import datetime
 from enum import Enum, auto
-from timestamp import Timestamp
 
-from linearization_methods.lin_start import naive_start
-from linearization_methods.lin_end import naive_end
-from linearization_methods.lin_mid import naive_mid
-from linearization_methods.lin_seventyfive import naive_seven_five
-from linearization_methods.lin_twentyfive import naive_two_five
-from linearization_methods.lin_order_LP import integer_linear_programming
-from linearization_methods.lin_window_timestamp_LP import windowed_non_integer_linear_programming
-from linearization_methods.lin_try import exhaustive_ratio
+from lin_methods.lin_start import naive_start
+from lin_methods.lin_end import naive_end
+from lin_methods.lin_mid import naive_mid
+from lin_methods.lin_seventyfive import naive_seven_five
+from lin_methods.lin_twentyfive import naive_two_five
+from lin_methods.lin_order_LP import integer_linear_programming
+from lin_methods.lin_window_timestamp_LP import windowed_non_integer_linear_programming
+from lin_methods.lin_try import exhaustive_ratio
 
-from utility_scripts.compute_rank_error import compute_rank_error
-from utility_scripts.plotting import create_plot, Measurement
-from utility_scripts.un_pickle import un_pickle
-from utility_scripts.decided_ordering_to_timestamp import order_to_timestamp
+from utils.compute_rank_error import compute_rank_error
+from utils.plotting import create_plot, Measurement
+from utils.un_pickle import un_pickle
+from utils.decided_ordering_to_timestamp import order_to_timestamp
+from utils.timestamp_from_file import get_timestamps_from_file
 
-from file_tests.test_timestamp_dict import test_timestamp_dict
+from tests.test_timestamp_dict import test_timestamp_dict
+from tests.validate_timestamp_file import check_duplicate_values_timestamp_file
 
 filename = ""
 version = "" 
@@ -44,27 +44,6 @@ class Linearization(Enum):
     LPO = auto()
     TryTwentyFive = auto()
 
-
-def get_timestamps_from_file(filename):
-    timestamps = dict() ## initiate dict for timestamps
-    with open("timestamps/" + filename, newline='') as csvfile:
-                filereader = csv.reader(csvfile)
-                for row in filereader:
-                    ## if function is put (enqueue)
-                    if row[2] == 'PUT':
-                        if row[1] in timestamps.keys():
-                            time = timestamps.get(row[1]) ## find existing timestamp object
-                            time.update_enq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
-                            timestamps.update({row[1]: time})
-                        else: timestamps.update({row[1]: Timestamp(int(row[3]), int(row[4]), None, None)}) ## add value : (timestamp object with enq timestamps, also typecast to ints)
-                    ## if function is get (dequeue)
-                    elif row[2] == 'GET':
-                        if row[1] in timestamps.keys():
-                            time = timestamps.get(row[1]) ## find existing timestamp object
-                            time.update_deq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
-                            timestamps.update({row[1]: time}) ## update dict with all timestamps
-                        else: timestamps.update({row[1]: Timestamp(None, None, int(row[3]), int(row[4]))})
-    return timestamps
 
 # Outputs a list of lists
 # Each sublist holds the results computed from a certain linearization method, for the entire file selection
@@ -125,7 +104,7 @@ def end_time():
     print(datetime.datetime.now())
     return end_t
 
-def main():
+if __name__=="__main__":
     results = []
     files = [filename]
     match version:
@@ -157,11 +136,14 @@ def main():
             start_t = start_time()   
             decided_ordering_dict = integer_linear_programming(un_pickle(filename))    
             end_t = end_time()
-            (puts, gets) = order_to_timestamp(timestamps, decided_ordering_dict)
-            res = test_timestamp_dict(puts, gets, timestamps)
-            if res:
-                results.append(compute_rank_error(puts, gets))
-                print_data(files, results, Linearization.LPO)
+            try:
+                (puts, gets) = order_to_timestamp(timestamps, decided_ordering_dict)    # May throw exception
+                res = test_timestamp_dict(puts, gets, timestamps)
+                if res:
+                    results.append(compute_rank_error(puts, gets))
+                    print_data(files, results, Linearization.LPO)
+            except Exception as e:
+                print("Something went wrong: ", e)  # Not tested
             print_time_diff(start_t, end_t)
         case "lp":
             original_timestamps = get_timestamps_from_file(filename)
@@ -182,7 +164,7 @@ def main():
             print_time_diff(start_t, end_t)
         case _:
             # TODO: could be set in a json file or something
-            file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
+            file_selection = ["faaaq-n16-d10.csv"]
             all_lin_methods = [Linearization.Start, Linearization.Mid, Linearization.End]
             measurement = Measurement.Mean
             all_results = compute_result_plot_mode(file_selection, all_lin_methods)
@@ -192,7 +174,3 @@ def main():
 
             # Creates plot which shows MEAN relaxation error for start and end methods
             create_plot(measurement, file_selection, all_results, all_lin_methods)
-
-
-if __name__=="__main__":
-    main()

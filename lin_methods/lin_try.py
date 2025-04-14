@@ -1,4 +1,4 @@
-from utility_scripts.compute_rank_error import compute_rank_error
+from utils.compute_rank_error import compute_rank_error
 
 def try_num(inp: dict, num):
     puts = dict()

@@ -1,4 +1,4 @@
-from timestamp import Timestamp
+from utils.timestamp import Timestamp
 import datetime
 from linearization_tool import get_timestamps_from_file
 import pickle
@@ -129,22 +129,6 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
 
         else: continue
     return feasible_positions, num, no_missing_pos, missing, 
-
-test = {
-    1: Timestamp(1,6,21,32),
-    2: Timestamp(2,10,16,27),
-    3: Timestamp(5,7,30,38),
-    4: Timestamp(14, 24, 35, 39),
-    5: Timestamp(20, 34, 43, 44),
-    6: Timestamp(29, 37, None, None),
-    7: Timestamp(9,13, 23,33),
-    8: Timestamp(12,17, 40, 45),
-    9: Timestamp(4,11, 25, 36),
-    10: Timestamp(15, 22, 31, 41),
-    11: Timestamp(41, 46, None, None),
-    12: Timestamp(19, 26, 36, 40),
-    13: Timestamp(3, 8, 18, 28)
-}
 
 def main():
     print(datetime.datetime.now())

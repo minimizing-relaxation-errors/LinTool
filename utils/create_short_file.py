@@ -19,7 +19,7 @@ def create_short_file(filename, length_str):
     # Sort on deq_start (ascending)
     timestamps_sorted_on_deq = dict(sorted(timestamps_no_none.items(), key=lambda x: x[1].deq_start))
 
-    # Save max_length first items from sorted dict
+    # Save "length" first items from sorted dict
     timestamps_small = {k: v for i, (k, v) in enumerate(timestamps_sorted_on_deq.items()) if i < length} 
 
     
