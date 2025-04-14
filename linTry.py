@@ -19,7 +19,7 @@ def exhaustive_ratio(inp: dict, plot: bool):
     opt_ratio = 0.01
     num = 25
     result = []
-    for i in range(num):
+    for i in range(num+1):
         (puts, gets) = try_num(inp, i/num)
         (tot_put, tot_get, tot_rank_error, max_rank_error, mean_rank_error, rank_error_variance) = compute_rank_error(puts, gets)
         result.append((tot_rank_error, max_rank_error, mean_rank_error, rank_error_variance))
@@ -32,8 +32,8 @@ def exhaustive_ratio(inp: dict, plot: bool):
         return try_num(inp, opt_ratio)
 
 def plot_tries(results):
-    x = [x for x in range(1,26)]
-    y = [y[2] for y in results]
+    x = [x for x in range(26)]
+    y = [y[0] for y in results] # index of result, change to change parameter to plot
 
     fig, ax = plt.subplots()
     ax.plot(x, y, marker = "o", markersize = 5)

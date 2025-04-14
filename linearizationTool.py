@@ -144,6 +144,7 @@ def main():
 
         case "linord":
             ordering_lin(filename)
+            #print()
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
