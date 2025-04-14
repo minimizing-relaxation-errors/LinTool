@@ -5,26 +5,33 @@
 
 # If no arguments are set, it will use hard coded values to generate bar plots,
 # for multiple files and linearization methods.
-import csv
 import sys
+import datetime
 from enum import Enum, auto
-from linStart import naive_start
-from linEnd import naive_end
-from computeRankError import compute_rank_error
-from linMid import naive_mid
-from linSevFiv import naive_seven_five
-from lintwofiv import naive_two_five
-from linLP import linear_programming
-from linTry import exhaustive_ratio
-from plotting import create_plot, Measurement
-from timestamp import Timestamp
+
+from lin_methods.lin_start import naive_start
+from lin_methods.lin_end import naive_end
+from lin_methods.lin_mid import naive_mid
+from lin_methods.lin_seventyfive import naive_seven_five
+from lin_methods.lin_twentyfive import naive_two_five
+from lin_methods.lin_order_LP import integer_linear_programming
+from lin_methods.lin_window_timestamp_LP import windowed_non_integer_linear_programming
+from lin_methods.lin_try import exhaustive_ratio
+
+from utils.compute_rank_error import compute_rank_error
+from utils.plotting import create_plot, Measurement
+from utils.un_pickle import un_pickle
+from utils.decided_ordering_to_timestamp import order_to_timestamp
+from utils.timestamp_from_file import get_timestamps_from_file
+
+from tests.test_timestamp_dict import test_timestamp_dict
+from tests.validate_timestamp_file import check_duplicate_values_timestamp_file
 
 filename = ""
 version = "" 
 if len(sys.argv) == 3:
     filename = sys.argv[1] # input file or measurement for plot mode
     version = sys.argv[2] # linearization method or plot mode
-
 
 
 class Linearization(Enum):
@@ -34,29 +41,9 @@ class Linearization(Enum):
     Twentyfive = auto()
     Seventyfive = auto()
     LP = auto()
+    LPO = auto()
     TryTwentyFive = auto()
 
-
-def get_timestamps_from_file(filename):
-    timestamps = dict() ## initiate dict for timestamps
-    with open("timestamps/" + filename, newline='') as csvfile:
-                filereader = csv.reader(csvfile)
-                for row in filereader:
-                    ## if function is put (enqueue)
-                    if row[2] == 'PUT':
-                        if row[1] in timestamps.keys():
-                            time = timestamps.get(row[1]) ## find existing timestamp object
-                            time.update_enq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
-                            timestamps.update({row[1]: time})
-                        else: timestamps.update({row[1]: Timestamp(int(row[3]), int(row[4]), None, None)}) ## add value : (timestamp object with enq timestamps, also typecast to ints)
-                    ## if function is get (dequeue)
-                    elif row[2] == 'GET':
-                        if row[1] in timestamps.keys():
-                            time = timestamps.get(row[1]) ## find existing timestamp object
-                            time.update_deq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
-                            timestamps.update({row[1]: time}) ## update dict with all timestamps
-                        else: timestamps.update({row[1]: Timestamp(None, None, int(row[3]), int(row[4]))})
-    return timestamps
 
 # Outputs a list of lists
 # Each sublist holds the results computed from a certain linearization method, for the entire file selection
@@ -98,19 +85,36 @@ def print_data(all_filenames, all_results, lin_method: Linearization):
         print("\nFile name: ", all_filenames[index])
         print("Number of put operations: ", tot_put)
         print("Number of get operations: ", tot_get)
-        print("Max rank error: ", max_rank_error)
-        print("Total rank error: ", tot_rank_error)
-        print("Mean rank error: ", mean_rank_error)
-        print("Rank error variance: ", rank_error_variance)
+        print("Max rank error: ", round(max_rank_error,2))
+        print("Total rank error: ", round(tot_rank_error,2))
+        print("Mean rank error: ", round(mean_rank_error,2))
+        print("Rank error variance: ", round(rank_error_variance,2))
 
-def main():
+def print_time_diff(start_t, end_t):
+    diff = (end_t-start_t)
+    print("Time:", (diff / datetime.timedelta(microseconds=1))/1000000) # TODO: Might want to do some fancier printouts here later (hours/seconds/milliseconds/microseconds)
+
+def start_time():
+    print(datetime.datetime.now())
+    start_t = datetime.datetime.now()
+    return start_t
+
+def end_time():
+    end_t = datetime.datetime.now()
+    print(datetime.datetime.now())
+    return end_t
+
+if __name__=="__main__":
     results = []
     files = [filename]
     match version:
         case "start":
+            start_t = start_time()
             (puts,gets) = naive_start(get_timestamps_from_file(filename))
+            end_t = end_time()
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.Start)
+            print_time_diff(start_t, end_t)
         case "end":
             (puts,gets) = naive_end(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
@@ -118,7 +122,6 @@ def main():
         case "mid":
             (puts, gets) = naive_mid(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
-
             print_data(files, results, Linearization.Mid)
         case "twofive":
             (puts, gets) = naive_two_five(get_timestamps_from_file(filename))
@@ -128,15 +131,40 @@ def main():
             (puts, gets) = naive_seven_five(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.Seventyfive)
+        case "lpo": # LP with orders
+            timestamps = get_timestamps_from_file(filename)
+            start_t = start_time()   
+            decided_ordering_dict = integer_linear_programming(un_pickle(filename))    
+            end_t = end_time()
+            try:
+                (puts, gets) = order_to_timestamp(timestamps, decided_ordering_dict)    # May throw exception
+                res = test_timestamp_dict(puts, gets, timestamps)
+                if res:
+                    results.append(compute_rank_error(puts, gets))
+                    print_data(files, results, Linearization.LPO)
+            except Exception as e:
+                print("Something went wrong: ", e)  # Not tested
+            print_time_diff(start_t, end_t)
         case "lp":
-            linear_programming() # TODO: Want to input ordering list and take output properly
+            original_timestamps = get_timestamps_from_file(filename)
+            start_t = start_time()
+            (puts, gets) = windowed_non_integer_linear_programming(original_timestamps, 300, 300)
+            end_t = end_time()
+            res = test_timestamp_dict(puts, gets, original_timestamps)
+            if res:
+                results.append(compute_rank_error(puts, gets))
+                print_data(files, results, Linearization.LP)
+            print_time_diff(start_t, end_t)
         case "try25":
+            start_t = start_time()
             (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
+            end_t = end_time()
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.TryTwentyFive)
+            print_time_diff(start_t, end_t)
         case _:
             # TODO: could be set in a json file or something
-            file_selection = ["faaaq-n16-d10.csv", "dcbo-n16-d10-w16.csv", "2Ddo-n16-d10-w16-l128.csv"]
+            file_selection = ["faaaq-n16-d10.csv"]
             all_lin_methods = [Linearization.Start, Linearization.Mid, Linearization.End]
             measurement = Measurement.Mean
             all_results = compute_result_plot_mode(file_selection, all_lin_methods)
@@ -146,7 +174,3 @@ def main():
 
             # Creates plot which shows MEAN relaxation error for start and end methods
             create_plot(measurement, file_selection, all_results, all_lin_methods)
-
-
-if __name__=="__main__":
-    main()

@@ -1,5 +1,3 @@
-
-
 def naive_seven_five(inp: dict ):
     puts = dict()
     gets = dict()
@@ -11,4 +9,3 @@ def naive_seven_five(inp: dict ):
             at_third_quarter = (timestamp.deq_start + timestamp.deq_end*3) / 4
             gets.update({i: at_third_quarter})
     return (puts, gets)
-

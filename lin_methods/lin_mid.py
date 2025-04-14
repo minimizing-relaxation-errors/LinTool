@@ -1,5 +1,3 @@
-
-
 def naive_mid(inp: dict ):
     puts = dict()
     gets = dict()
@@ -11,4 +9,3 @@ def naive_mid(inp: dict ):
             mid = (timestamp.deq_start + timestamp.deq_end) / 2
             gets.update({i: mid})
     return (puts, gets)
-

@@ -1,6 +1,7 @@
-from timestamp import Timestamp
+from utils.timestamp import Timestamp
 import datetime
-from linearizationTool import get_timestamps_from_file
+from linearization_tool import get_timestamps_from_file
+import pickle
 
 def ordering_reduction(inp: dict):
     #inp = dict(sorted(inp.items(), key=lambda x:x[1].enq_start)) # at this point this is kindof useless but it could be used to reduces the number of js we look at (from start untill all overlapped are passed or something)
@@ -129,10 +130,9 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
         else: continue
     return feasible_positions, num, no_missing_pos, missing, 
 
-
 def main():
     print(datetime.datetime.now())
-    files = ["2Ddo-n16-d1-w16-l128.csv","2Ddo-n16-d10-w16-l128.csv","dcbo-n16-d1-w16.csv","dcbo-n16-d10-w16.csv","faaaq-n16-d1.csv","faaaq-n16-d10.csv"]
+    files = ["short-900-dcbo-n16-d1-w16.csv"]
     for filename in files:
         ordername = "orders/" + filename +".pkl"
         #print(len(file))

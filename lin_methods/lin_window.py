@@ -1,4 +1,4 @@
-from linTry import exhaustive_ratio
+from lin_methods.lin_try import exhaustive_ratio
 ## psuedo code
 
 '''

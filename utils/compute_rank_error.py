@@ -1,6 +1,7 @@
 # SCRIPT DESCRIPTION
 # Takes two dictionaries containing values : timestamps pairs
 # puts is a dict of enqueues, gets is a dict of dequeues
+# Assumes gets do not include None (simply do not include the dequeue if it is None)
 
 def compute_rank_error(puts, gets):
 	tot_rank_error = 0
@@ -13,8 +14,6 @@ def compute_rank_error(puts, gets):
 	tot_get = len(gets)
 	tot_put = len(puts)
 	
-	enq_length = len(puts)
-
 	rank_error_list = []
 	
 	for deq_val, deq_timestamp in gets_sorted.items():

@@ -2,18 +2,7 @@
 # Checks if there are any duplicate values in a timestamp file.
 # Script takes filename as input.
 
-import csv
-import sys
-from linearizationTool import get_timestamps_from_file
-f = None
-
-# input file
-filename = sys.argv[1]
-
-with open("timestamps/" + filename, newline='') as csvfile:
-    filereader = csv.reader(csvfile)
-    timestamps = get_timestamps_from_file(filename)
-
+def check_duplicate_values_timestamp_file(filename, timestamps):
     enq_fails = 0
     deq_fails = 0
     deq_end_enq_start_fails = 0
@@ -33,8 +22,7 @@ with open("timestamps/" + filename, newline='') as csvfile:
                 deq_end_enq_start_fails += 1
 
     keys = []
-    for row in filereader:
-        key = row[1]
+    for key in timestamps.keys():
         keys.append(key)
     unique_keys = set(keys)
     key_occ = {}
@@ -42,10 +30,10 @@ with open("timestamps/" + filename, newline='') as csvfile:
         # Checks if our values (keys in timestamp file) are unique
         occ = keys.count(key)
         key_occ[key] = occ
-    
+
     duplicates = {}
     for key, value in key_occ.items():
-        if(value > 2):
+        if(value > 2):      # Expects at most 2 occurances of the same value, one for enq and one for potential dequeue
             duplicates[key] = value
             print("Key: ", key, " occurs ", value, " times across both enq and deq operations")
 
@@ -53,5 +41,5 @@ with open("timestamps/" + filename, newline='') as csvfile:
     print("Number of DEQ ends before ENQ starts: ", deq_end_enq_start_fails)
     print("Number of ENQ ends before starts: ", enq_fails)
     print("Number of DEQ ends before starts: ", deq_fails)
-    
+
     print("Finished checking file: ", filename)
