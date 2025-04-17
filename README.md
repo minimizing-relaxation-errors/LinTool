@@ -13,6 +13,10 @@ There is a filepath dependency between semantic-relaxation repository and this o
 - matplotlib.pyplot
 - (and more)
 
+## Other Python shenanigans
+Python paths are relative to from which directory you run the script.
+So you must run scripts from base directory, otherwise there may be issues.
+
 ## How to run
 ### Option 1: Run a single file and linearization method
 Run the linearizationTool.py script with input arguments `<filename> <linearization method>`. 

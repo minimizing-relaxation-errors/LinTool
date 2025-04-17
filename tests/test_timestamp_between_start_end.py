@@ -24,7 +24,7 @@ def test_timestamp_between_start_end(start_end, single):
     return (values_before, values_after, non_matching_values)
 
 if __name__=="__main__":
-    timestamp_filenames = ["dcbo-timestamps-196790479664.csv"]
+    timestamp_filenames = ["short-10000-dcbo-n16-d1-w16.csv"]
     first_foldername = "timestamps"
     second_foldername = "current_linearization_results"
 

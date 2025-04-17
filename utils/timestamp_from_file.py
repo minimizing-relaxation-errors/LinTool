@@ -21,3 +21,20 @@ def get_timestamps_from_file(filename):
                             timestamps.update({row[1]: time}) ## update dict with all timestamps
                         else: timestamps.update({row[1]: Timestamp(None, None, int(row[3]), int(row[4]))})
     return timestamps
+
+# Takes input from a .csv timestamp file with a single timestamp per operation
+# Outputs timestamps as item:[enq_timestamp, deq_timestamp]
+def get_existing_lin(filename):
+    timestamps = dict() ## initiate dict for timestamps
+    with open("current_linearization_results/" + filename, newline='') as csvfile:
+                filereader = csv.reader(csvfile)
+                for row in filereader:
+                    if row[2] == 'PUT':
+                        if row[1] in timestamps.keys():
+                            timestamps[row[1]][0] = int(row[3])
+                        else: timestamps[row[1]] = [int(row[3]), None] 
+                    elif row[2] == 'GET':
+                        if row[1] in timestamps.keys():
+                            timestamps[row[1]][1] = int(row[3])
+                        else: timestamps[row[1]] = [None, int(row[3])]
+    return timestamps

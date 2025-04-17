@@ -17,12 +17,13 @@ from lin_methods.lin_twentyfive import naive_two_five
 from lin_methods.lin_order_LP import integer_linear_programming
 from lin_methods.lin_window_timestamp_LP import windowed_non_integer_linear_programming
 from lin_methods.lin_try import exhaustive_ratio
+from lin_methods.lin_interchange import interchange
 
 from utils.compute_rank_error import compute_rank_error
 from utils.plotting import create_plot, Measurement
 from utils.un_pickle import un_pickle
 from utils.decided_ordering_to_timestamp import order_to_timestamp
-from utils.timestamp_from_file import get_timestamps_from_file
+from utils.timestamp_from_file import get_timestamps_from_file, get_existing_lin
 
 from tests.test_timestamp_dict import test_timestamp_dict
 from tests.validate_timestamp_file import check_duplicate_values_timestamp_file
@@ -43,6 +44,7 @@ class Linearization(Enum):
     LP = auto()
     LPO = auto()
     TryTwentyFive = auto()
+    Interchange = auto()
 
 
 # Outputs a list of lists
@@ -134,7 +136,7 @@ if __name__=="__main__":
         case "lpo": # LP with orders
             timestamps = get_timestamps_from_file(filename)
             start_t = start_time()   
-            decided_ordering_dict = integer_linear_programming(un_pickle(filename))    
+            decided_ordering_dict = integer_linear_programming(un_pickle("orders", filename))    
             end_t = end_time()
             try:
                 (puts, gets) = order_to_timestamp(timestamps, decided_ordering_dict)    # May throw exception
@@ -161,6 +163,13 @@ if __name__=="__main__":
             end_t = end_time()
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.TryTwentyFive)
+            print_time_diff(start_t, end_t)
+        case "interchange":
+            start_t = start_time()
+            (puts, gets) = interchange(get_existing_lin(filename), get_timestamps_from_file(filename))
+            end_t = end_time()
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.Interchange)
             print_time_diff(start_t, end_t)
         case _:
             # TODO: could be set in a json file or something

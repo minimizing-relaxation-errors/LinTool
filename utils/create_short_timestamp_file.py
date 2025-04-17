@@ -1,12 +1,16 @@
 import csv
 import sys
+import os
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) # Cursed
+sys.path.append(parent_path)
 from linearization_tool import get_timestamps_from_file
+sys.path.remove(parent_path)
 
 # Takes from command line: <file name> <desired length of new file>
 # (Removes dequeue None values)
 # Creates another .csv file with 'length' number of operations (with earliest dequeue start values)
 
-def create_short_file(filename, length_str):
+def create_short_timestamp_file(filename, length_str):
     length = int(length_str)
     timestamps = get_timestamps_from_file(filename)
 
@@ -50,4 +54,4 @@ def create_short_file(filename, length_str):
 if __name__=="__main__":
     filename = sys.argv[1] # input file or measurement for plot mode
     length_str = sys.argv[2] # linearization method or plot mode
-    create_short_file(filename, length_str)
+    create_short_timestamp_file(filename, length_str)
