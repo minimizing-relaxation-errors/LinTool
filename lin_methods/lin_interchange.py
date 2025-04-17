@@ -117,7 +117,7 @@ def set_deq_none_last(start_end_timestamps, lin):
 # Expects existing_lin as a dictionary of item:(enq timestamp, deq timestamp)
 # Expects start_end_timestamps as a dictionary of item:Timestamp
 # start_end_timestamps is never altered
-def interchange(existing_lin, start_end_timestamps):
+def interchange(existing_lin, start_end_timestamps, nr_iterations):
 
     #os.path.isfile(fname)
     # Set global variables
@@ -155,13 +155,12 @@ def interchange(existing_lin, start_end_timestamps):
         order_data[item][1] = index
     print("Finished: Setting index data")
 
-    iterations = 1 # TODO: Change the way we iterate or move this out
     count = 0
     has_changed = True
 
     # Main loop:
     print("Initiated: Main loop")
-    while count < iterations and has_changed: # Want to stop when no more change is done
+    while count < nr_iterations and has_changed: # Want to stop when no more change is done
         has_changed = False
         nr_swaps_this_iteration = 0
         pot_swaps = {} # item:[(item to swap, rank error improvement)]
