@@ -1,0 +1,8 @@
+
+File name: short-10000-dcbo-n16-d1-w16.csv
+Number of put operations: 10000
+Number of get operations: 10000
+Max rank error: 106
+Total rank error: 102283
+Mean rank error: 10.23
+Rank error variance: 118.08

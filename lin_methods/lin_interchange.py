@@ -121,7 +121,7 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
 
     ###### MAIN LOOP
     count = 0
-    while count < nr_iterations and count < nr_swaps_stopping_criteria: 
+    while count < nr_iterations: 
         nr_swaps_this_iteration = 0
         # Store potential swaps: (TODO: Optimize if possible. Takes an awful lot of time to run)
         pot_swaps = {} # item:[(item to swap, rank error improvement)]
@@ -152,6 +152,7 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
         
         count += 1
         print("Finished iteration ", count, " with ", nr_swaps_this_iteration, " swaps")
+        if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
     
     ###### OUTPUT DATA
     puts = {}   # item:timestamp
