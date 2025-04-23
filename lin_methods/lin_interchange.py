@@ -5,8 +5,8 @@
 # dequeue points must be after the last enqueue point (ensures no item is dequeued before enqueueing after swap).
 
 # NOTE: This method only swaps enqueue linerazation points (not dequeue)
+# TODO: May be worth switching dequeue linearization points as well? 
 
-import datetime
 import os
 import sys
 
@@ -163,4 +163,5 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
 
     test_timestamp_dict(puts, gets, start_end_timestamps) # TODO: Consider if tests should be done here or in linearization_tool
     
+    print("PUTS: ", len(puts), " GETS: ", len(gets))
     return (puts, gets)
