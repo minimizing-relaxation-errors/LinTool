@@ -91,7 +91,7 @@ def print_data(all_filenames, all_results, lin_method: Linearization):
         print("Total rank error: ", round(tot_rank_error,2))
         print("Mean rank error: ", round(mean_rank_error,2))
         print("Rank error variance: ", round(rank_error_variance,2))
-    return "\nFile name: " + str(all_filenames[index]) + "\nNumber of put operations: " + str(tot_put) + "\nNumber of get operations: " + str(tot_get) + "\nMax rank error: " + str(round(max_rank_error,2)) + "\nTotal rank error: " + str(round(tot_rank_error,2)) + "Mean rank error: " + str(round(mean_rank_error,2)) + "Rank error variance: " + str(round(rank_error_variance,2))
+    return "\nFile name: " + str(all_filenames[index]) + "\nNumber of put operations: " + str(tot_put) + "\nNumber of get operations: " + str(tot_get) + "\nMax rank error: " + str(round(max_rank_error,2)) + "\nTotal rank error: " + str(round(tot_rank_error,2)) + "\nMean rank error: " + str(round(mean_rank_error,2)) + "\nRank error variance: " + str(round(rank_error_variance,2))
 
 def print_time_diff(start_t, end_t):
     diff = (end_t-start_t)
@@ -167,8 +167,9 @@ if __name__=="__main__":
             print_time_diff(start_t, end_t)
         case "interchange":
             nr_iterations = 30
+            nr_swaps_stopping_criteria = 10
             start_t = start_time()
-            (puts, gets) = interchange(get_existing_lin(filename), get_timestamps_from_file(filename), nr_iterations)
+            (puts, gets) = interchange(get_existing_lin(filename), get_timestamps_from_file(filename), nr_iterations, nr_swaps_stopping_criteria)
             end_t = end_time()
             results.append(compute_rank_error(puts, gets))
             f = open("benchmarking_temps/" + filename + "-iterations-" + str(nr_iterations) + ".txt", "w") # TODO: Change, temp solution to get something running on the server

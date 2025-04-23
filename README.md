@@ -13,9 +13,9 @@ There is a filepath dependency between semantic-relaxation repository and this o
 - matplotlib.pyplot
 - (and more)
 
-## Other Python shenanigans
+### Relative paths
 Python paths are relative to from which directory you run the script.
-So you must run scripts from base directory, otherwise there may be issues.
+Scripts must be run from base directory, otherwise there may be issues with dependencies between files and folder or file paths.
 
 ## How to run
 ### Option 1: Run a single file and linearization method

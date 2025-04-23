@@ -53,7 +53,7 @@ def windowed_non_integer_linear_programming(inp: dict, span, step):
     gets = {}
     for index, key in enumerate(inp):
         if(complete_deq_solution[index] <= original_last_timestamp): # Assumes order has been maintained in lists
-            gets[key] = complete_deq_solution[index] # Simply do not include the values that were Dequeue Nones
+            gets[key] = complete_deq_solution[index] # Only include dequeues that were NOT deuque none
         puts[key] = complete_enq_solution[index] 
 
     return (puts, gets)

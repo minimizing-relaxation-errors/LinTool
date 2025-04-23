@@ -7,8 +7,6 @@ sys.path.append(parent_path)
 from linearization_tool import get_existing_lin
 sys.path.remove(parent_path)
 
-# TODO: Clarify that a "10000" file actually contains 10000 dequeues AND 10000 enqueus, i.e. 20000 ops
-
 # NOTE: this script and the create_short_timestamp_file.py script does not result in the same values being stored, 
 #       since they sort on different values (this one on "linearization point"/only timestamp value from its file, 
 #       the other on start value)
@@ -18,7 +16,7 @@ sys.path.remove(parent_path)
 # Creates another .csv file with 'length' number of operations (with earliest dequeue start values)
 # Assumes that a linearization file exists in folder current_linearization_results with name 'filename'
 def create_short_lin_file(filename, length_str):
-    length = int(length_str)
+    length = int(length_str) / 2
     timestamps = get_existing_lin(filename) # dictionary of structure item:[enq_timestamp, deq_timestamp]
 
     timestamps_no_none = {}
