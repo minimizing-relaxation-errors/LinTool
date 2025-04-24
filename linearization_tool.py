@@ -95,7 +95,9 @@ def print_data(all_filenames, all_results, lin_method: Linearization):
 
 def print_time_diff(start_t, end_t):
     diff = (end_t-start_t)
-    print("Time:", (diff / datetime.timedelta(microseconds=1))/1000000) # TODO: Might want to do some fancier printouts here later (hours/seconds/milliseconds/microseconds)
+    out_str = "Time:" + str((diff / datetime.timedelta(microseconds=1))/1000000)
+    print(out_str) # TODO: Might want to do some fancier printouts here later (hours/seconds/milliseconds/microseconds)
+    return out_str
 
 def start_time():
     print(datetime.datetime.now())
@@ -176,8 +178,8 @@ if __name__=="__main__":
             f.write("Max number of iterations: " + str(nr_iterations) + "\nNumber of swaps stopping critera: " + str(nr_swaps_stopping_criteria) + "\n")
             f.write(out_str)
             f.write(print_data(files, results, Linearization.Interchange))
+            f.write("\n" + print_time_diff(start_t, end_t))
             f.close()
-            print_time_diff(start_t, end_t)
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv"]

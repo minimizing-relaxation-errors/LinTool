@@ -14,3 +14,4 @@ Max rank error: 106
 Total rank error: 102283
 Mean rank error: 10.23
 Rank error variance: 118.08
+Time:868.675722
