@@ -1,3 +1,11 @@
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+Finished iteration 1 with 2980 swaps
+Finished iteration 2 with 1916 swaps
+Finished iteration 3 with 859 swaps
+Finished iteration 4 with 222 swaps
+Finished iteration 5 with 50 swaps
+Finished iteration 6 with 8 swaps
 
 File name: short-10000-dcbo-n16-d1-w16.csv
 Number of put operations: 10000

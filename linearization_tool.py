@@ -169,10 +169,12 @@ if __name__=="__main__":
             nr_iterations = 30
             nr_swaps_stopping_criteria = 10
             start_t = start_time()
-            (puts, gets) = interchange(get_existing_lin(filename), get_timestamps_from_file(filename), nr_iterations, nr_swaps_stopping_criteria)
+            (puts, gets, out_str) = interchange(get_existing_lin(filename), get_timestamps_from_file(filename), nr_iterations, nr_swaps_stopping_criteria)
             end_t = end_time()
             results.append(compute_rank_error(puts, gets))
             f = open("benchmarking_temps/" + filename + "-iterations-" + str(nr_iterations) + ".txt", "w") # TODO: Change, temp solution to get something running on the server
+            f.write("Max number of iterations: " + str(nr_iterations) + "\nNumber of swaps stopping critera: " + str(nr_swaps_stopping_criteria) + "\n")
+            f.write(out_str)
             f.write(print_data(files, results, Linearization.Interchange))
             f.close()
             print_time_diff(start_t, end_t)

@@ -121,6 +121,7 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
 
     ###### MAIN LOOP
     count = 0
+    out_str = ""
     while count < nr_iterations: 
         nr_swaps_this_iteration = 0
         # Store potential swaps: (TODO: Optimize if possible. Takes an awful lot of time to run)
@@ -151,7 +152,7 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
                 nr_swaps_this_iteration += 1
         
         count += 1
-        print("Finished iteration ", count, " with ", nr_swaps_this_iteration, " swaps")
+        out_str += "Finished iteration " + str(count) + " with " + str(nr_swaps_this_iteration) + " swaps\n" # Haha (help)
         if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
     
     ###### OUTPUT DATA
@@ -165,4 +166,4 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
     test_timestamp_dict(puts, gets, start_end_timestamps) # TODO: Consider if tests should be done here or in linearization_tool
     
     print("PUTS: ", len(puts), " GETS: ", len(gets))
-    return (puts, gets)
+    return (puts, gets, out_str)
