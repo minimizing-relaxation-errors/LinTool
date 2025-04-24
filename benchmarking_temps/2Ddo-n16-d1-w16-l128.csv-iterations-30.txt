@@ -1,0 +1,21 @@
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+Finished iteration 1 with 12096 swaps
+Finished iteration 2 with 7171 swaps
+Finished iteration 3 with 3501 swaps
+Finished iteration 4 with 1445 swaps
+Finished iteration 5 with 531 swaps
+Finished iteration 6 with 218 swaps
+Finished iteration 7 with 113 swaps
+Finished iteration 8 with 51 swaps
+Finished iteration 9 with 25 swaps
+Finished iteration 10 with 14 swaps
+Finished iteration 11 with 8 swaps
+
+File name: 2Ddo-n16-d1-w16-l128.csv
+Number of put operations: 37696
+Number of get operations: 36483
+Max rank error: 1083
+Total rank error: 7735789
+Mean rank error: 212.04
+Rank error variance: 53025.85
