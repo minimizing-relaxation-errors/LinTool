@@ -1,8 +1,8 @@
 from utils.un_pickle import un_pickle
 
-def ordering_lin(filename):
-    inp = dict()
-    inp = un_pickle(filename)
+def ordering_lin(inp, filename):
+    #inp = dict()
+    #inp = un_pickle(filename)
     ## do a first pass to see "good positions" are just the enq possible positions due to no deq for the item
     short_overlaps, long_overlaps, split_overlaps, no_deqs = create_overlaps(inp)
     for i in short_overlaps:
@@ -37,7 +37,7 @@ def ordering_lin(filename):
     no_deqs, half_set_orders, nq_index, dq_index = preassign_no_deqs_at_end(no_deqs, half_set_orders, nq_index, dq_index)
     #print(half_set_orders)
     ## add the split elements so we can take care of them after
-    split_overlaps, half_set_orders, nq_index, dq_index = assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index)
+    split_overlaps, half_set_orders, nq_index, dq_index, inp = assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index, inp)
 
     for j in range(len(nq_index)):
         if nq_index[j] == 0 and dq_index[j] == 0:
@@ -119,7 +119,7 @@ def assign_one_overlap(shorts, sets, nq_index, dq_index):# -> {sets, non_assigne
                 sets.update({item})
     return sets, nq_index, dq_index
 
-def assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index):# -> {no_overlap, nq_index, dq_index}:
+def assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index, inp):# -> {no_overlap, nq_index, dq_index}:
     keys = list(split_overlaps) ## only contains split items at this point
     for i in keys: 
         curr_item = split_overlaps[i]
@@ -170,31 +170,40 @@ def assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index):# -> 
                 enq_opts.reverse()
             if deq_opts[-1] == curr_item[1]:
                 deq_opts.reverse()
-            for i in range(max(len(enq_opts), len(deq_opts))):
+            for i in range(min(len(enq_opts), len(deq_opts))):
                 if found_enq == 0:
-                    e = enq_opts[i]
-                    if nq_index[e] == 0:
-                        nq_index[e] = i
-                        found_enq = e          
+                    if not i  >= len(enq_opts)-1:
+                        e = enq_opts[i]
+                        if nq_index[e] == 0:
+                            nq_index[e] = i
+                            found_enq = e        
                 if found_deq == 0:
-                    d = deq_opts[i]
-                    if dq_index[d] == 0:
-                        dq_index[d] = i
-                        found_deq = d
+                    if not i >= len(deq_opts)-1:
+                        d = deq_opts[i]
+                        if dq_index[d] == 0:
+                            dq_index[d] = i
+                            found_deq = d
                 if found_deq != 0 and found_enq != 0:
                     half_set_orders.update({i: (e,d)})
                     split_overlaps.pop(i)
                     break
+    return split_overlaps, half_set_orders, nq_index, dq_index, inp
 
-def assign_long_overlap(longs: dict, half_set: dict, nq_index, dq_index, inp):# -> {longs,half_ass, nq_index, dq_index}:
+def assign_long_overlap(longs: dict, half_set: dict, nq_index, dq_index):# -> {longs,half_ass, nq_index, dq_index}:
+    for k in longs.keys():
+        is_set = False
+        for i in longs[k]:
+            if nq_index[i] == 0 and dq_index[i] == 0:
+                nq_index[i] = k
+                dq_index[i] = k
+                half_set.update({k: (i,i)})
+                longs.pop(i)
+                set = True
+                break
+            else:
+                pass
     return(longs, half_set, nq_index, dq_index)
         
-def assign_long(half_set, nq_index, dq_index, inp):# -> {half_set, nq_index, dq_index}:
-    print()
-
-def assign_split(longs, nq_index, dq_index, ):
-    return None
-
 def create_overlaps(inp):# -> {short_overlaps, long_overlaps, nones}: # DONE?
     for i in inp.keys():
         (enqs, deqs) = inp[i]
@@ -304,7 +313,7 @@ def assign_long(item):
                         min = abs(n-d)
     if nq and dq != None:
         half_set.updat(item)
-            nq_ = item.key()
+            nq_ = item.key()5
             dq_ = item.key()
             return None
     else: 
@@ -315,3 +324,4 @@ def assign_long(item):
             set nq and dq
 
 '''
+

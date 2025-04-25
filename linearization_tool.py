@@ -109,6 +109,7 @@ if __name__=="__main__":
     results = []
     files = [filename]
     match version:
+        # naive solutions start
         case "start":
             start_t = start_time()
             (puts,gets) = naive_start(get_timestamps_from_file(filename))
@@ -132,6 +133,7 @@ if __name__=="__main__":
             (puts, gets) = naive_seven_five(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.Seventyfive)
+        # naive solutions end
         case "lpo": # LP with orders
             timestamps = get_timestamps_from_file(filename)
             start_t = start_time()   
@@ -171,7 +173,8 @@ if __name__=="__main__":
             print_data(files, results, Linearization.TryTwentyFive)
             print_time_diff(start_t, end_t)
         case "linord":
-            ordering_lin(filename)
+            inp = un_pickle(filename)
+            ordering_lin(inp, filename)
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv"]

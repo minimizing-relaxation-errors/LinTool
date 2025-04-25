@@ -1,6 +1,6 @@
-from utils.timestamp import Timestamp
+from timestamp import Timestamp
 import datetime
-from linearization_tool import get_timestamps_from_file
+from timestamp_from_file import get_timestamps_from_file
 import pickle
 
 def ordering_reduction(inp: dict):
@@ -132,7 +132,7 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
 
 def main():
     print(datetime.datetime.now())
-    files = ["short-900-dcbo-n16-d1-w16.csv"]
+    files = ["2Ddo-n16-d1-w16-l128.csv", "dcbo-n16-d1-w16.csv","faaaq-n16-d1.csv"]
     for filename in files:
         ordername = "orders/" + filename +".pkl"
         #print(len(file))
