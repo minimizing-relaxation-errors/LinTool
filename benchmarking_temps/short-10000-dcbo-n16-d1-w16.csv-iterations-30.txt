@@ -1,17 +1,41 @@
 Max number of iterations: 30
-Number of swaps stopping critera: 10
-Finished iteration 1 with 2980 swaps
-Finished iteration 2 with 1916 swaps
-Finished iteration 3 with 859 swaps
-Finished iteration 4 with 222 swaps
-Finished iteration 5 with 50 swaps
-Finished iteration 6 with 8 swaps
+Number of swaps stopping critera: None
+Finished iteration 1 with 2987 swaps. Time (s): 2.58063315 minutes 
+Finished iteration 2 with 1926 swaps. Time (s): 2.4790930833333333 minutes 
+Finished iteration 3 with 865 swaps. Time (s): 2.49053705 minutes 
+Finished iteration 4 with 231 swaps. Time (s): 2.3322411333333335 minutes 
+Finished iteration 5 with 54 swaps. Time (s): 2.35780795 minutes 
+Finished iteration 6 with 7 swaps. Time (s): 2.3657284666666665 minutes 
+Finished iteration 7 with 0 swaps. Time (s): 2.3615981666666666 minutes 
+Finished iteration 8 with 0 swaps. Time (s): 2.3653594333333334 minutes 
+Finished iteration 9 with 0 swaps. Time (s): 2.361572333333333 minutes 
+Finished iteration 10 with 0 swaps. Time (s): 2.3884536666666665 minutes 
+Finished iteration 11 with 0 swaps. Time (s): 2.339776516666667 minutes 
+Finished iteration 12 with 0 swaps. Time (s): 2.3277112166666667 minutes 
+Finished iteration 13 with 0 swaps. Time (s): 2.4081849833333333 minutes 
+Finished iteration 14 with 0 swaps. Time (s): 2.489152183333333 minutes 
+Finished iteration 15 with 0 swaps. Time (s): 2.41575695 minutes 
+Finished iteration 16 with 0 swaps. Time (s): 2.46179905 minutes 
+Finished iteration 17 with 0 swaps. Time (s): 3.3262467333333334 minutes 
+Finished iteration 18 with 0 swaps. Time (s): 3.7029788166666666 minutes 
+Finished iteration 19 with 0 swaps. Time (s): 3.758261533333333 minutes 
+Finished iteration 20 with 0 swaps. Time (s): 3.3489214166666668 minutes 
+Finished iteration 21 with 0 swaps. Time (s): 3.6022989 minutes 
+Finished iteration 22 with 0 swaps. Time (s): 3.64498835 minutes 
+Finished iteration 23 with 0 swaps. Time (s): 3.6723078333333334 minutes 
+Finished iteration 24 with 0 swaps. Time (s): 4.3357509 minutes 
+Finished iteration 25 with 0 swaps. Time (s): 3.5201303166666666 minutes 
+Finished iteration 26 with 0 swaps. Time (s): 3.6499488666666666 minutes 
+Finished iteration 27 with 0 swaps. Time (s): 3.4276482833333333 minutes 
+Finished iteration 28 with 0 swaps. Time (s): 3.4075960666666667 minutes 
+Finished iteration 29 with 0 swaps. Time (s): 3.5561469 minutes 
+Finished iteration 30 with 0 swaps. Time (s): 3.2754995166666667 minutes 
 
 File name: short-10000-dcbo-n16-d1-w16.csv
 Number of put operations: 10000
 Number of get operations: 10000
 Max rank error: 106
-Total rank error: 102283
+Total rank error: 102295
 Mean rank error: 10.23
 Rank error variance: 118.08
-Time:868.675722
+Time:88.75630868333333 minutes

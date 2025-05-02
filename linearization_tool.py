@@ -95,7 +95,7 @@ def print_data(all_filenames, all_results, lin_method: Linearization):
 
 def print_time_diff(start_t, end_t):
     diff = (end_t-start_t)
-    out_str = "Time:" + str((diff / datetime.timedelta(microseconds=1))/1000000)
+    out_str = "Time: " + str((diff / datetime.timedelta(microseconds=1))/(60 * 1000000)) + " minutes"
     print(out_str) # TODO: Might want to do some fancier printouts here later (hours/seconds/milliseconds/microseconds)
     return out_str
 

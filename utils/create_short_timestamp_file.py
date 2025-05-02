@@ -6,13 +6,13 @@ sys.path.append(parent_path)
 from linearization_tool import get_timestamps_from_file
 sys.path.remove(parent_path)
 
-# Takes from command line: <file name> <desired length of new file>
+# Takes from command line: <file name> <desired number of items in new file>
 # (Removes dequeue None values)
-# Creates another .csv file with 'length' number of operations (with earliest dequeue start values)
+# Creates another .csv file with 'length' number of items (with earliest dequeue start values)
 
 def create_short_timestamp_file(filename, length_str):
     length = int(length_str)
-    timestamps = get_timestamps_from_file(filename)
+    timestamps = get_timestamps_from_file(filename) # dictionary of item:Timestamp
 
     timestamps_no_none = {}
     # Remove none to enable easy sorting
@@ -53,5 +53,5 @@ def create_short_timestamp_file(filename, length_str):
 
 if __name__=="__main__":
     filename = sys.argv[1] # input file or measurement for plot mode
-    length_str = sys.argv[2] # linearization method or plot mode
+    length_str = sys.argv[2] # desired number of items
     create_short_timestamp_file(filename, length_str)

@@ -5,10 +5,11 @@
 # dequeue points must be after the last enqueue point (ensures no item is dequeued before enqueueing after swap).
 
 # NOTE: This method only swaps enqueue linerazation points (not dequeue)
-# TODO: May be worth switching dequeue linearization points as well? 
+# TODO: May be worth switching dequeue linearization points as well? Yes!
 
 import os
 import sys
+import datetime
 
 # Adds parent path to sys.path to enable importing script from neighbouring folder
 # parent path is then removed to ensure relative paths can be used for later imports or file references
@@ -123,8 +124,13 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
     count = 0
     out_str = ""
     while count < nr_iterations: 
+        start_t = datetime.datetime.now() # Begin timing iteration
         nr_swaps_this_iteration = 0
-        # Store potential swaps: (TODO: Optimize if possible. Takes an awful lot of time to run)
+        # Store potential swaps: 
+        # TODO: Optimize if possible. Takes an awful lot of time to run
+        #       Maybe only compare to those likely to be overlapping (maybe look at a certain number)
+        #       If order 10 and order 12 are swappable, then (10,11) and (11,12) are swappable. Maybe only look at adjacent items? Look into this! 
+        #       (Print pot_swaps to check which are potential)
         pot_swaps = {} # item:[(item to swap, rank error improvement)]
         for item1 in lin.keys():
             for item2 in lin.keys():
@@ -134,8 +140,9 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
                     if item1 in pot_swaps.keys():
                         pot_swaps[item1].append((item2, re_imp))
                     else:
-                        pot_swaps.update({item1:[(item2, re_imp)]})
-
+                        pot_swaps.update({item1:[(item2, re_imp)]}) # 
+        # TODO: Add new mapping and calculate potential swaps for only those next time
+        #       Graphs (edges if swappable)
         # Execute swaps 
         # For each item, executes the best potential swap available
         # Ignores potential swaps that contain items that were already swapped this iteration
@@ -152,8 +159,10 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
                 nr_swaps_this_iteration += 1
         
         count += 1
-        out_str += "Finished iteration " + str(count) + " with " + str(nr_swaps_this_iteration) + " swaps\n" # Haha (help)
-        if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
+        end_t = datetime.datetime.now()
+        out_str += "Finished iteration " + str(count) + " with " + str(nr_swaps_this_iteration) + " swaps. Time (s): " + str(((end_t-start_t) / datetime.timedelta(microseconds=1))/(60 * 1000000)) + " minutes \n" # Haha (help)
+        if nr_swaps_stopping_criteria != None:
+            if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
     
     ###### OUTPUT DATA
     puts = {}   # item:timestamp

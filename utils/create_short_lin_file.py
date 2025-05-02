@@ -4,54 +4,32 @@ import os
 
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) # Cursed
 sys.path.append(parent_path)
-from linearization_tool import get_existing_lin
+from linearization_tool import get_existing_lin, get_timestamps_from_file
 sys.path.remove(parent_path)
 
-# NOTE: this script and the create_short_timestamp_file.py script does not result in the same values being stored, 
-#       since they sort on different values (this one on "linearization point"/only timestamp value from its file, 
-#       the other on start value)
 
-# Takes from command line: <file name> <desired length of new file>
-# (Removes dequeue None values)
-# Creates another .csv file with 'length' number of operations (with earliest dequeue start values)
-# Assumes that a linearization file exists in folder current_linearization_results with name 'filename'
-def create_short_lin_file(filename, length_str):
-    length = int(length_str) / 2
-    timestamps = get_existing_lin(filename) # dictionary of structure item:[enq_timestamp, deq_timestamp]
+# NOTE: This script assumes that there exists 
+#       1) an existing long interval file named <filename>
+#       2) a short interval file named "short-nr_items-filename" (in folder "timestamps")
+#       3) an existing linearization file named <filename>
 
-    timestamps_no_none = {}
-    # Remove none to enable easy sorting
-    for (k,v) in timestamps.items():
-        if(v[1] != None):
-            timestamps_no_none[k] = v
+# Takes from command line: <file name> <desired nr of items>
+# Creates another .csv file (in current_linearization_results) named "short-nr_items-filename"
+# which contains the existing linearization points of the items that are in the short interval file
+def create_short_lin_file(filename, nr_items):
 
-    # Sort on deq_start (ascending)
-    timestamps_sorted_on_deq = dict(sorted(timestamps_no_none.items(), key=lambda x: x[1][1]))
+    interval_timestamps = get_timestamps_from_file("short-" + nr_items + "-" + filename) # dictionary of item:Timestamp
 
-    # Save "length" first items from sorted dict
-    timestamps_small = {}
-    for i, (k,v) in enumerate(timestamps_sorted_on_deq.items()):
-        if i >= length: break
-        timestamps_small[k] = v
-    
-    # Prints used for confirming results
-    print("timestamps dict length: ", len(timestamps_small))
-    nr_enqs = 0
-    nr_deqs = 0
-    for ts in timestamps_small.values():
-        if(ts[0] is not None): nr_enqs += 1
-        if(ts[1] is not None): nr_deqs += 1
-    print("Nr enqs: ", nr_enqs)
-    print("Nr deqs: ", nr_deqs)
+    lin_timestamps = get_existing_lin(filename) # dictionary of structure item:[enq_timestamp, deq_timestamp]
 
     # Extract data to use for producing csv
     iterable_for_csv = []
-    for (k,v) in timestamps_small.items(): # both enq and deq exists
-        iterable_for_csv.append([0, k, "PUT", v[0]])
-        iterable_for_csv.append([0, k, "GET", v[1]])
+    for k in interval_timestamps.keys(): # both enq and deq exists
+        iterable_for_csv.append([0, k, "PUT", lin_timestamps[k][0]])
+        iterable_for_csv.append([0, k, "GET", lin_timestamps[k][1]])
 
     # Create csv
-    new_filename = "current_linearization_results/" + "short-" + length_str + "-" + filename
+    new_filename = "current_linearization_results/" + "short-" + nr_items + "-" + filename
     with open(new_filename, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(iterable_for_csv)
@@ -60,5 +38,5 @@ def create_short_lin_file(filename, length_str):
 
 if __name__=="__main__":
     filename = sys.argv[1] # input file or measurement for plot mode
-    length_str = sys.argv[2] # linearization method or plot mode
-    create_short_lin_file(filename, length_str)
+    nr_items = sys.argv[2] # desired nr of items
+    create_short_lin_file(filename, nr_items)

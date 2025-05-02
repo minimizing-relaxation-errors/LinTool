@@ -1,0 +1,41 @@
+Max number of iterations: 30
+Number of swaps stopping critera: None
+Finished iteration 1 with 223 swaps
+Finished iteration 2 with 100 swaps
+Finished iteration 3 with 20 swaps
+Finished iteration 4 with 1 swaps
+Finished iteration 5 with 0 swaps
+Finished iteration 6 with 0 swaps
+Finished iteration 7 with 0 swaps
+Finished iteration 8 with 0 swaps
+Finished iteration 9 with 0 swaps
+Finished iteration 10 with 0 swaps
+Finished iteration 11 with 0 swaps
+Finished iteration 12 with 0 swaps
+Finished iteration 13 with 0 swaps
+Finished iteration 14 with 0 swaps
+Finished iteration 15 with 0 swaps
+Finished iteration 16 with 0 swaps
+Finished iteration 17 with 0 swaps
+Finished iteration 18 with 0 swaps
+Finished iteration 19 with 0 swaps
+Finished iteration 20 with 0 swaps
+Finished iteration 21 with 0 swaps
+Finished iteration 22 with 0 swaps
+Finished iteration 23 with 0 swaps
+Finished iteration 24 with 0 swaps
+Finished iteration 25 with 0 swaps
+Finished iteration 26 with 0 swaps
+Finished iteration 27 with 0 swaps
+Finished iteration 28 with 0 swaps
+Finished iteration 29 with 0 swaps
+Finished iteration 30 with 0 swaps
+
+File name: faaaq-n16-d1.csv
+Number of put operations: 8725
+Number of get operations: 7724
+Max rank error: 15
+Total rank error: 86
+Mean rank error: 0.01
+Rank error variance: 0.05
+Time:1327.164666
