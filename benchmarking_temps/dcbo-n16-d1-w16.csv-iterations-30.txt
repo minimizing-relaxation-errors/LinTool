@@ -1,8 +1,0 @@
-
-File name: dcbo-n16-d1-w16.csv
-Number of put operations: 37082
-Number of get operations: 36076
-Max rank error: 106
-Total rank error: 372516
-Mean rank error: 10.33
-Rank error variance: 116.21
