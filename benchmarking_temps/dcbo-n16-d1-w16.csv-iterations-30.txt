@@ -1,0 +1,19 @@
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+Finished iteration 1 with 12072 swaps. Time (s): 42.891136116666665 minutes 
+Finished iteration 2 with 7974 swaps. Time (s): 55.862043783333334 minutes 
+Finished iteration 3 with 4159 swaps. Time (s): 53.59879466666667 minutes 
+Finished iteration 4 with 1592 swaps. Time (s): 40.949687866666665 minutes 
+Finished iteration 5 with 429 swaps. Time (s): 39.8656811 minutes 
+Finished iteration 6 with 84 swaps. Time (s): 48.31470611666666 minutes 
+Finished iteration 7 with 15 swaps. Time (s): 51.13921466666667 minutes 
+Finished iteration 8 with 4 swaps. Time (s): 58.51115506666667 minutes 
+
+File name: dcbo-n16-d1-w16.csv
+Number of put operations: 37082
+Number of get operations: 36076
+Max rank error: 106
+Total rank error: 372516
+Mean rank error: 10.33
+Rank error variance: 116.21
+Time: 391.1462372166667 minutes

@@ -1,0 +1,22 @@
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+Finished iteration 1 with 12096 swaps. Time (s): 54.1931388 minutes 
+Finished iteration 2 with 7171 swaps. Time (s): 50.48823313333333 minutes 
+Finished iteration 3 with 3501 swaps. Time (s): 49.55434135 minutes 
+Finished iteration 4 with 1445 swaps. Time (s): 49.02765848333333 minutes 
+Finished iteration 5 with 531 swaps. Time (s): 48.76747243333333 minutes 
+Finished iteration 6 with 218 swaps. Time (s): 48.663339316666665 minutes 
+Finished iteration 7 with 113 swaps. Time (s): 48.612044983333334 minutes 
+Finished iteration 8 with 51 swaps. Time (s): 48.61104031666667 minutes 
+Finished iteration 9 with 25 swaps. Time (s): 48.5637744 minutes 
+Finished iteration 10 with 14 swaps. Time (s): 48.53369295 minutes 
+Finished iteration 11 with 8 swaps. Time (s): 39.45729481666667 minutes 
+
+File name: 2Ddo-n16-d1-w16-l128.csv
+Number of put operations: 37696
+Number of get operations: 36483
+Max rank error: 1083
+Total rank error: 7735789
+Mean rank error: 212.04
+Rank error variance: 53025.85
+Time: 534.4867946 minutes

@@ -1,0 +1,15 @@
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+Finished iteration 1 with 223 swaps. Time (s): 1.1913591666666667 minutes 
+Finished iteration 2 with 100 swaps. Time (s): 1.1540763166666668 minutes 
+Finished iteration 3 with 20 swaps. Time (s): 1.14002465 minutes 
+Finished iteration 4 with 1 swaps. Time (s): 1.1429439166666666 minutes 
+
+File name: faaaq-n16-d1.csv
+Number of put operations: 8725
+Number of get operations: 7724
+Max rank error: 15
+Total rank error: 86
+Mean rank error: 0.01
+Rank error variance: 0.05
+Time: 4.631991916666666 minutes
