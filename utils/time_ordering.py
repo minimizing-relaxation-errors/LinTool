@@ -1,7 +1,14 @@
-from utils.timestamp import Timestamp
+from timestamp import Timestamp
 import datetime
-from linearization_tool import get_timestamps_from_file
 import pickle
+import os
+import sys
+
+# TODO: Maybe we should create a util script to do this, which can be imported by other util scripts
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) # Cursed
+sys.path.append(parent_path)
+from linearization_tool import get_timestamps_from_file
+sys.path.remove(parent_path)
 
 def ordering_reduction(inp: dict):
     #inp = dict(sorted(inp.items(), key=lambda x:x[1].enq_start)) # at this point this is kindof useless but it could be used to reduces the number of js we look at (from start untill all overlapped are passed or something)
@@ -132,7 +139,7 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
 
 def main():
     print(datetime.datetime.now())
-    files = ["short-900-dcbo-n16-d1-w16.csv"]
+    files = ["short-10-dcbo-n16-d1-w16.csv"]
     for filename in files:
         ordername = "orders/" + filename +".pkl"
         #print(len(file))

@@ -50,7 +50,7 @@ def integer_linear_programming(inp: dict):
     for i in range(0, nr_enqs):
         enq_order_set.update(enq_order_list[i])
         if deq_order_list[i] != None:                  # If deq list nonexistant, don't include. Shouldn't happen.
-            print("Dequeue list non-existant. Execution continues but Dequeue None values are not handled correctly.")
+            #print("Dequeue list non-existant. Execution continues but Dequeue None values are not handled correctly.") TODO: Remove
             deq_order_set.update(deq_order_list[i])
 
     # Array with potential orders (sorted, no duplicates)

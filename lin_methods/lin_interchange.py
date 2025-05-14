@@ -23,6 +23,13 @@ order_data = {} # dictionary of item:[enq_index, deq_index]
 lin = {}        # dictionary of item:[enq, deq]
 overlapping_items = {} # dictionary of item:[items overlapping in enqueue interval]
 
+def get_total_rank_error(): # TODO: Maybe should be generic in compute_rank_error idk
+    tot_re = 0
+    for (e1, d1) in order_data.values():
+        for (e2,d2) in order_data.values():
+            if e1 < e2 and d1 > d2: tot_re += 1 # item1 causes one rank error for item2
+    return tot_re
+
 # Expects as input: enqueue and dequeue index of an item
 # Returns: the rank error of the item
 def get_item_rank_error(this_e_ind, this_d_ind):
@@ -141,10 +148,9 @@ def check_if_swapped(item, has_been_swapped):
 # TODO: Consider that it may set an empty list in pot_swaps? does that matter?
 def update_a_with_bs_list(item_a, item_b, pot_swaps, start_end_timestamps):
     #old_list = pot_swaps[item_b] # TODO: Maybe this shouldn't be the items in pot_swap, but actually be overlapping items?
-    old_list = overlapping_items[item_b]
     new_list = []
     #for (item, old_re_imp) in old_list:
-    for item in old_list:
+    for item in overlapping_items[item_b]:
         if item == item_a: item = item_b # Swap item_a with item_b in the list (since it will be assigned to item_a)
         new_re_imp = get_rank_error_improvement(item_a, item, start_end_timestamps)
         if new_re_imp != None and new_re_imp > 0:
@@ -158,11 +164,11 @@ def update_other_a_lists_with_b(item_a, item_b, pot_swaps, start_end_timestamps)
         if o_item not in pot_swaps_items: continue
         new_list = pot_swaps[o_item]
         b_updated = False
-        for tuple in pot_swaps[o_item]: # For loop only exists to identify item_a and update it
+        for tuple in pot_swaps[o_item]: # For loop only exists to identify item_a or item_b and update it
             item = tuple[0]
             if item == item_a or item == item_b:
                 b_updated = item == item_b
-                new_list.remove(tuple) # Remove old occurence of item_a
+                new_list.remove(tuple) # Remove old occurence of item_a or item_b
                 new_re_imp = get_rank_error_improvement(item, o_item, start_end_timestamps)
                 if new_re_imp != None and new_re_imp > 0:
                     new_list.append((item, new_re_imp)) # Add item_a if there is still improvement
@@ -188,10 +194,6 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
 
     start_t = datetime.datetime.now() # Begin timing iteration
     # Store potential swaps: 
-        # TODO: Optimize if possible. Takes an awful lot of time to run
-        #       Maybe only compare to those likely to be overlapping (maybe look at a certain number)
-        #       If order 10 and order 12 are swappable, then (10,11) and (11,12) are swappable. Maybe only look at adjacent items? Look into this! 
-        #       (Print pot_swaps to check which are potential)
     # Now only looks at items with overlapping enqueue intervals, effectively cutting the inner iterations from n to approx 10-20 (on average).
     pot_swaps_start = datetime.datetime.now()
     pot_swaps = dict() # item:[(item to swap, rank error improvement)]
@@ -213,57 +215,45 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
         if count != 0: start_t = datetime.datetime.now()
         nr_swaps_this_iteration = 0
         
-        # TODO: Add new mapping and calculate potential swaps for only those next time
-        #       Graphs (edges if swappable)
+        # TODO: Consider updating immediately. Consider the pseudocode for thesis
+        # ✅ Print total rank error after each iteration
         # EXECUTE SWAPS
         # For each item, executes the best potential swap available
         # Ignores potential swaps that contain items that were already swapped this iteration
         exe_swaps_start = datetime.datetime.now()
-        has_been_swapped = [] 
+        has_been_swapped = [] # TODO:Set?
         for (item1, item_list) in pot_swaps.items():
             if check_if_swapped(item1, has_been_swapped): continue
             best_imp = (None, 0) # Item with best improvement
             for (item2, re_imp) in item_list:
-                if check_if_swapped(item2, has_been_swapped): continue
+                if check_if_swapped(item2, has_been_swapped): continue 
                 if re_imp > best_imp[1]: best_imp = (item2, re_imp) 
             if best_imp[0] != None:
                 swap_items(item1, best_imp[0]) # Swap items
                 has_been_swapped.append((best_imp[0], item1)) # Mark both items as having been swapepd
                 nr_swaps_this_iteration += 1
+
+                # Update pot_swaps:
+                # Swap the two item's potential swap lists, and account for their own occurence in the respective list
+                pot_swaps = update_a_with_bs_list(item1, best_imp[0], pot_swaps, start_end_timestamps)
+                pot_swaps = update_a_with_bs_list(best_imp[0], item1, pot_swaps, start_end_timestamps)
+
+                # Update all other items' potential swap lists
+                pot_swaps = update_other_a_lists_with_b(item1, best_imp[0], pot_swaps, start_end_timestamps)
+                pot_swaps = update_other_a_lists_with_b(best_imp[0], item1, pot_swaps, start_end_timestamps)
         exe_swaps_end = datetime.datetime.now()
-        print("Execute swaps took: ", str(((exe_swaps_end-exe_swaps_start) / datetime.timedelta(microseconds=1))/(60 * 1000000)), " min" )
-        
-        ''' JUST FOR TESTING BUT IT SEEMS FINE
-        nr_identicals = 0
-        nr_duplicate_items = 0
-        for (item1, item2) in has_been_swapped:
-            for(item3, item4) in has_been_swapped:
-                if item1 == item3 and item2 == item4: nr_identicals += 1
-                elif item1 == item3 or item1 == item4 or item2 == item3 or item2 == item4: nr_duplicate_items += 1
-        #if nr_identicals > 2975: print("Nr identicals: ", nr_identicals)
-        if nr_duplicate_items > 0: print("Nr duplicate items: ", nr_duplicate_items)'''
-
-        # UPDATE POT_SWAPS
-        # Update all (key) items and all potential swap list items which mention either of the swapped items
-        # TODO: There is a risk that this sets empty lists
-        update_pot_swaps_start = datetime.datetime.now()
-        for (item1, item2) in has_been_swapped:
-            # Swap the two item's potential swap lists, and account for their own occurence in the respective list
-            pot_swaps = update_a_with_bs_list(item1, item2, pot_swaps, start_end_timestamps)
-            pot_swaps = update_a_with_bs_list(item2, item1, pot_swaps, start_end_timestamps)
-
-            # Update all other items' potential swap lists
-            pot_swaps = update_other_a_lists_with_b(item1, item2, pot_swaps, start_end_timestamps)
-            pot_swaps = update_other_a_lists_with_b(item2, item1, pot_swaps, start_end_timestamps)
-                    
-
-            #pot_swaps = {i:l for (i,l) in pot_swaps.items() if l} # Only keep tuples with non-empty lists. TODO: problem.. 
-        update_pot_swaps_end = datetime.datetime.now()
-        print("Update pot_swaps took: ", str(((update_pot_swaps_end-update_pot_swaps_start) / datetime.timedelta(microseconds=1))/(60 * 1000000)), " min" )
+        print("Execute and update swaps took: ", str(((exe_swaps_end-exe_swaps_start) / datetime.timedelta(microseconds=1))/(60 * 1000000)), " min" )
+    
+        # Calculate total rank error after each iteration:
+        calc_tot_re_start = datetime.datetime.now()
+        tot_rank_error = get_total_rank_error()
+        calc_tot_re_end = datetime.datetime.now()
+        print("Calculate total rank error took", str(((calc_tot_re_end-calc_tot_re_start) / datetime.timedelta(microseconds=1))/(60 * 1000000)), " min" )
 
         count += 1
         end_t = datetime.datetime.now()
         out_str += "Finished iteration " + str(count) + " with " + str(nr_swaps_this_iteration) + " swaps. Time (s): " + str(((end_t-start_t) / datetime.timedelta(microseconds=1))/(60 * 1000000)) + " minutes \n" # Haha (help)
+        out_str += "Total rank error after iteration " + str(count) + " is: " + str(tot_rank_error) + "\n"
         if nr_swaps_stopping_criteria != None:
             if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
     
