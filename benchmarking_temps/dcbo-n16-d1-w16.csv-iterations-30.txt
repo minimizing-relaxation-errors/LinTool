@@ -1,27 +1,43 @@
 Max number of iterations: 30
 Number of swaps stopping critera: 10
-Finished iteration 1 with 12072 swaps. Time (s): 64.35399156666666 minutes 
+Finished iteration 1 with 12072 swaps. Time (s): 208.6433665 minutes 
 Total rank error after iteration 1 is: 620329
-Finished iteration 2 with 7990 swaps. Time (s): 25.673652266666668 minutes 
+Finished iteration 2 with 7990 swaps. Time (s): 67.55382158333333 minutes 
 Total rank error after iteration 2 is: 610837
-Finished iteration 3 with 4146 swaps. Time (s): 18.7679235 minutes 
+Finished iteration 3 with 4146 swaps. Time (s): 37.01091228333333 minutes 
 Total rank error after iteration 3 is: 606469
-Finished iteration 4 with 1621 swaps. Time (s): 9.8472775 minutes 
+Finished iteration 4 with 1621 swaps. Time (s): 16.407299133333332 minutes 
 Total rank error after iteration 4 is: 604822
-Finished iteration 5 with 442 swaps. Time (s): 4.5549565 minutes 
+Finished iteration 5 with 442 swaps. Time (s): 6.329167966666667 minutes 
 Total rank error after iteration 5 is: 604376
-Finished iteration 6 with 80 swaps. Time (s): 2.6905707833333334 minutes 
+Finished iteration 6 with 80 swaps. Time (s): 2.9659760833333335 minutes 
 Total rank error after iteration 6 is: 604296
-Finished iteration 7 with 11 swaps. Time (s): 2.3612572333333333 minutes 
+Finished iteration 7 with 11 swaps. Time (s): 2.3250316166666667 minutes 
 Total rank error after iteration 7 is: 604283
-Finished iteration 8 with 3 swaps. Time (s): 2.2514112 minutes 
+Finished iteration 8 with 3 swaps. Time (s): 2.2301249333333333 minutes 
 Total rank error after iteration 8 is: 604280
+Finished iteration 1 with 11565 swaps. Time (s): 178.81779101666666 minutes 
+Total rank error after iteration 1 is: 587073
+Finished iteration 2 with 7815 swaps. Time (s): 69.77787758333334 minutes 
+Total rank error after iteration 2 is: 577758
+Finished iteration 3 with 4170 swaps. Time (s): 39.26093853333333 minutes 
+Total rank error after iteration 3 is: 573292
+Finished iteration 4 with 1763 swaps. Time (s): 18.3954433 minutes 
+Total rank error after iteration 4 is: 571497
+Finished iteration 5 with 513 swaps. Time (s): 7.1308745 minutes 
+Total rank error after iteration 5 is: 570982
+Finished iteration 6 with 112 swaps. Time (s): 3.3021963333333333 minutes 
+Total rank error after iteration 6 is: 570870
+Finished iteration 7 with 16 swaps. Time (s): 2.3566124166666667 minutes 
+Total rank error after iteration 7 is: 570852
+Finished iteration 8 with 2 swaps. Time (s): 2.2049228 minutes 
+Total rank error after iteration 8 is: 570850
 
 File name: dcbo-n16-d1-w16.csv
 Number of put operations: 37082
 Number of get operations: 36076
-Max rank error: 106
-Total rank error: 372522
-Mean rank error: 10.33
-Rank error variance: 116.23
-Time: 133.94279361666668 minutes
+Max rank error: 104
+Total rank error: 339748
+Mean rank error: 9.42
+Rank error variance: 107.89
+Time: 683.3327060666667 minutes
