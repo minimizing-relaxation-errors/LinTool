@@ -44,6 +44,7 @@ class Linearization(Enum):
     LP = auto()
     LPO = auto()
     TryTwentyFive = auto()
+    Order = auto()
 
 
 # Outputs a list of lists
@@ -174,7 +175,11 @@ if __name__=="__main__":
             print_time_diff(start_t, end_t)
         case "linord":
             inp = un_pickle(filename)
-            ordering_lin(inp, filename)
+            file = get_timestamps_from_file(filename)
+            ordering_dict = ordering_lin(inp, filename)
+            puts, gets = order_to_timestamp(file, ordering_dict)
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.Order)
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv"]

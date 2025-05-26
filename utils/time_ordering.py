@@ -15,9 +15,9 @@ def ordering_reduction(inp: dict):
         bös = 0
         for j in inp.keys():
             if i != j: # (don't compare against ourselves)
-                if inp[j].enq_end < inp[i].enq_start: # how many timestamps of the same typ have ended before our item
+                if inp[j].enq_end <= inp[i].enq_start: # how many timestamps of the same typ have ended before our item
                     nr_fin_before_e +=1
-                elif inp[j].enq_start > inp[i].enq_end: # to get overlapping we see which ones end after
+                elif inp[j].enq_start >= inp[i].enq_end: # to get overlapping we see which ones end after
                     #attempt += 1
                     #if attempt > 10000:
                     #    break
@@ -29,10 +29,10 @@ def ordering_reduction(inp: dict):
                 elif inp[j].deq_start == None:
                     continue
                 else: # make sure that both items have been dequeued
-                    if inp[j].deq_end < inp[i].deq_start: # then we do the same for dequeues so each ordering starts at 0
+                    if inp[j].deq_end <= inp[i].deq_start: # then we do the same for dequeues so each ordering starts at 0
                         nr_fin_before_d +=1
                         #print("ends before", i, j, inp[j].deq_end, inp[i].deq_start)
-                    elif inp[j].deq_start > inp[i].deq_end:
+                    elif inp[j].deq_start >= inp[i].deq_end:
                         #attempt += 1
                         #if attempt > 10000:
                         #    break
@@ -132,7 +132,7 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
 
 def main():
     print(datetime.datetime.now())
-    files = ["2Ddo-n16-d1-w16-l128.csv", "dcbo-n16-d1-w16.csv","faaaq-n16-d1.csv"]
+    files = ["faaaq-n16-d1.csv", "dcbo-n16-d1-w16.csv", "2Ddo-n16-d1-w16-l128.csv"]
     for filename in files:
         ordername = "orders/" + filename +".pkl"
         #print(len(file))
