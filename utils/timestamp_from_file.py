@@ -1,5 +1,10 @@
 import csv
+import sys
+import os
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) # TODO: This is still so cursed. Should maybe try to generalize this.
+sys.path.append(parent_path)
 from utils.timestamp import Timestamp
+sys.path.remove(parent_path)
 
 def get_timestamps_from_file(filename):
     timestamps = dict() ## initiate dict for timestamps
