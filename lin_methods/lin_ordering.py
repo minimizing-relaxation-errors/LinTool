@@ -1,7 +1,7 @@
 from utils.un_pickle import un_pickle
 import random
 
-def ordering_lin(inp, filename):
+def ordering_lin(inp, time_inp):
     #inp = dict()
     #inp = un_pickle(filename)
     ## do a first pass to see "good positions" are just the enq possible positions due to no deq for the item
@@ -80,7 +80,11 @@ def ordering_lin(inp, filename):
     #print("len long after: ", len(long_overlaps))
 
     test(inp, into_dict(nq_index, dq_index))
-    return into_dict(nq_index, dq_index)
+    order_dict  = into_dict(nq_index, dq_index)
+    print("dict done")
+    order_dict = check(order_dict, time_inp, inp)
+    print("check done")
+    return order_dict
 
                     
 
@@ -95,6 +99,37 @@ def assign_one_overlap(shorts, sets, nq_index, dq_index):# -> {sets, non_assigne
                 #move = short_overlap.pop(item[0])
                 sets.update({item})
     return sets, nq_index, dq_index
+
+def check(order, time, inp): ## add check inp for swapable orders.
+    swaps = 1
+    while swaps != 0:
+        swaps = 0
+        sorted_ordering_dict = {k: v for k, v in sorted(order.items(), key=lambda item: item[1][0])} # Sort on enq_order (ascending)
+        keys = list(sorted_ordering_dict.keys())
+        #print(time)
+        #print(keys[0])
+        #print(time[keys[0]])
+        for k in range(len(keys)):
+            for j in range(k, len(keys)):
+                if time[keys[k]].enq_start >= time[keys[j]].enq_end and order[keys[k]][0] in inp[keys[j]][1] and order[keys[j]][0] in inp[keys[k]][1]:
+                    order_swp, order_keep = order[keys[k]][0], order[keys[k]][1]
+                    order.update({keys[k]: (order[keys[j]][0], order_keep)})
+                    order_keep = order[keys[j]][1]
+                    order.update({keys[j]: (order_swp, order_keep)})
+                    swaps+=1
+        no_none = {k:v for k,v in order.items() if v[1] != None}
+        sorted_ordering_dict = {k: v for k, v in sorted(no_none.items(), key=lambda item: item[1][1])}
+        keys = list(sorted_ordering_dict.keys())
+        for k in range(len(keys)):
+            for j in range(k, len(keys)):
+                if time[keys[k]].deq_start >= time[keys[j]].deq_end and order[keys[k]][1] in inp[keys[j]][2] and order[keys[j]][1] in inp[keys[k]][2]:
+                    order_swp, order_keep = order[keys[k]][1], order[keys[k]][0]
+                    order.update({keys[k]: (order_keep, order[keys[j]][1])})
+                    order_keep = order[keys[j]][0]
+                    order.update({keys[j]: (order_keep, order_swp)})
+                    swaps+=1
+    return order
+
 
 def assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index, inp):# -> {no_overlap, nq_index, dq_index}:
     keys = list(split_overlaps) ## only contains split items at this point

@@ -132,7 +132,7 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
 
 def main():
     print(datetime.datetime.now())
-    files = ["faaaq-n16-d1.csv", "dcbo-n16-d1-w16.csv", "2Ddo-n16-d1-w16-l128.csv"]
+    files = ["2Ddo-n4-d1.csv"]
     for filename in files:
         ordername = "orders/" + filename +".pkl"
         #print(len(file))

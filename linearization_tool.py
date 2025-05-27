@@ -43,7 +43,7 @@ class Linearization(Enum):
     Seventyfive = auto()
     LP = auto()
     LPO = auto()
-    TryTwentyFive = auto()
+    MultiProbe = auto()
     Order = auto()
 
 
@@ -159,7 +159,7 @@ if __name__=="__main__":
                 results.append(compute_rank_error(puts, gets))
                 print_data(files, results, Linearization.LP)
             print_time_diff(start_t, end_t)
-        case "try25":
+        case "mulpro":
             start_t = start_time()
             plot = False
             if not plot:
@@ -176,7 +176,7 @@ if __name__=="__main__":
         case "linord":
             inp = un_pickle(filename)
             file = get_timestamps_from_file(filename)
-            ordering_dict = ordering_lin(inp, filename)
+            ordering_dict = ordering_lin(inp, file)
             puts, gets = order_to_timestamp(file, ordering_dict)
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.Order)

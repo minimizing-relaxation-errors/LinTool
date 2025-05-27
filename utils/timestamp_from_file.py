@@ -1,5 +1,6 @@
 import csv
 from utils.timestamp import Timestamp
+#from timestamp import Timestamp
 
 def get_timestamps_from_file(filename):
     timestamps = dict() ## initiate dict for timestamps
