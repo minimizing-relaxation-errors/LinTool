@@ -44,7 +44,7 @@ def ordering_lin(inp, time_inp):
     ## 
     nq_index, dq_index = assign_to_zero(short_overlaps, long_overlaps, no_deqs, nq_index,dq_index, inp, potential_per_nqind, potential_per_dqind)
 
-    # test that no elements are lost in linerazation
+    # test that no elements are lost in linearization
     test(inp, into_dict(nq_index, dq_index))
     # make linearization into dict for further computation
     order_dict  = into_dict(nq_index, dq_index)
