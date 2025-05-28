@@ -206,8 +206,6 @@ def create_overlaps(inp):
 def preassign_no_deqs_at_end(no_deqs, nq_index, dq_index_len): 
     for n in range(dq_index_len, len(nq_index)):
         for item in no_deqs.items():
-            #if item[0] == '149505' or item[0] == '144386' or item[0] == '143113':
-            #    print("❌",item, n)
             if n in item[1] and nq_index[n] == 0:
                 nq_index[n] = item[0]
                 no_deqs.pop(item[0])

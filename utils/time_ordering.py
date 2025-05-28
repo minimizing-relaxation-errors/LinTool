@@ -4,7 +4,6 @@ from timestamp_from_file import get_timestamps_from_file
 import pickle
 
 def ordering_reduction(inp: dict):
-    #inp = dict(sorted(inp.items(), key=lambda x:x[1].enq_start)) # at this point this is kindof useless but it could be used to reduces the number of js we look at (from start untill all overlapped are passed or something)
     reduce = dict() # dict of value and potential indices
     for i in inp.keys(): ## the algorithm is essentially: 
         nr_fin_before_e = 0
@@ -18,9 +17,7 @@ def ordering_reduction(inp: dict):
                 if inp[j].enq_end <= inp[i].enq_start: # how many timestamps of the same typ have ended before our item
                     nr_fin_before_e +=1
                 elif inp[j].enq_start >= inp[i].enq_end: # to get overlapping we see which ones end after
-                    #attempt += 1
-                    #if attempt > 10000:
-                    #    break
+
                     pass
                 else: # and the rest are overlapping and should be included in our count
                     nr_overlap_e +=1
@@ -31,16 +28,11 @@ def ordering_reduction(inp: dict):
                 else: # make sure that both items have been dequeued
                     if inp[j].deq_end <= inp[i].deq_start: # then we do the same for dequeues so each ordering starts at 0
                         nr_fin_before_d +=1
-                        #print("ends before", i, j, inp[j].deq_end, inp[i].deq_start)
                     elif inp[j].deq_start >= inp[i].deq_end:
-                        #attempt += 1
-                        #if attempt > 10000:
-                        #    break
-                        #print("starts after", i, j, inp[j].deq_start, inp[i].deq_end)   
                         pass
                     else: 
                         nr_overlap_d +=1
-                        #print(i, j, nr_overlap_d)
+
                         
 
         enq_ord = [x for x in range(nr_fin_before_e, nr_fin_before_e+ nr_overlap_e+1)] #construct the potential indicies
@@ -135,15 +127,12 @@ def main():
     files = ["Change to name of file"] # also change import in timestamp_from_file.py to commented out one and then back again when running linearizations
     for filename in files:
         ordername = "orders/" + filename +".pkl"
-        #print(len(file))
         file = get_timestamps_from_file(filename)
         red = ordering_reduction(file)
         (feas, num, bmiss, miss) = is_valid_order(red)
         with open(ordername, 'wb') as f:
             pickle.dump(red, f)
-        #print(len(red))
         print(datetime.datetime.now())
-        #print(red)
         print(feas, num, bmiss, miss)
 
 if __name__== "__main__":
