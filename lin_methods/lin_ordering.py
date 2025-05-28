@@ -1,4 +1,8 @@
-from utils.un_pickle import un_pickle
+# algorithm is based on the idea that if the order of enqueu  and dequeu operations is the same 
+# the rank error should be zero. 
+# here we create a total ordering of all items which attempts to assign items at the same position in the 
+# total ordering as far as possible
+
 import random
 
 def ordering_lin(inp, time_inp):
