@@ -16,7 +16,8 @@ from lin_methods.lin_seventyfive import naive_seven_five
 from lin_methods.lin_twentyfive import naive_two_five
 from lin_methods.lin_order_LP import integer_linear_programming
 from lin_methods.lin_window_timestamp_LP import windowed_non_integer_linear_programming
-from lin_methods.lin_try import exhaustive_ratio
+from lin_methods.lin_try import exhaustive_ratio, plot_tries
+from lin_methods.lin_ordering import ordering_lin
 
 from utils.compute_rank_error import compute_rank_error
 from utils.plotting import create_plot, Measurement
@@ -42,7 +43,8 @@ class Linearization(Enum):
     Seventyfive = auto()
     LP = auto()
     LPO = auto()
-    TryTwentyFive = auto()
+    MultiProbe = auto()
+    Order = auto()
 
 
 # Outputs a list of lists
@@ -108,6 +110,7 @@ if __name__=="__main__":
     results = []
     files = [filename]
     match version:
+        # naive solutions start
         case "start":
             start_t = start_time()
             (puts,gets) = naive_start(get_timestamps_from_file(filename))
@@ -131,6 +134,7 @@ if __name__=="__main__":
             (puts, gets) = naive_seven_five(get_timestamps_from_file(filename))
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.Seventyfive)
+        # naive solutions end
         case "lpo": # LP with orders
             timestamps = get_timestamps_from_file(filename)
             start_t = start_time()   
@@ -155,13 +159,27 @@ if __name__=="__main__":
                 results.append(compute_rank_error(puts, gets))
                 print_data(files, results, Linearization.LP)
             print_time_diff(start_t, end_t)
-        case "try25":
+        case "mulpro":
             start_t = start_time()
-            (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename))
+            plot = False
+            if not plot:
+                (puts, gets) = exhaustive_ratio(get_timestamps_from_file(filename), False)
+                results.append(compute_rank_error(puts, gets))
+                print_data(files, results, Linearization.TryTwentyFive)
+            else: 
+                res = exhaustive_ratio(get_timestamps_from_file(filename), plot)
+                plot_tries(res)
             end_t = end_time()
             results.append(compute_rank_error(puts, gets))
             print_data(files, results, Linearization.TryTwentyFive)
             print_time_diff(start_t, end_t)
+        case "linord":
+            inp = un_pickle(filename)
+            file = get_timestamps_from_file(filename)
+            ordering_dict = ordering_lin(inp, file)
+            puts, gets = order_to_timestamp(file, ordering_dict)
+            results.append(compute_rank_error(puts, gets))
+            print_data(files, results, Linearization.Order)
         case _:
             # TODO: could be set in a json file or something
             file_selection = ["faaaq-n16-d10.csv"]
