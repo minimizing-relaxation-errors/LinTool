@@ -30,21 +30,6 @@ def ordering_lin(inp, time_inp):
     potential_per_nqind, potential_per_dqind = pot_per_pos(inp, len(nq_index), len(dq_index))
 
     ## inp contains full possible positions for enq and deq short and long overlap only contain overlap
-    '''for i in inp:
-        #print(inp[i])
-        if 7723 in inp[i][2]:
-            print(inp[i])
-            print("this is the actual key", i)
-            if i in list(split_overlaps):
-                print("split")
-            elif i in list(long_overlaps):
-                print("long")
-            elif i in list(short_overlaps):
-                print("short")
-            elif i in list(no_deqs):
-                print("no deq")
-    '''
-
     ## assign the ones with one case for having the same enq and deq order to be the same index
     nq_index, dq_index = assign_one_overlap(short_overlaps, nq_index, dq_index)
    
