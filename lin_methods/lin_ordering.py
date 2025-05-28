@@ -6,6 +6,7 @@ def ordering_lin(inp, time_inp):
     #inp = un_pickle(filename)
     ## do a first pass to see "good positions" are just the enq possible positions due to no deq for the item
     short_overlaps, long_overlaps, split_overlaps, no_deqs = create_overlaps(inp)
+    ''' ## help print for the structure of the different inputs
     for i in short_overlaps:
         print("short_overlap: ", i, short_overlaps[i], "length: ", len(short_overlaps))
         break
@@ -21,17 +22,13 @@ def ordering_lin(inp, time_inp):
     for i in inp:
         print("inp: ", i, inp[i])
         break
+    '''
     nones = len(no_deqs)
-    ## above here should work as intended
-    #print(inp)
     long_overlaps = dict(sorted(long_overlaps.items(), key=lambda x:len(x[1])))
     nq_index = [0]*len(inp) ## index arrays to keep track of which orders are assigned 0 if not assigned and the key of the dicts otherwise
     dq_index = [0]*(len(inp)-nones)
     potential_per_nqind, potential_per_dqind = pot_per_pos(inp, len(nq_index), len(dq_index))
-    set_orders = dict()
-    half_set_orders = dict()
-    non_assigned = dict()
-    #print(short_overlap)
+
     ## inp contains full possible positions for enq and deq short and long overlap only contain overlap
     '''for i in inp:
         #print(inp[i])
@@ -47,58 +44,39 @@ def ordering_lin(inp, time_inp):
             elif i in list(no_deqs):
                 print("no deq")
     '''
-    set_orders, nq_index, dq_index = assign_one_overlap(short_overlaps, set_orders, nq_index, dq_index)
-    #print("nq_size, one ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
-    #print("dq size ", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index))))
+
+    ## assign the ones with one case for having the same enq and deq order to be the same index
+    nq_index, dq_index = assign_one_overlap(short_overlaps, nq_index, dq_index)
+   
     ## go through long overlap and set enq with none as deq that can be in position of after all deqs.
+    no_deqs, nq_index = preassign_no_deqs_at_end(no_deqs, nq_index, len(dq_index))
 
-    no_deqs, half_set_orders, nq_index, dq_index = preassign_no_deqs_at_end(no_deqs, half_set_orders, nq_index, dq_index)
-    #print("nq_size, nones ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
-    #print("dq size ", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index))))
-    #print(half_set_orders)
     ## add the split elements so we can take care of them after
-    split_overlaps, half_set_orders, nq_index, dq_index = assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index, inp)
-    #print("nq_size, no overlap ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
-    #print("dq size ", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index))))    
-    long_overlaps, half_set_orders, nq_index, dq_index = assign_long_overlap(long_overlaps, half_set_orders, nq_index, dq_index, inp)
-    #print("nq_size, long ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
-    #print("dq size ", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index))))
+    split_overlaps, nq_index, dq_index = assign_no_overlap(split_overlaps, nq_index, dq_index, inp)
+    
+    ## 
+    long_overlaps, nq_index, dq_index = assign_long_overlap(long_overlaps, nq_index, dq_index, inp)
+    ## 
     nq_index, dq_index = assign_to_zero(short_overlaps, long_overlaps, no_deqs, nq_index,dq_index, inp, potential_per_nqind, potential_per_dqind)
-    #print("nq_size, zeroes ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
-    #print("dq size ", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index))))
-    #print("NQ: ", nq_index)
-    #print("DQ: ", dq_index)
-    #print(nq_index[len(dq_index): -1], "\n nq-index ^")
-    #print(dq_index, "\ndq-index^")
-    #print(long_overlaps, "\nlongs ^")
-    #print(no_deqs, "\nno-deqs ^")
-    #print(" the fucky case :",nq_index[8723], dq_index[7723])   
-    #print("nq empty spaces: ", nq_index.count(0), "\n nq total length: ",len(nq_index))
-    #print("dq empty spaces:", dq_index.count(0), "\n dq total length", len(dq_index))
-    #print("len split after: ", len(split_overlaps))
-    #print("len nones after (expected diff in emty nq and dq): ", len(no_deqs))
-    #print("len long after: ", len(long_overlaps))
 
+    # test that no elements are lost in linerazation
     test(inp, into_dict(nq_index, dq_index))
+    # make linearization into dict for further computation
     order_dict  = into_dict(nq_index, dq_index)
-    print("dict done")
+    # Check that all linearization orders are possible with time
     order_dict = check(order_dict, time_inp, inp)
-    print("check done")
     return order_dict
 
                     
 
-def assign_one_overlap(shorts, sets, nq_index, dq_index):# -> {sets, non_assigned, nq_index, dq_index}:# DONE?
+def assign_one_overlap(shorts, nq_index, dq_index):# -> {sets, non_assigned, nq_index, dq_index}:# DONE?
     for item in shorts.items(): 
-        #print(item)
         if item[1][0] == item[1][1]: ## for the ones with one overlapp 
             item_index = item[1][0]
             if nq_index[item_index] == 0 and dq_index[item_index] == 0:
                 nq_index[item_index] = item[0]
                 dq_index[item_index] = item[0]
-                #move = short_overlap.pop(item[0])
-                sets.update({item})
-    return sets, nq_index, dq_index
+    return nq_index, dq_index
 
 def check(order, time, inp): ## add check inp for swapable orders.
     swaps = 1
@@ -106,9 +84,6 @@ def check(order, time, inp): ## add check inp for swapable orders.
         swaps = 0
         sorted_ordering_dict = {k: v for k, v in sorted(order.items(), key=lambda item: item[1][0])} # Sort on enq_order (ascending)
         keys = list(sorted_ordering_dict.keys())
-        #print(time)
-        #print(keys[0])
-        #print(time[keys[0]])
         for k in range(len(keys)):
             for j in range(k, len(keys)):
                 if time[keys[k]].enq_start >= time[keys[j]].enq_end and order[keys[k]][0] in inp[keys[j]][1] and order[keys[j]][0] in inp[keys[k]][1]:
@@ -131,25 +106,19 @@ def check(order, time, inp): ## add check inp for swapable orders.
     return order
 
 
-def assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index, inp):# -> {no_overlap, nq_index, dq_index}:
+def assign_no_overlap(split_overlaps, nq_index, dq_index, inp):# -> {no_overlap, nq_index, dq_index}:
     keys = list(split_overlaps) ## only contains split items at this point
     for i in keys: 
         curr_item = split_overlaps[i]
-        if nq_index[curr_item[0]] == 0 and dq_index[curr_item[1]] == 0: ## try to minimize distance in split items by chosing previous minimal
+        if nq_index[curr_item[0]] == 0 and dq_index[curr_item[1]] == 0: ## try to minimize distance in split items by chosing closest items
             nq_index[curr_item[0]] = i
             dq_index[curr_item[1]] = i
-            move = split_overlaps.pop(i)
-            half_set_orders.update({i: move})
             continue
 
         else: 
             #neither was available 
-            # vet vilka ändar som är närmast
-            # skapa set variabel för enq och deq
-            # skapa enq och deq opts och eventuellt reversa dem så att närmsta ändarna är först
-            # range loop på den längre av dem 
-            # if not set check if enq[j] and deq[j] is available 
-            # when both are set put in half set items and remove from non_assigned.
+            # sort options by closest items
+            # try and assign in order
             found_deq = 0
             found_enq = 0
             enq_opts = inp[i][1]
@@ -172,19 +141,18 @@ def assign_no_overlap(split_overlaps, half_set_orders, nq_index, dq_index, inp):
                             dq_index[d] = i
                             found_deq = d
                 if found_deq != 0 and found_enq != 0:
-                    half_set_orders.update({i: (e,d)})
                     split_overlaps.pop(i)
                     break
-    return split_overlaps, half_set_orders, nq_index, dq_index
+    return split_overlaps, nq_index, dq_index
 
-def splitting_longs(longs, half_set, nq_index, dq_index, inp):
+def splitting_longs(longs, nq_index, dq_index, inp):
     longys = dict()
     keys = longs.keys()
     for k in keys:
         longys.update({k: (longs[k][0], longs[k][0])})
-    return longys, half_set, nq_index, dq_index
+    return longys, nq_index, dq_index
     
-def assign_long_overlap(longs: dict, half_set: dict, nq_index, dq_index, inp):# -> {longs,half_ass, nq_index, dq_index}:
+def assign_long_overlap(longs, nq_index, dq_index, inp):# -> {longs, nq_index, dq_index}:
     keys = list(longs.keys())
     for k in keys:
         is_set = False
@@ -192,19 +160,18 @@ def assign_long_overlap(longs: dict, half_set: dict, nq_index, dq_index, inp):# 
             if nq_index[i] == 0 and dq_index[i] == 0:
                 nq_index[i] = k
                 dq_index[i] = k
-                half_set.update({k: (i,i)})
                 longs.pop(k)
                 set = True
                 break
             else:
                 pass
-    longss, half_set, nq_index, dq_index = splitting_longs(longs, half_set, nq_index, dq_index, inp)
-    longss, half_set, nq_index, dq_index = assign_no_overlap(longss, half_set, nq_index, dq_index, inp)
+    longss, nq_index, dq_index = splitting_longs(longs, nq_index, dq_index, inp)
+    longss, nq_index, dq_index = assign_no_overlap(longss, nq_index, dq_index, inp)
     long = dict()
     for l in longss:
         long.update({l: longs[l]})
 
-    return(long, half_set, nq_index, dq_index)
+    return(long, nq_index, dq_index)
         
 def create_overlaps(inp):# -> {short_overlaps, long_overlaps, nones}: # DONE?
     for i in inp.keys():
@@ -245,17 +212,16 @@ def create_overlaps(inp):# -> {short_overlaps, long_overlaps, nones}: # DONE?
             long_overlaps.update({value: pos})
     return short_overlaps, long_overlaps, split_overlap, nones
 
-def preassign_no_deqs_at_end(no_deqs, half_set_orders, nq_index, dq_index): # DONE?
-    for n in range(len(dq_index), len(nq_index)):
+def preassign_no_deqs_at_end(no_deqs, nq_index, dq_index_len): # DONE?
+    for n in range(dq_index_len, len(nq_index)):
         for item in no_deqs.items():
             #if item[0] == '149505' or item[0] == '144386' or item[0] == '143113':
             #    print("❌",item, n)
             if n in item[1] and nq_index[n] == 0:
-                half_set_orders.update({item[0]: (n, None)})
                 nq_index[n] = item[0]
                 no_deqs.pop(item[0])
                 break
-    return no_deqs, half_set_orders, nq_index, dq_index
+    return no_deqs, nq_index
 
 def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, pot_per_dq):
     keys = list(shorts.keys()) + list(longs.keys()) + list(no_deq.keys()) 
@@ -272,29 +238,24 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
     #print(potentials) 
     no_pots = []
     for p in potentials:
-        #print(p)
-        #if nq_index[p[0]] == 0:
-        #    pass
         if len(p) == 1:
             no_pots.append(p[0])
         if len(p) > 1:
-            #print("☠️",p)
             min = 1000
             item = None
             for i in p[1:]:
-                #print("🔥🔥🔥 ",inp[i])
                 if len(inp[i][1]) < min:
                     min = len(inp[i][1])
                     item = i
             if not item in nq_index:
                 nq_index[p[0]] = item
             keys.remove(item)
+            # go through and assign one of them removing the potential from all other lists in the datastructure         
             for q in range(len(potentials)):
                 if item in potentials[q]:
                     potentials[q].remove(item)
-            # go through and assign one of them removing the potential from all other lists in the datastructure         
-    print("no free enq-options: ", len(no_pots))
-    print("nq_size, in zeroes: ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
+    #print("no free enq-options: ", len(no_pots))
+    #print("nq_size, in zeroes: ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
     potentials = []
     for d in range(len(dq_index)):
         could_fits = []
@@ -305,11 +266,8 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
                     could_fits.append(k)
         potentials.append(could_fits)
     potentials.sort(key=len)
-    #print(potentials)
     no_pots = []
     for p in potentials:
-        #if nq_index[p[0]] != 0:
-        #    pass
         if len(p) == 1:
             no_pots.append(p[0])
         if len(p) > 1:
@@ -325,8 +283,8 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
             for q in range(len(potentials)):
                 if item in potentials[q]:
                     potentials[q].remove(item)
-    print("no free deq-options: ", len(no_pots))
-    print("dq size, in zeroes", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index))))
+    #print("no free deq-options: ", len(no_pots))
+    #print("dq size, in zeroes", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index))))
     while not (nq_index.count(0) == 0 and dq_index.count(0) == 0):
         for n in range(len(nq_index)):
             if nq_index[n] == 0:
@@ -356,11 +314,8 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
                     ind = dq_index.index(item)
                     dq_index[ind] = 0 
                     dq_index[d] = item
-    print("nq_size, in zeroes last ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
-    print("dq size ", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index))))
-
-## if one is free, assign that 
-## else unassign one poss with most options? at random? 
+    # print("nq_size, in zeroes last ", len(list(filter(lambda a: a != 0, nq_index))) == len(set(filter(lambda a: a != 0, nq_index))))
+    # print("dq size ", len(list(filter(lambda a: a != 0, dq_index))) == len(set(filter(lambda a: a != 0, dq_index)))) 
     return nq_index, dq_index
 
 # create lists of lists where the list at a certain index corresponds to all of the items that could go in that index in the ordering
@@ -374,15 +329,14 @@ def pot_per_pos(inp, num_nq, num_dq):
     for k in inp.keys():
         for n in inp[k][1]:
             nq[n].append(k)
-        for d in inp[k][2]:# Dequeues kan va none Opps
+        for d in inp[k][2]:
             if d != None:
                 dq[d].append(k)
             else: pass
     return nq, dq
 
-
-
-def into_dict(nq_index, dq_index): # nq_index and dq_index into shape of dictionary required from "get timestamp from order" function.
+# nq_index and dq_index into shape of dictionary required from "get timestamp from order" function.
+def into_dict(nq_index, dq_index): 
     dic = dict()
 
     for n in range(len(nq_index)):
@@ -392,7 +346,8 @@ def into_dict(nq_index, dq_index): # nq_index and dq_index into shape of diction
         if nq_index[n] not in dic.keys():
             dic.update({nq_index[n]: (n, None)})
     return dic
-    
+
+
 def test(inp, dic):
     for d in dic.keys():
         if not dic[d][0] in inp[d][1]:
@@ -401,77 +356,4 @@ def test(inp, dic):
             print("dq: ",d, ": ", dic[d], inp[d])
     if not len(inp) == len(dic):
         print("wrong size, elements lost")
-
-
-'''
-        #populate the split ones 
-        else: 
-            temp_temp = dict()
-            for value in sort.keys():
-                if n in sort[value][0]: ## handle somehow that split keys are also taken. (index array?)
-                    temp_temp.update({value: sort[value]})
-                else: continue
-            temp_temp = dict(sorted(inp.items(), key=lambda x:len(x[1][0])))
-    
-'''
-
-''' def actual_run(inp):
-    shorts, longs, no_deqs = create_overlaps(inp)
-    nones = len(no_deqs)
-    longs = sort(longs by len of overlap)
-    no_deqs = sort(no_deqs by len of overlap)
-    nq_index = [0]*len(inp)
-    dq_index = [0]*(len(inp) - nones)
-    sets = dict()
-    half_set = dict()
-    non_assigned = dict() #the ones you couldn't set in some function
-
-    pre_assign_nones(nones, halfset, nq, dq) 
-    assign_ones(shorts, sets, nq, dq) # should be first to be optimal
-
-    assign_splits() ## cant unassign because that could split 
-    assign_longs()
-    assign_nones()
-
-def assign_longs():
-    for item in longs.item()
-        kicked = item
-        num = 0
-        while kicked != None and num < 30 # perhaps 
-            kicked = assign_long(kicked, half_sets): # kicked is an item that has to be reassigned to 
-            num += 1
-        if num >= 30 
-            non_assigned.uppdate(kicked)
-
-
-def assign_long(item):
-    for pos in item[1]:
-        if nq_index[pos] and dq_index[pos] == 0:
-            half_set.updat(item)
-            nq_ = item.key()
-            dq_ = item.key()
-            return None
-    min = 1000
-    nq, dq = None
-    for n in nq_[pos[0], pos[-1]]
-        if n == 0:
-            for d in dq[pos[], pos[-1]]
-                if d == 0:
-                    if abs(n-d) < min:
-                        nq = n
-                        dq = d
-                        min = abs(n-d)
-    if nq and dq != None:
-        half_set.updat(item)
-            nq_ = item.key()5
-            dq_ = item.key()
-            return None
-    else: 
-        get inp of vals in range poss who share position. (vals can be gotten from nq and dq)
-        sort by length reverse
-        kick the one with most options 
-        assign item to that position.
-            set nq and dq
-
-'''
 
