@@ -38,7 +38,7 @@ def test_timestamp_dict(e_decided_timestamps: dict, d_decided_timestamps: dict, 
     unique_timestamps = set(all_timestamps)
     if len(all_timestamps) != len(unique_timestamps):
         tests_passed = False
-        out_str += "Mutiple timestamps.\n"
+        out_str += "Mutiple timestamps: " + str(abs(len(all_timestamps)-len(unique_timestamps))) + "\n"
 
     out_str += ("Enqueue not within interval (op values): " + str(enq_not_within_interval) + "\n" +
                 "Dequeue not within interval (op values): " + str(deq_not_within_interval) + "\n" +

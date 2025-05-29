@@ -7,13 +7,6 @@ import sys
 import datetime
 from enum import Enum, auto 
 
-# Adds parent path to sys.path to enable importing script from neighbouring folder
-# parent path is then removed to ensure relative paths can be used for later imports or file references
-parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(parent_path)
-from tests.test_timestamp_dict import test_timestamp_dict
-sys.path.remove(parent_path)
-
 class Op(Enum):  # TODO: Maybe move out
     Enq = auto()
     Deq = auto()
@@ -31,22 +24,24 @@ order_data = {}         # dictionary of item:[enq_order, deq_order] TODO: Should
 def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stopping_criteria):
     original_last_timestamp = get_total_last_timestamp(start_end_timestamps)
     init_lin(start_end_timestamps, existing_lin, original_last_timestamp)
-    init_order_data()
 
     ###### Optimize enqueue linearization points
     init_overlapping(Op.Enq, start_end_timestamps)
     start_t = datetime.datetime.now() # Start timing first iteration
     pot_swaps = init_pot_swaps(start_end_timestamps, Op.Enq) # pot_swaps is item1:[(item2, re_imp)]
 
+    out_str = ""
+
     # TODO: Should probably remove or comment this out after we have run benchmarks (time-consuming)
     # Check and print to file how many potentially affected items there are 
+    '''init_order_data()
     nr_items_between_both_enq_deq(pot_swaps) 
-    out_str = "Number of items between both deq and enq: " + str(items_between_both_enq_deq) + " distributed over " + str(pairs_with_problematic_items_between) + " pairs\n"
+    out_str += "Number of items between both deq and enq: " + str(items_between_both_enq_deq) + " distributed over " + str(pairs_with_problematic_items_between) + " pairs\n"
     nr_pot_swaps = 0
     for item1, list1 in pot_swaps.items():
         for item2, re_imp in list1:
             nr_pot_swaps += 1
-    out_str += "Number of potential swaps: " + str(nr_pot_swaps) + "\n\n"
+    out_str += "Number of potential swaps: " + str(nr_pot_swaps) + "\n\n"'''
 
     out_str += "ENQUEUE OPTIMIZATION \n"
     count = 0
@@ -214,9 +209,9 @@ def swap_items(item1, item2, op_type):
             lin[item2][0] = item1_enq
             # Update order_data to match new enqueue indices 
             # NOTE: order_data only used for checking items between, not actual computations
-            item1_e_ind = order_data[item1][0]
+            '''item1_e_ind = order_data[item1][0]
             order_data[item1][0] = order_data[item2][0]
-            order_data[item2][0] = item1_e_ind
+            order_data[item2][0] = item1_e_ind'''
         case Op.Deq:
             # Swap dequeue timestamp
             item1_deq = lin[item1][1]
@@ -224,9 +219,9 @@ def swap_items(item1, item2, op_type):
             lin[item2][1] = item1_deq
             # Update order_data to match new dequeue indices 
             # NOTE: order_data only used for checking items between, not actual computations
-            item1_d_ind = order_data[item1][1]
+            '''item1_d_ind = order_data[item1][1]
             order_data[item1][1] = order_data[item2][1]
-            order_data[item2][1] = item1_d_ind
+            order_data[item2][1] = item1_d_ind'''
 
 # Updates pot_swap[item_a] with the pot_swap[item_b] and swaps out its own occurence with item_b 
 # Returns updated pot_swaps
