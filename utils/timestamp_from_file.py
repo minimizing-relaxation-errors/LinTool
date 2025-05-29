@@ -1,7 +1,13 @@
 import csv
+import sys
+import os
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) # TODO: This is still so cursed. Should maybe try to generalize this.
+sys.path.append(parent_path)
 from utils.timestamp import Timestamp
-#from timestamp import Timestamp
+sys.path.remove(parent_path)
 
+# Takes as input <filename>
+# Obtains timestamps from a timestamp file and outputs it as a dictionary item:Timestamp
 def get_timestamps_from_file(filename):
     timestamps = dict() ## initiate dict for timestamps
     with open("timestamps/" + filename, newline='') as csvfile:
@@ -21,4 +27,22 @@ def get_timestamps_from_file(filename):
                             time.update_deq(int(row[3]), int(row[4])) ## update timestamp with deq timestamps
                             timestamps.update({row[1]: time}) ## update dict with all timestamps
                         else: timestamps.update({row[1]: Timestamp(None, None, int(row[3]), int(row[4]))})
+    return timestamps
+
+# Takes input <filename>
+# Uses data from a .csv linearization file
+# Outputs timestamps as item:[enq_timestamp, deq_timestamp]
+def get_existing_lin(filename):
+    timestamps = dict() ## initiate dict for timestamps
+    with open("current_linearization_results/" + filename, newline='') as csvfile:
+                filereader = csv.reader(csvfile)
+                for row in filereader:
+                    if row[2] == 'PUT':
+                        if row[1] in timestamps.keys():
+                            timestamps[row[1]][0] = int(row[3])
+                        else: timestamps[row[1]] = [int(row[3]), None] 
+                    elif row[2] == 'GET':
+                        if row[1] in timestamps.keys():
+                            timestamps[row[1]][1] = int(row[3])
+                        else: timestamps[row[1]] = [None, int(row[3])]
     return timestamps

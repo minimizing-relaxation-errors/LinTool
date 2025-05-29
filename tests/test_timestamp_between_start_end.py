@@ -1,5 +1,8 @@
 # Script to test two timestamp files against each other
-# One has start- and end times fpr each operation and the other only has a single timestamp per operation
+# One has start- and end times for each operation and the other only has a single timestamp per operation
+
+# NOTE: Was used during development of ordering-to-timestamp functionality.
+#       It is not necessary to run this on created linearizations.
 
 import csv
 
@@ -24,7 +27,7 @@ def test_timestamp_between_start_end(start_end, single):
     return (values_before, values_after, non_matching_values)
 
 if __name__=="__main__":
-    timestamp_filenames = ["dcbo-timestamps-196790479664.csv"]
+    timestamp_filenames = ["short-10000-dcbo-n16-d1-w16.csv"]
     first_foldername = "timestamps"
     second_foldername = "current_linearization_results"
 
