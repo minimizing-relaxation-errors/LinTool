@@ -109,10 +109,7 @@ if __name__=="__main__":
             ordering = un_pickle("orders", filename)
             decided_ordering_dict = integer_linear_programming(ordering)    
             method = Linearization.ILP
-            try:
-                (puts, gets) = order_to_timestamp(operation_intervals, decided_ordering_dict)    # May throw exception
-            except Exception as e:
-                sys.exit("Exception raised in order_to_timestamp: ", e) # Not tested
+            (puts, gets) = order_to_timestamp(operation_intervals, decided_ordering_dict)    # May throw exception
         case "lp":
             (puts, gets) = windowed_linear_programming(operation_intervals, 300, 300)
             method = Linearization.LP
@@ -133,14 +130,11 @@ if __name__=="__main__":
             out_str += ("Max number of iterations: " + str(nr_iterations) + 
                         "\nNumber of swaps stopping critera: " + str(nr_swaps_stopping_criteria))
         case "linord":
-            inp = un_pickle("orders", filename)
+            ordering = un_pickle("orders", filename)
             file = get_timestamps_from_file(filename)
-            ordering_dict = ordering_lin(inp, file)
+            decided_ordering_dict = ordering_lin(ordering, file)
             method = Linearization.Order
-            try:
-                puts, gets = order_to_timestamp(file, ordering_dict)
-            except Exception as e:
-                sys.exit("Exception raised in order_to_timestamp: ", e) # Not tested
+            puts, gets = order_to_timestamp(file, decided_ordering_dict)
     end_t = datetime.datetime.now()
     print(end_t)
     time_diff_str = get_time_diff(start_t, end_t)
