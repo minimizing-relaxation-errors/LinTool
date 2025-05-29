@@ -7,11 +7,9 @@ sys.path.append(parent_path)
 from linearization_tool import get_existing_lin, get_timestamps_from_file
 sys.path.remove(parent_path)
 
-
 # NOTE: This script assumes that there exists 
-#       1) an existing long interval file named <filename>
-#       2) a short interval file named "short-nr_items-filename" (in folder "timestamps")
-#       3) an existing linearization file named <filename>
+#       1) a short interval file named "short-nr_items-filename" (in folder "timestamps")
+#       2) an existing longer linearization file named <filename> (in folder "current_linearization_results")
 
 # Takes from command line: <file name> <desired nr of items>
 # Creates another .csv file (in current_linearization_results) named "short-nr_items-filename"

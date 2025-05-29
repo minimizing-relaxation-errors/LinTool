@@ -1,5 +1,8 @@
 # Script to test two timestamp files against each other
-# One has start- and end times fpr each operation and the other only has a single timestamp per operation
+# One has start- and end times for each operation and the other only has a single timestamp per operation
+
+# NOTE: Was used during development of ordering-to-timestamp functionality.
+#       It is not necessary to run this on created linearizations.
 
 import csv
 

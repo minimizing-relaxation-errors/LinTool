@@ -1,8 +1,10 @@
 import cvxpy as cp
 import numpy as np
-from tests.test_order_dict import test_if_valid
 
-# NOTE: This integer linear programming script works for at most ~10 input. And it is not a windowed solution.
+# An integer programming solution utilizing ordering representation of intervals
+# Each CVXPY variable corresponds to "if an operation is in the potential position"
+
+# NOTE: This integer programming script works for at most ~10 input. And it is not a windowed solution.
 # NOTE: There are two known issues. 
 #       1)  (Problem occurred when it was implemented as a windowed solution) 
 #           Since it simply assigns orders for operations in early subproblems and removes those orders from 
@@ -11,6 +13,7 @@ from tests.test_order_dict import test_if_valid
 #       2)  It can assign a total order which is not possible to convert to a timeline, 
 #           due to operations early in the order having late start timestamps, which may lay 
 #           after the end timestamps of oeprations later in the order. 
+#           (Think we found a solution to this in the ordering linearization method)
 
 # Expects an array A with n rows and m columns, outputs an array A with m rows and n columns
 # Expects rows in A to be cvxpy-variables
@@ -24,19 +27,19 @@ def transpose(A):
             transposed_A[j][i] = A[i][j]
     return transposed_A
 
-# Expects as input: timestamp dict
-# Returns: a dict of operation values and tuples of enq and deq timestamps (linearization points)
+# Expects as input: order dict as item:([potential enq orderings], [potential deq orderings])
+# Returns: a dict of decided orders as item:(decided enq order, decided deq order)
 def integer_linear_programming(inp: dict):
 
     # Parsing to handle None values
     total_length = len(inp)
     parsed_inp = {}
     count = 0
-    for (key, (v1,v2)) in inp.items():
+    for (item, (v1,v2)) in inp.items():
         if None in v2: 
-            parsed_inp[key] = (v1,[total_length+count]) # Add order after those actually available. Orders are zero indexed. 
+            parsed_inp[item] = (v1,[total_length+count]) # Add order after those actually available. Orders are zero indexed. 
             count += 1
-        else: parsed_inp[key] = (v1, v2)
+        else: parsed_inp[item] = (v1, v2)
 
     parsed_inp_list = list(parsed_inp.values())
 
@@ -44,24 +47,17 @@ def integer_linear_programming(inp: dict):
     deq_order_list = [parsed_inp_list[x][1] for x in range(0, len(parsed_inp_list))]
     nr_enqs = len(enq_order_list)
 
-    # Create sets to flatten the lists of lists into two set, which excludes duplicates
-    enq_order_set = set()
-    deq_order_set = set()
-    for i in range(0, nr_enqs):
-        enq_order_set.update(enq_order_list[i])
-        if deq_order_list[i] != None:                  # If deq list nonexistant, don't include. Shouldn't happen.
-            #print("Dequeue list non-existant. Execution continues but Dequeue None values are not handled correctly.") TODO: Remove
-            deq_order_set.update(deq_order_list[i])
-
-    # Array with potential orders (sorted, no duplicates)
-    all_enq_orders = np.array(sorted(list(enq_order_set)))  # Cursed
-    all_deq_orders = np.array(sorted(list(deq_order_set)))
+    # Array with all available potential orders
+    # Assumes that the previous parsing to exclude dequeue Nones have been done
+    all_enq_orders = np.array([x for x in range(0,len(enq_order_list))])
+    all_deq_orders = np.array([x for x in range(0,len(deq_order_list))])
 
     ######### CREATE CVXPY VARIABLES
+    # Enqueue and dequeue variables for each operation value
+    # Each CVXPY variable corresponds to "if an operation is in the potential position"
+    # There is one CVXPY variable per existing position and operation
     E = []
     D = []
-    # Enqueue and dequeue variables for each operation value
-    # As many CVXPY variables as there are potential positions for each operation
     for i in range(0, nr_enqs):            
         E.append(cp.Variable(len(all_enq_orders), integer=True))
         D.append(cp.Variable(len(all_deq_orders), integer=True))
@@ -105,15 +101,15 @@ def integer_linear_programming(inp: dict):
     
     ######### DEFINE AND SOLVE PROBLEM
     problem=cp.Problem(objective_function, constraints=constraints)
-    problem.solve(solver=cp.SCIP,verbose=True)
+    problem.solve(solver=cp.SCIP) # Can set verbose=True for more thorough solver information
 
     ######### OUTPUT THE SOLUTION
     solution = {}
     for i,k in enumerate(parsed_inp):
         current_enq = int(np.dot(E[i].value, all_enq_orders))
         current_deq = int(np.dot(D[i].value, all_deq_orders))
+        if current_deq >= total_length:
+            current_deq = None
         solution[k] = (current_enq, current_deq)
-
-    test_if_valid(parsed_inp, solution) # TODO: Perhaps this should be called from linearization_tool to centralize the testing 
 
     return solution

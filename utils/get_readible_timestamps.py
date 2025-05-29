@@ -3,8 +3,8 @@ import math
 from timestamp_from_file import get_timestamps_from_file, get_existing_lin
 
 def shorten(timestamp, first_timestamp):
-    div = 1000 # Defines format of time unit as milliseconds (assuming input in nanoseconds)
-    return (timestamp - first_timestamp) / div
+    div = 1000
+    return (timestamp - first_timestamp) / div # Milliseconds (given input in nanoseconds)
 
 # Returns interval dict item:(enq_start, enq_end, deq_start, deq_end) and item:(enq, deq)
 # with smaller numbers. Returns None for None deq_start/deq_end.

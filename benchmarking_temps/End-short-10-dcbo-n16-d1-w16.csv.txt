@@ -1,0 +1,13 @@
+
+
+
+Linearization method: End
+File name: short-10-dcbo-n16-d1-w16.csv
+Number of put operations: 10
+Number of get operations: 10
+Max rank error: 7
+Total rank error: 20
+Mean rank error: 2.0
+Rank error variance: 5.78
+PASSED All timestamp tests passed!
+Time: 0.0 minutes

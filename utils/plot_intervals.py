@@ -3,6 +3,10 @@ import numpy as np
 import sys
 from get_readible_timestamps import compress_timestamps
 
+# Generates a plot of intervals and linearization points within the intervals for all items in a file
+# Expects filename as input
+# Requires that both a timestamp and linearization file exists with name filename
+# Recommended to plot files with at most 50 items... after that it becomes hard to read
 def plot_intervals(filename):
     (intervals, lin) = compress_timestamps(filename)
         
@@ -12,8 +16,7 @@ def plot_intervals(filename):
     fig.set_figwidth(10)
     fig.set_figheight(3)
 
-    #axis.figure(figsize=(15,3))
-    sorted_item_list = [str(i) for i in sorted([int(x) for x in intervals.keys()])] # TODO: This is not great
+    sorted_item_list = [str(i) for i in sorted([int(x) for x in intervals.keys()])]
     
     nr_items = len(sorted_item_list)
     print("Nr items: ", nr_items)

@@ -1,6 +1,5 @@
 # SCRIPT DESCRIPTION
-# Takes two dictionaries containing values : timestamps pairs
-# puts is a dict of enqueues, gets is a dict of dequeues
+# Takes puts dictionary {item:enq_point} and gets dictionary {item:deq_point}
 # Assumes gets do not include None (simply do not include the dequeue if it is None)
 
 def compute_rank_error(puts, gets):
@@ -16,14 +15,13 @@ def compute_rank_error(puts, gets):
 	
 	rank_error_list = []
 	
-	for deq_val, deq_timestamp in gets_sorted.items():
+	for deq_val in gets_sorted.keys():
 		rank_error = 0
 
-		for enq_val, enq_timestamp in puts_sorted.items():
+		for enq_val in puts_sorted.keys():
 			if deq_val != enq_val: 
 				rank_error += 1
 			else: 
-				#enq_start_index += 1
 				puts_sorted.pop(enq_val)
 				break
 

@@ -3,7 +3,7 @@ import cvxpy as cp
 import numpy as np
 from utils.timestamp import Timestamp
 
-# A non-integer linear programming script
+# A linear programming script
 # Here, CVXPY variables represent enq and deq timestamps respectively
 # These are set by CVXPY, when optimizing over an objective function
 
@@ -18,11 +18,9 @@ def get_last_timestamp(inp: dict):
     return last_timestamp
 
 # This is the main function to be called from other files when running this linearization method
-# Takes as input: TIMESTAMP dict (of whole problem), span and step
-# Returns: two dicts puts and gets, which link keys (operation value) to decided timestamp (linearization point)
-def windowed_non_integer_linear_programming(inp: dict, span, step):
-    diff = span - step # assumes span >= step
-
+# Takes as input: timestamp dict (of whole problem), span and step
+# Returns: two dicts puts {item: enq_point} and gets {item: deq_point}
+def windowed_linear_programming(inp: dict, span, step):
     # Parsing timestamp dict to handle None values (set those timestamps past the last timestamp)
     original_last_timestamp = get_last_timestamp(inp)
     last_timestamp = original_last_timestamp
@@ -42,7 +40,7 @@ def windowed_non_integer_linear_programming(inp: dict, span, step):
         end = start+step
         if(end > total_length): end = total_length
         subset_list_values = [list_values[x] for x in range(start, end)]
-        (partial_enq_solution, partial_deq_solution) = non_integer_linear_programming(subset_list_values) # Must maintain order in lists
+        (partial_enq_solution, partial_deq_solution) = linear_programming(subset_list_values) # Must maintain order in lists
         complete_enq_solution.extend(partial_enq_solution)
         complete_deq_solution.extend(partial_deq_solution)
         
@@ -77,11 +75,11 @@ def get_total_interval(inp, type):
     
     return (earliest_start, latest_end)
 
-# This is a "generic" non integer linear programming function
+# A linear programming function
 # NOTE: Assumes all enqueues have dequeues
 # Takes as input: list of timestamp objects (of partial problem)
 # Returns: Two lists of decided timestamps (linearization points). For enq/deq respectively.
-def non_integer_linear_programming(inp_list):
+def linear_programming(inp_list):
 
     ######### CREATE CVXPY VARIABLES
     nr_input = len(inp_list)
@@ -127,13 +125,3 @@ def non_integer_linear_programming(inp_list):
     decided_deq_timestamp = [round(x.value, 0) for x in deq_var]
     
     return (decided_enq_timestamp, decided_deq_timestamp)
-
-test = {
-    1: Timestamp(301, 308, 312, 318),
-    2: Timestamp(303, 311, 313, 317),
-    3: Timestamp(306, 312, 315, 320),
-    4: Timestamp(310, 315, 319, 322)
-}
-
-if __name__=="__main__":
-    windowed_non_integer_linear_programming(test, 13, 13)

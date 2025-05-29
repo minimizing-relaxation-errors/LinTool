@@ -6,6 +6,8 @@ sys.path.append(parent_path)
 from utils.timestamp import Timestamp
 sys.path.remove(parent_path)
 
+# Takes as input <filename>
+# Obtains timestamps from a timestamp file and outputs it as a dictionary item:Timestamp
 def get_timestamps_from_file(filename):
     timestamps = dict() ## initiate dict for timestamps
     with open("timestamps/" + filename, newline='') as csvfile:
@@ -27,7 +29,8 @@ def get_timestamps_from_file(filename):
                         else: timestamps.update({row[1]: Timestamp(None, None, int(row[3]), int(row[4]))})
     return timestamps
 
-# Takes input from a .csv timestamp file with a single timestamp per operation
+# Takes input <filename>
+# Uses data from a .csv linearization file
 # Outputs timestamps as item:[enq_timestamp, deq_timestamp]
 def get_existing_lin(filename):
     timestamps = dict() ## initiate dict for timestamps

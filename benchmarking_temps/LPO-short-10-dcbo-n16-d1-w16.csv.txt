@@ -1,0 +1,13 @@
+
+
+
+Linearization method: LPO
+File name: short-10-dcbo-n16-d1-w16.csv
+Number of put operations: 10
+Number of get operations: 10
+Max rank error: 5
+Total rank error: 15
+Mean rank error: 1.5
+Rank error variance: 4.5
+PASSED All tests passed!
+Time: 0.003636 minutes

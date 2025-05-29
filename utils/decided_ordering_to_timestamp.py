@@ -2,6 +2,7 @@
 # Expects ordering dict of form: {value: enq order, deq order}
 # Outputs two dictionaries, one for enq and one for deq, each of the form {value : timestamp}
 # NOTE: There is no guarantee that there will be an output. May cast exception due to selected ordering that is inputted here.
+# TODO: Test that all timestamps are unique (see test in test_timestamp_dict). Rounding problems for increase 0.01 instead of 1.
 def order_to_timestamp(timestamp_dict: dict, ordering_dict: dict):
 
     gets = {}
@@ -28,11 +29,11 @@ def order_to_timestamp(timestamp_dict: dict, ordering_dict: dict):
 
         # TODO: Marge Idas solution for considering Dequeue Nones
 
-        d_lin = latest_timestamp + 0.01
+        d_lin = latest_timestamp + 1
         if d_start > d_lin: 
             d_lin = d_start
         if puts[key] > d_lin: 
-            d_lin = puts[key] + 0.01
+            d_lin = puts[key] + 1
         if d_lin > d_end: 
             raise Exception("Error: Incorrect timestamp or ordering dict")
         latest_timestamp = d_lin

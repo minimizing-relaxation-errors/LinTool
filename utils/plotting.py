@@ -9,10 +9,11 @@ class Measurement(Enum):
     Max = auto()
     Variance = auto()
 
-# rank_error_type: Measurement
-# file_selection: list of files which has been used to compile the results
-# all_results: list of lists of computation results (one list of results per lin method)
-# lin_method: string to be displayed in plot
+# NOTE: THIS IS KIND OF DEPRECATED
+# TODO: NEEDS TO BE FIXED TO ENABLE MANUAL INPUT FOR PLOTTING
+#       The script was previously used to plot bar plots for different methods and files
+#       Not sure we want to use it any more
+
 def create_plot(rank_error_type: Measurement, file_selection, all_results, all_lin_methods):
 
     fig, ax = plt.subplots(figsize=(8, 4), constrained_layout=True) # constrained_layout ensures everything (legend) fits within the window
