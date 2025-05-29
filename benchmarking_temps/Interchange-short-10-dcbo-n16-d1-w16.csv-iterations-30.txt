@@ -25,4 +25,4 @@ Total rank error: 20
 Mean rank error: 2.0
 Rank error variance: 5.78
 PASSED All timestamp tests passed!
-Time: 0.00012031666666666667 minutes
+Time: 0.0 minutes

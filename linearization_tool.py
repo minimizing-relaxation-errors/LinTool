@@ -29,8 +29,9 @@ from lin_methods.lin_seventyfive import naive_seven_five
 from lin_methods.lin_twentyfive import naive_two_five
 from lin_methods.lin_ILP import integer_linear_programming
 from lin_methods.lin_window_LP import windowed_linear_programming
-from lin_methods.lin_try import exhaustive_ratio
+from lin_methods.lin_try import exhaustive_ratio, plot_tries
 from lin_methods.lin_interchange import interchange
+from lin_methods.lin_ordering import ordering_lin
 
 from utils.compute_rank_error import compute_rank_error
 from utils.un_pickle import un_pickle
@@ -54,8 +55,9 @@ class Linearization(Enum):
     Seventyfive = auto()
     LP = auto()
     ILP = auto()
-    TryTwentyFive = auto()
     Interchange = auto()
+    MultiProbe = auto()
+    Order = auto()
 
 # Returns readible string of the results
 def get_print_data(filename, results, lin_method: Linearization):
@@ -114,9 +116,14 @@ if __name__=="__main__":
         case "lp":
             (puts, gets) = windowed_linear_programming(operation_intervals, 300, 300)
             method = Linearization.LP
-        case "try25":
-            (puts, gets) = exhaustive_ratio(operation_intervals)
-            method = Linearization.TryTwentyFive
+        case "mulpro":
+            plot = False
+            if not plot:
+                (puts, gets) = exhaustive_ratio(operation_intervals, False)
+                method = Linearization.MultiProbe
+            else:
+                res = exhaustive_ratio(get_timestamps_from_file(filename), plot)
+                plot_tries(res)
         case "interchange":
             nr_iterations = 30
             nr_swaps_stopping_criteria = 10
@@ -125,6 +132,15 @@ if __name__=="__main__":
             output_file_name = str(Linearization.Interchange.name) + "-" + filename + "-iterations-" + str(nr_iterations)
             out_str += ("Max number of iterations: " + str(nr_iterations) + 
                         "\nNumber of swaps stopping critera: " + str(nr_swaps_stopping_criteria))
+        case "linord":
+            inp = un_pickle("orders", filename)
+            file = get_timestamps_from_file(filename)
+            ordering_dict = ordering_lin(inp, file)
+            method = Linearization.Order
+            try:
+                puts, gets = order_to_timestamp(file, ordering_dict)
+            except Exception as e:
+                sys.exit("Exception raised in order_to_timestamp: ", e) # Not tested
     end_t = datetime.datetime.now()
     print(end_t)
     time_diff_str = get_time_diff(start_t, end_t)
