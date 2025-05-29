@@ -101,8 +101,8 @@ Note that linearization methods assume certain data files exist, according to th
 
 | File type             | Method    |
 | --------              | -------   |
-| Timestamp file        | End<br>Mid<br>Start<br>SeventyFive<br>TwentyFive<br>MultiProbe<br>LP<br>Interchange    |
+| Timestamp file        | End<br>Mid<br>Start<br>SeventyFive<br>TwentyFive<br>MultiProbe<br>LP<br>Interchange<br>Ordering method    |
 | Linearization file    | Interchange     |
-| Ordering file         | ILP<br>(the final ordering method)    |
+| Ordering file         | ILP<br>Ordering method    |
 
 
