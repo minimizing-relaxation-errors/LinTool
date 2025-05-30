@@ -1,4 +1,0 @@
-Total rank error from linearization points: 236119467
-Max rank error from linearization points: 1850
-Mean rank error from linearization points: 570.688388
-Rank error variance from linearization points: 163756.635583
