@@ -132,7 +132,8 @@ def is_valid_order(inp: dict): ## takes in reduced dict as returned from orderin
 
 def main():
     print(datetime.datetime.now())
-    files = ["short-10-dcbo-d2-n32-w32-c2_1.csv", "short-10-faaaq-d2-n32_1.csv"] # also change import in timestamp_from_file.py to commented out one and then back again when running linearizations
+    files = ["2ddo-d10-n64-w128-l32_2.csv"] # also change import in timestamp_from_file.py to commented out one and then back again when running linearizations
+
     for filename in files:
         ordername = "orders/" + filename +".pkl"
         file = get_timestamps_from_file(filename)
