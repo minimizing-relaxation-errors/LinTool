@@ -3,8 +3,13 @@ def naive_end(inp: dict):
     gets = dict()
     for i in inp:
         timestamp = inp[i]
-        puts.update({i: timestamp.enq_end})
-        if timestamp.deq_end != None:
-            gets.update({i: timestamp.deq_end})
+        enq_s = timestamp.enq_start
+        deq_s = timestamp.deq_start
+        enq_e = timestamp.enq_end
+        deq_e = timestamp.deq_end
+        if deq_e != None:
+            if enq_e >= deq_e and deq_e > enq_s: enq_e = deq_e - 1
+            gets.update({i: deq_e})
+        puts.update({i: enq_e})
 
     return (puts,gets)

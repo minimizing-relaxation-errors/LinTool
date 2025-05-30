@@ -8,11 +8,12 @@ def try_num(inp: dict, num):
     gets = dict()
     for i in inp.keys():
         timestamp = inp[i]
-        stamp = timestamp.enq_start + (timestamp.enq_end - timestamp.enq_start) * num
-        puts.update({i: stamp})
+        stamp_enq = timestamp.enq_start + (timestamp.enq_end - timestamp.enq_start) * num
         if timestamp.deq_start != None:
-            stamp = timestamp.deq_start + (timestamp.deq_end - timestamp.deq_start) * num
-            gets.update({i: stamp})
+            stamp_deq = timestamp.deq_start + (timestamp.deq_end - timestamp.deq_start) * num
+            if stamp_enq >= stamp_deq and stamp_enq < timestamp.deq_end: stamp_deq = stamp_enq + 1
+            gets.update({i: stamp_deq})
+        puts.update({i: stamp_enq})
     return (puts, gets)
 
 def exhaustive_ratio(inp: dict, plot: bool):
