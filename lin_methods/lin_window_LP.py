@@ -18,9 +18,9 @@ def get_last_timestamp(inp: dict):
     return last_timestamp
 
 # This is the main function to be called from other files when running this linearization method
-# Takes as input: timestamp dict (of whole problem), span and step
+# Takes as input: timestamp dict (of whole problem), size of the window (size of subproblem in number of items)
 # Returns: two dicts puts {item: enq_point} and gets {item: deq_point}
-def windowed_linear_programming(inp: dict, span, step):
+def windowed_linear_programming(inp: dict, size):
     # Parsing timestamp dict to handle None values (set those timestamps past the last timestamp)
     original_last_timestamp = get_last_timestamp(inp)
     last_timestamp = original_last_timestamp
@@ -37,14 +37,14 @@ def windowed_linear_programming(inp: dict, span, step):
     complete_enq_solution = []
     complete_deq_solution = []
     while start < total_length:
-        end = start+step
+        end = start+size
         if(end > total_length): end = total_length
         subset_list_values = [list_values[x] for x in range(start, end)]
         (partial_enq_solution, partial_deq_solution) = linear_programming(subset_list_values) # Must maintain order in lists
         complete_enq_solution.extend(partial_enq_solution)
         complete_deq_solution.extend(partial_deq_solution)
         
-        start += step
+        start = end
 
     # Build final output dicts (puts and gets)
     puts = {}

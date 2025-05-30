@@ -111,7 +111,7 @@ if __name__=="__main__":
             method = Linearization.ILP
             (puts, gets) = order_to_timestamp(operation_intervals, decided_ordering_dict)    # May throw exception
         case "lp":
-            (puts, gets) = windowed_linear_programming(operation_intervals, 300, 300)
+            (puts, gets) = windowed_linear_programming(operation_intervals, 300)
             method = Linearization.LP
         case "mulpro":
             plot = False
