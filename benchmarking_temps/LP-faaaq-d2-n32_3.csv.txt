@@ -1,0 +1,32 @@
+
+Constraint violation is: 7.275957614183426e-11
+89257 < 89257.0 < 90360
+Constraint violation is: 1.1641532182693481e-10
+835270 < 835270.0 < 835471
+Constraint violation is: 4.656612873077393e-10
+3021438 < 3021438.0 < 3021749
+Constraint violation is: 1.1641532182693481e-10
+387129 < 387129.0 < 387330
+Constraint violation is: 5.820766091346741e-11
+386789 < 386789.0 < 386989
+Constraint violation is: 1.1641532182693481e-10
+782157 < 782157.0 < 782347
+Constraint violation is: 1.1641532182693481e-10
+774178 < 774178.0 < 774369
+
+
+Linearization method: LP
+File name: faaaq-d2-n32_3.csv
+Number of put operations: 39217
+Number of get operations: 38242
+Max rank error: 100
+Total rank error: 199395
+Mean rank error: 5.21
+Rank error variance: 88.56
+FAILED Timestamp tests failed!
+Mutiple timestamps: 3806
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 3.6871885166666667 minutes

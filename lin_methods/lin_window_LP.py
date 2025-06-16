@@ -1,7 +1,6 @@
 import math
 import cvxpy as cp
 import numpy as np
-from utils.timestamp import Timestamp
 
 # A linear programming script
 # Here, CVXPY variables represent enq and deq timestamps respectively
@@ -21,28 +20,56 @@ def get_last_timestamp(inp: dict):
 # Takes as input: timestamp dict (of whole problem), size of the window (size of subproblem in number of items)
 # Returns: two dicts puts {item: enq_point} and gets {item: deq_point}
 def windowed_linear_programming(inp: dict, size):
-    # Parsing timestamp dict to handle None values (set those timestamps past the last timestamp)
+
     original_last_timestamp = get_last_timestamp(inp)
-    last_timestamp = original_last_timestamp
+    original_first_timestamp = math.inf
+    for ts in inp.values():
+        e_s = ts.enq_start
+        if e_s < original_first_timestamp: original_first_timestamp = e_s
+
+    ### Pre-processing
+    short_timestamps = {}
+    for (k,v) in inp.items():
+        e_start = v.enq_start - original_first_timestamp # Shorten all timestamps (should still be integer)
+        e_end = v.enq_end - original_first_timestamp
+        if v.deq_start is None: # Handling None values (set those timestamps past the last timestamp)
+            d_start = (original_last_timestamp + 1) - original_first_timestamp
+            d_end = (original_last_timestamp + 1) - original_first_timestamp
+        else:
+            d_start = v.deq_start - original_first_timestamp
+            d_end = v.deq_end - original_first_timestamp
+        short_timestamps[k] = (e_start, e_end, d_start, d_end)
+    
+    ''' last_timestamp = original_last_timestamp
     for (k,v) in inp.items():
         if v.deq_start is None:
             v.update_deq(last_timestamp+1, last_timestamp+1)
             last_timestamp += 1
-            inp[k] = v
+            inp[k] = v'''
 
     # Main loop:
     start = 0
     total_length = len(inp)
-    list_values = list(inp.values())  # List of timestamp objects
+    list_values = list(short_timestamps.values())  # List of timestamps
     complete_enq_solution = []
     complete_deq_solution = []
+    out_str = ""
     while start < total_length:
         end = start+size
         if(end > total_length): end = total_length
         subset_list_values = [list_values[x] for x in range(start, end)]
-        (partial_enq_solution, partial_deq_solution) = linear_programming(subset_list_values) # Must maintain order in lists
-        complete_enq_solution.extend(partial_enq_solution)
-        complete_deq_solution.extend(partial_deq_solution)
+        (partial_enq_solution, partial_deq_solution, is_feasible, is_bounded, is_optimal, tmp_out_str) = linear_programming(subset_list_values) # Must maintain order in lists
+        complete_enq_solution.extend([x + original_first_timestamp for x in partial_enq_solution])
+        complete_deq_solution.extend([x + original_first_timestamp for x in partial_deq_solution])
+
+        if not is_optimal:
+            out_str += "Solution interval [" + str(start) + ", " + str(end) + "] is NOT OPTIMAL"
+        if not is_feasible:
+            out_str += "Solution interval [" + str(start) + ", " + str(end) + "] is INFEASIBLE"
+        if not is_bounded:
+            out_str += "Solution interval [" + str(start) + ", " + str(end) + "] is UNBOUNDED"
+
+        out_str += tmp_out_str
         
         start = end
 
@@ -54,7 +81,11 @@ def windowed_linear_programming(inp: dict, size):
             gets[key] = complete_deq_solution[index] # Only include dequeues that were NOT deuque none
         puts[key] = complete_enq_solution[index] 
 
-    return (puts, gets)
+    #sorted_enq_sol = sorted(complete_enq_solution)
+    #sorted_deq_sol = sorted(complete_deq_solution)
+    # out_str += str(sorted_enq_sol) + "\n" + str(sorted_deq_sol) + "\n"
+
+    return (puts, gets, out_str)
     
 # Takes as input: List of timestamp objects and a string "deq" or "enq"
 # Returns: The earliest start timestamp and latest end timestamp
@@ -63,13 +94,13 @@ def get_total_interval(inp, type):
     earliest_start = math.inf
     latest_end = 0 
 
-    for timestamp in inp:
+    for (e_start, e_end, d_start, d_end) in inp:
         if(type == "deq"):
-            start = timestamp.deq_start
-            end = timestamp.deq_end
+            start = d_start
+            end = d_end
         elif(type == "enq"):
-            start = timestamp.enq_start
-            end = timestamp.enq_end
+            start = e_start
+            end = e_end
         if start < earliest_start: earliest_start = start
         if end > latest_end: latest_end = end
     
@@ -91,13 +122,13 @@ def linear_programming(inp_list):
 
     ######### DEFINE CONSTRAINTS
     constraints = []
-    for i, timestamp in enumerate(inp_list):
-        constraints.append(timestamp.enq_start <= enq_var[i]) # enq_start <= enq_var <= enq_end
-        constraints.append(timestamp.enq_end >= enq_var[i])
-        constraints.append(timestamp.deq_start <= deq_var[i]) # deq_start <= deq_var <= deq_end
-        constraints.append(timestamp.deq_end >= deq_var[i])
+    for i, (e_start, e_end, d_start, d_end) in enumerate(inp_list):
+        constraints.append(e_start <= enq_var[i]) # enq_start <= enq_var <= enq_end
+        constraints.append(e_end >= enq_var[i])
+        constraints.append(d_start <= deq_var[i]) # deq_start <= deq_var <= deq_end
+        constraints.append(d_end >= deq_var[i])
         constraints.append(enq_var[i] <= deq_var[i]) 
-        # NOTE: There is no constraint ensuring that enq and deq doesn't get the same timestamp (inequalities not allowed)
+        # NOTE: There is no constraint ensuring that enq and deq doesn't get the same timestamp (equalities not allowed)
         #       However, there is a timestamp test that checks these things, and that should be called after calling a linearization method.
 
     ######### DEFINE OBJECTIVE FUNCTION
@@ -118,10 +149,33 @@ def linear_programming(inp_list):
     problem=cp.Problem(objective_function, constraints=constraints)
     problem.solve(solver=cp.HIGHS)
 
+    is_feasible = problem.status != "infeasible"
+    is_bounded = problem.status != "unbounded"
+    is_optimal = problem.status == "optimal"
+
+    if problem.status == "infeasible":
+        print("Problem status: ", problem.status)
+ 
+    out_str = ""
+
+    for constr in problem.constraints:
+        residual = constr.violation()
+        if np.max(np.abs(residual)) > 0:
+            out_str += "Constraint violation is: " + str(np.max(np.abs(residual))) + "\n"
+
     # NOTE: Collects the ROUNDED result in lists. 
     #       Rounding may cause different items to have the same timestamp for either operation.
     #       However, it undo:s floating point calculation problems that otherwise occur.
-    decided_enq_timestamp = [round(x.value, 0) for x in enq_var] 
-    decided_deq_timestamp = [round(x.value, 0) for x in deq_var]
+    decided_enq_timestamp = [x.value for x in enq_var] 
+    decided_deq_timestamp = [x.value for x in deq_var]
     
-    return (decided_enq_timestamp, decided_deq_timestamp)
+    #decided_enq_timestamp = [x.value for x in enq_var] 
+    #decided_deq_timestamp = [x.value for x in deq_var]
+
+    for i, (e_start, e_end, d_start, d_end) in enumerate(inp_list):
+        if(enq_var[i].value < e_start or enq_var[i].value > e_end):
+            out_str += str(e_start) + " < " + str(round(enq_var[i].value,0)) + " < " + str(e_end) + "\n"
+        if(deq_var[i].value < d_start or deq_var[i].value > d_end):
+            out_str += str(d_start) + " < " + str(round(deq_var[i].value, 0)) + " < " + str(d_end) + "\n"
+
+    return (decided_enq_timestamp, decided_deq_timestamp, is_feasible, is_bounded, is_optimal, out_str)

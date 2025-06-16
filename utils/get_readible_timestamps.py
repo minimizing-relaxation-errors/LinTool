@@ -12,7 +12,7 @@ def compress_timestamps(filename):
     timestamps = get_timestamps_from_file(filename)
     lin = get_existing_lin(filename)
 
-    # Find first enqueue and dequeue timestamps:
+    # Find first enqueue timestamps (first of all timestamps)
     first_enq = math.inf
     for ts in timestamps.values():
         e_s = ts.enq_start

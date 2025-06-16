@@ -1,0 +1,32 @@
+
+Constraint violation is: 4.656612873077393e-10
+4112903 < 4112903.0 < 4113554
+Constraint violation is: 5.820766091346741e-11
+265687 < 265687.0 < 266379
+Constraint violation is: 2.3283064365386963e-10
+1446510 < 1446510.0 < 1447252
+Constraint violation is: 2.3283064365386963e-10
+1688101 < 1688101.0 < 1688793
+Constraint violation is: 2.9103830456733704e-11
+154960 < 154960.0 < 155572
+Constraint violation is: 5.820766091346741e-11
+88275 < 88275.0 < 89278
+Constraint violation is: 2.3283064365386963e-10
+1368449 < 1368449.0 < 1369140
+
+
+Linearization method: LP
+File name: dcbo-d2-n32-w64-c2.csv
+Number of put operations: 85325
+Number of get operations: 84953
+Max rank error: 454
+Total rank error: 3780438
+Mean rank error: 44.5
+Rank error variance: 1961.12
+FAILED Timestamp tests failed!
+Mutiple timestamps: 23691
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 7.29240255 minutes

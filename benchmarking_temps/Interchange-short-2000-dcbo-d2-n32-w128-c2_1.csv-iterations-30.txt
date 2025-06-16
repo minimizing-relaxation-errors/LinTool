@@ -1,0 +1,70 @@
+
+ENQUEUE OPTIMIZATION 
+ITERATION 1:
+Nr swaps this iteration: 330
+Time (min): 0.0624
+Total rank error after: 167128
+ITERATION 2:
+Nr swaps this iteration: 160
+Time (min): 0.0209
+Total rank error after: 166939
+ITERATION 3:
+Nr swaps this iteration: 68
+Time (min): 0.0105
+Total rank error after: 166869
+ITERATION 4:
+Nr swaps this iteration: 21
+Time (min): 0.0048
+Total rank error after: 166848
+ITERATION 5:
+Nr swaps this iteration: 6
+Time (min): 0.0033
+Total rank error after: 166842
+
+DEQUEUE OPTIMIZATION 
+ITERATION 1:
+Nr swaps this iteration: 760
+Time (min): 0.2385
+Total rank error after: 165183
+ITERATION 2:
+Nr swaps this iteration: 539
+Time (min): 0.2213
+Total rank error after: 164455
+ITERATION 3:
+Nr swaps this iteration: 342
+Time (min): 0.3022
+Total rank error after: 164031
+ITERATION 4:
+Nr swaps this iteration: 203
+Time (min): 0.1534
+Total rank error after: 163804
+ITERATION 5:
+Nr swaps this iteration: 87
+Time (min): 0.0762
+Total rank error after: 163713
+ITERATION 6:
+Nr swaps this iteration: 26
+Time (min): 0.0279
+Total rank error after: 163687
+ITERATION 7:
+Nr swaps this iteration: 10
+Time (min): 0.0157
+Total rank error after: 163677
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-2000-dcbo-d2-n32-w128-c2_1.csv
+Number of put operations: 2000
+Number of get operations: 2000
+Max rank error: 644
+Total rank error: 163742
+Mean rank error: 81.87
+Rank error variance: 7179.75
+FAILED Timestamp tests failed!
+Mutiple timestamps: 215
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 1.1498306666666667 minutes
