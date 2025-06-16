@@ -1,0 +1,66 @@
+
+ENQUEUE OPTIMIZATION 
+ITERATION 1:
+Nr swaps this iteration: 299
+Time (min): 265.308
+Total rank error after: 5637
+ITERATION 2:
+Nr swaps this iteration: 93
+Time (min): 22.94
+Total rank error after: 5622
+ITERATION 3:
+Nr swaps this iteration: 25
+Time (min): 20.7147
+Total rank error after: 5617
+ITERATION 4:
+Nr swaps this iteration: 8
+Time (min): 20.1429
+Total rank error after: 5614
+
+DEQUEUE OPTIMIZATION 
+ITERATION 1:
+Nr swaps this iteration: 89
+Time (min): 1635.7695
+Total rank error after: 5496
+ITERATION 2:
+Nr swaps this iteration: 59
+Time (min): 32.7973
+Total rank error after: 5426
+ITERATION 3:
+Nr swaps this iteration: 35
+Time (min): 29.2246
+Total rank error after: 5389
+ITERATION 4:
+Nr swaps this iteration: 26
+Time (min): 27.4311
+Total rank error after: 5362
+ITERATION 5:
+Nr swaps this iteration: 14
+Time (min): 24.1293
+Total rank error after: 5347
+ITERATION 6:
+Nr swaps this iteration: 12
+Time (min): 24.1314
+Total rank error after: 5333
+ITERATION 7:
+Nr swaps this iteration: 3
+Time (min): 21.2322
+Total rank error after: 5330
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: faaaq-d2-n32_1.csv
+Number of put operations: 49367
+Number of get operations: 48472
+Max rank error: 239
+Total rank error: 5338
+Mean rank error: 0.11
+Rank error variance: 2.91
+FAILED Timestamp tests failed!
+Mutiple timestamps: 3917
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 2215.0444761666668 minutes
