@@ -32,6 +32,8 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
     out_str = ""
 
     out_str += "ENQUEUE OPTIMIZATION \n"
+    initial_tot_rank_error = get_total_rank_error(original_last_timestamp)
+    out_str += "Initial total rank error: " + str(initial_tot_rank_error)
     count = 0
     while count < nr_iterations: 
         if count != 0: start_t = datetime.datetime.now()                            
@@ -40,10 +42,12 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
         # Prepare output prints:
         tot_rank_error = get_total_rank_error(original_last_timestamp)
         end_t = datetime.datetime.now()
-        out_str += ("ITERATION " + str(count) + ":\n" +
+        tmp_out_str =  ("ITERATION " + str(count) + ":\n" +
                     "Nr swaps this iteration: " + str(nr_swaps_this_iteration) + "\n" +
                     "Time (min): " + get_minutes_str(start_t, end_t) + "\n" +
                     "Total rank error after: " + str(tot_rank_error) + "\n")
+        print(tmp_out_str)
+        out_str += tmp_out_str
         # Check if stopping critera achieved
         if nr_swaps_stopping_criteria != None:
             if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
@@ -61,10 +65,12 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
         # Prepare output prints:
         tot_rank_error = get_total_rank_error(original_last_timestamp)
         end_t = datetime.datetime.now()
-        out_str += ("ITERATION " + str(count) + ":\n" +
+        tmp_out_str = ("ITERATION " + str(count) + ":\n" +
                     "Nr swaps this iteration: " + str(nr_swaps_this_iteration) + "\n" +
                     "Time (min): " + get_minutes_str(start_t, end_t) + "\n" +
                     "Total rank error after: " + str(tot_rank_error) + "\n")
+        print(tmp_out_str)
+        out_str += tmp_out_str
         # Check if stopping criteria achieved
         if nr_swaps_stopping_criteria != None:
             if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
