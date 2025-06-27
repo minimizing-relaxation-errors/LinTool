@@ -33,6 +33,7 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
 
     out_str += "ENQUEUE OPTIMIZATION \n"
     initial_tot_rank_error = get_total_rank_error(original_last_timestamp)
+    print("Initial total rank error: ", initial_tot_rank_error, "\n")
     out_str += "Initial total rank error: " + str(initial_tot_rank_error)
     count = 0
     while count < nr_iterations: 

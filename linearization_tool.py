@@ -77,6 +77,16 @@ def get_time_diff(start_t, end_t):
     out_str = "Time: " + str((diff / datetime.timedelta(microseconds=1))/(60 * 1000000)) + " minutes"
     return out_str
 
+# Adds puts and gets into a single dictionary by item
+def format_result_per_item(puts, gets):
+    lin = {}
+    for item in puts.keys():
+        if gets[item] != None: 
+            lin[item] = [puts[item], gets[item]]
+        else: # Not tested
+            lin[item] = [puts[item], None]
+    return lin
+
 if __name__=="__main__":
     if filename == "" or method_inp == "": sys.exit("Filename and/or method not specified")
     operation_intervals = get_timestamps_from_file(filename) # Called "timestamps" before
@@ -125,6 +135,8 @@ if __name__=="__main__":
             nr_iterations = 30
             nr_swaps_stopping_criteria = 10
             (puts, gets, out_str) = interchange(get_existing_lin(filename), operation_intervals, nr_iterations, nr_swaps_stopping_criteria)
+            #(tmp_puts, tmp_gets) = exhaustive_ratio(operation_intervals) # Use multiple probing result as initial linearization
+            #(puts, gets, out_str) = interchange(format_result_per_item(tmp_puts, tmp_gets), operation_intervals, nr_iterations, nr_swaps_stopping_criteria)
             method = Linearization.Interchange
             output_file_name = str(Linearization.Interchange.name) + "-" + filename + "-iterations-" + str(nr_iterations)
             out_str += ("Max number of iterations: " + str(nr_iterations) + 
