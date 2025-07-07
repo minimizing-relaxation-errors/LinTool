@@ -137,7 +137,7 @@ def init_overlapping(op_type, start_end_timestamps):
             overlapping_items[item1] = items
 
 # Computes total rank error for the linearization
-# NOTE: For some reason computes a slightly lower rank error than it actually is. Insignificant difference.
+# NOTE: For some reason computes a slightly lower rank error than the method in compute_rank_error. Insignificant difference.
 def get_total_rank_error(original_last_timestamp):
     tot_re = 0
     for item1, (e1, d1) in lin.items():

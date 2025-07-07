@@ -15,7 +15,7 @@ from enum import Enum, auto
 
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) # Cursed
 sys.path.append(parent_path)
-from linearization_tool import get_existing_lin, get_timestamps_from_file
+from utils.timestamp_from_file import get_existing_lin, get_timestamps_from_file
 sys.path.remove(parent_path)
 
 class Op(Enum):  # TODO: Maybe move out

@@ -29,9 +29,6 @@ def order_to_timestamp(timestamp_dict: dict, ordering_dict: dict):
     for (key, v) in sorted_ordering_dict.items():
         d_start = timestamp_dict[key].deq_start
         d_end = timestamp_dict[key].deq_end
-
-        # TODO: Marge Idas solution for considering Dequeue Nones
-
         d_lin = latest_timestamp + 1
         if d_start > d_lin: 
             d_lin = d_start
