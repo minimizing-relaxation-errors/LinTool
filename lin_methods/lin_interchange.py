@@ -7,13 +7,12 @@ import sys
 import datetime
 from enum import Enum, auto 
 
-class Op(Enum):  # TODO: Maybe move out
+class Op(Enum): 
     Enq = auto()
     Deq = auto()
 
 # Global variables
 lin = {}                # dictionary of item:[enq, deq]
-#overlapping_items = {}  # dictionary of item:[items overlapping in enqueue/dequeue interval] (depending on which init function is called)
 
 # Expects as input: existing_lin as a dictionary of item:[enq timestamp, deq timestamp],
 #                   start_end_timestamps as a dictionary of item:Timestamp,
@@ -67,89 +66,7 @@ def interchange(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stop
             gets[item] = enq_deq[1]             # Only save dequeue timestamp if they were not None originally
 
     return (puts, gets, out_str)
-'''
-def interchange_partial(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stopping_criteria):
-    nr_items_total = len(existing_lin)
-    nr_items_to_process = 2000
-    step = 1000
-    count = 0
-    iteration_count = 0
-    original_last_timestamp = get_total_last_timestamp(start_end_timestamps)
-    init_lin(start_end_timestamps, existing_lin, original_last_timestamp)
-    
-    while iteration_count < nr_iterations:
-        start_ind = count
-        end_ind = count + nr_items_to_process
-        while count < end_ind:
-            
-            old_interchange_inner(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stopping_criteria, start_ind, end_ind)
-            count += step
 
-    ###### OUTPUT DATA
-    puts = {}  
-    gets = {}
-    for (item,enq_deq) in lin.items():
-        puts[item] = enq_deq[0]
-        if enq_deq[1] <= original_last_timestamp:
-            gets[item] = enq_deq[1]             # Only save dequeue timestamp if they were not None originally
-
-    return (puts, gets, out_str)
-
-def old_interchange_inner(existing_lin, start_end_timestamps, nr_iterations, nr_swaps_stopping_criteria, start_ind, end_ind):
-    
-
-    ###### Optimize enqueue linearization points
-    init_overlapping(Op.Enq, start_end_timestamps)
-    start_t = datetime.datetime.now() # Start timing first iteration
-    pot_swaps = init_pot_swaps(start_end_timestamps, Op.Enq) # pot_swaps is item1:[(item2, re_imp)]
-
-    out_str = ""
-
-    out_str += "ENQUEUE OPTIMIZATION \n"
-    initial_tot_rank_error = get_total_rank_error(original_last_timestamp)
-    print("Initial total rank error: ", initial_tot_rank_error, "\n")
-    out_str += "Initial total rank error: " + str(initial_tot_rank_error)
-    count = 0
-    while count < nr_iterations: 
-        if count != 0: start_t = datetime.datetime.now()                            
-        (pot_swaps, nr_swaps_this_iteration) = execute_and_update(pot_swaps, start_end_timestamps, Op.Enq) 
-        count += 1
-        # Prepare output prints:
-        tot_rank_error = get_total_rank_error(original_last_timestamp)
-        end_t = datetime.datetime.now()
-        tmp_out_str =  ("ITERATION " + str(count) + ":\n" +
-                    "Nr swaps this iteration: " + str(nr_swaps_this_iteration) + "\n" +
-                    "Time (min): " + get_minutes_str(start_t, end_t) + "\n" +
-                    "Total rank error after: " + str(tot_rank_error) + "\n")
-        print(tmp_out_str)
-        out_str += tmp_out_str
-        # Check if stopping critera achieved
-        if nr_swaps_stopping_criteria != None:
-            if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
-
-    ###### Optimize Dequeue linearization points
-    init_overlapping(Op.Deq, start_end_timestamps)
-    start_t = datetime.datetime.now() # Start timing first iteration
-    pot_swaps = init_pot_swaps(start_end_timestamps, Op.Deq) # pot_swaps is item1:[(item2, re_imp)]
-    out_str += "\nDEQUEUE OPTIMIZATION \n"
-    count = 0
-    while count < nr_iterations: 
-        if count != 0: start_t = datetime.datetime.now() 
-        (pot_swaps, nr_swaps_this_iteration) = execute_and_update(pot_swaps, start_end_timestamps, Op.Deq)
-        count += 1
-        # Prepare output prints:
-        tot_rank_error = get_total_rank_error(original_last_timestamp)
-        end_t = datetime.datetime.now()
-        tmp_out_str = ("ITERATION " + str(count) + ":\n" +
-                    "Nr swaps this iteration: " + str(nr_swaps_this_iteration) + "\n" +
-                    "Time (min): " + get_minutes_str(start_t, end_t) + "\n" +
-                    "Total rank error after: " + str(tot_rank_error) + "\n")
-        print(tmp_out_str)
-        out_str += tmp_out_str
-        # Check if stopping criteria achieved
-        if nr_swaps_stopping_criteria != None:
-            if nr_swaps_this_iteration <= nr_swaps_stopping_criteria: break
-'''
 def get_minutes_str(start, end):
     return str(round(((end-start) / datetime.timedelta(microseconds=1))/(60 * 1000000),4))
 
@@ -285,6 +202,7 @@ def update_a_with_bs_list(item_a, item_b, pot_swaps, start_end_timestamps, op_ty
     pot_swaps[item_a] = new_list
     return pot_swaps
 
+# Update all occurences of item b
 def update_other_a_lists_with_b(item_a, item_b, pot_swaps, start_end_timestamps, op_type, overlapping_items):
     pot_swaps_items = pot_swaps.keys()
     for o_item in overlapping_items[item_a]: # All items which could possibly be swappable with a
