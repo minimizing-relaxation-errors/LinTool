@@ -1,0 +1,100 @@
+
+Initial total rank error: 19407790
+ITERATION 1:
+Nr enq swaps: 9083
+Nr deq swaps: 9610
+Time (min): 255.9082
+Total rank error after: 19355571
+ITERATION 2:
+Nr enq swaps: 5613
+Nr deq swaps: 6473
+Time (min): 129.0231
+Total rank error after: 19335384
+ITERATION 3:
+Nr enq swaps: 3601
+Nr deq swaps: 4522
+Time (min): 88.4722
+Total rank error after: 19324353
+ITERATION 4:
+Nr enq swaps: 2091
+Nr deq swaps: 2827
+Time (min): 54.8186
+Total rank error after: 19318343
+ITERATION 5:
+Nr enq swaps: 1072
+Nr deq swaps: 1628
+Time (min): 31.4016
+Total rank error after: 19315266
+ITERATION 6:
+Nr enq swaps: 574
+Nr deq swaps: 890
+Time (min): 17.4727
+Total rank error after: 19313637
+ITERATION 7:
+Nr enq swaps: 258
+Nr deq swaps: 437
+Time (min): 8.6356
+Total rank error after: 19312873
+ITERATION 8:
+Nr enq swaps: 129
+Nr deq swaps: 201
+Time (min): 4.3697
+Total rank error after: 19312512
+ITERATION 9:
+Nr enq swaps: 63
+Nr deq swaps: 109
+Time (min): 2.3174
+Total rank error after: 19312338
+ITERATION 10:
+Nr enq swaps: 25
+Nr deq swaps: 52
+Time (min): 1.0531
+Total rank error after: 19312241
+ITERATION 11:
+Nr enq swaps: 12
+Nr deq swaps: 25
+Time (min): 0.5775
+Total rank error after: 19312203
+ITERATION 12:
+Nr enq swaps: 12
+Nr deq swaps: 13
+Time (min): 0.4054
+Total rank error after: 19312159
+ITERATION 13:
+Nr enq swaps: 10
+Nr deq swaps: 6
+Time (min): 0.1629
+Total rank error after: 19312138
+ITERATION 14:
+Nr enq swaps: 9
+Nr deq swaps: 3
+Time (min): 0.1343
+Total rank error after: 19312124
+ITERATION 15:
+Nr enq swaps: 9
+Nr deq swaps: 2
+Time (min): 0.108
+Total rank error after: 19312111
+ITERATION 16:
+Nr enq swaps: 6
+Nr deq swaps: 1
+Time (min): 0.1164
+Total rank error after: 19312086
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-25000-2ddo-d2-n32-w256-l32.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 1114
+Total rank error: 19313581
+Mean rank error: 772.54
+Rank error variance: 115864.72
+FAILED Timestamp tests failed!
+Multiple timestamps: 8344
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 623.3700186333333 minutes

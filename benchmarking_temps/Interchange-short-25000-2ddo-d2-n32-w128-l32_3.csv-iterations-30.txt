@@ -1,0 +1,95 @@
+
+Initial total rank error: 16332142
+ITERATION 1:
+Nr enq swaps: 9133
+Nr deq swaps: 9742
+Time (min): 234.2997
+Total rank error after: 16277993
+ITERATION 2:
+Nr enq swaps: 5713
+Nr deq swaps: 6518
+Time (min): 103.1539
+Total rank error after: 16257352
+ITERATION 3:
+Nr enq swaps: 3663
+Nr deq swaps: 4348
+Time (min): 76.1533
+Total rank error after: 16246354
+ITERATION 4:
+Nr enq swaps: 2102
+Nr deq swaps: 2611
+Time (min): 34.7842
+Total rank error after: 16240378
+ITERATION 5:
+Nr enq swaps: 1154
+Nr deq swaps: 1380
+Time (min): 17.7857
+Total rank error after: 16237237
+ITERATION 6:
+Nr enq swaps: 591
+Nr deq swaps: 668
+Time (min): 9.2219
+Total rank error after: 16235753
+ITERATION 7:
+Nr enq swaps: 320
+Nr deq swaps: 342
+Time (min): 5.1519
+Total rank error after: 16235018
+ITERATION 8:
+Nr enq swaps: 188
+Nr deq swaps: 165
+Time (min): 2.9222
+Total rank error after: 16234608
+ITERATION 9:
+Nr enq swaps: 88
+Nr deq swaps: 83
+Time (min): 1.369
+Total rank error after: 16234368
+ITERATION 10:
+Nr enq swaps: 51
+Nr deq swaps: 45
+Time (min): 0.8843
+Total rank error after: 16234276
+ITERATION 11:
+Nr enq swaps: 30
+Nr deq swaps: 22
+Time (min): 0.5086
+Total rank error after: 16234201
+ITERATION 12:
+Nr enq swaps: 19
+Nr deq swaps: 11
+Time (min): 0.3342
+Total rank error after: 16234167
+ITERATION 13:
+Nr enq swaps: 19
+Nr deq swaps: 4
+Time (min): 0.2374
+Total rank error after: 16234138
+ITERATION 14:
+Nr enq swaps: 10
+Nr deq swaps: 1
+Time (min): 0.1461
+Total rank error after: 16234118
+ITERATION 15:
+Nr enq swaps: 7
+Nr deq swaps: 2
+Time (min): 0.1157
+Total rank error after: 16234107
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-25000-2ddo-d2-n32-w128-l32_3.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 1274
+Total rank error: 16235760
+Mean rank error: 649.43
+Rank error variance: 150181.94
+FAILED Timestamp tests failed!
+Multiple timestamps: 8267
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 506.0617418333333 minutes

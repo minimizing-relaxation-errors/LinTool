@@ -1,0 +1,170 @@
+
+Initial total rank error: 587117
+ITERATION 1:
+Nr enq swaps: 9472
+Nr deq swaps: 10096
+Time (min): 334.3085
+Total rank error after: 533878
+ITERATION 2:
+Nr enq swaps: 6936
+Nr deq swaps: 7905
+Time (min): 178.056
+Total rank error after: 509693
+ITERATION 3:
+Nr enq swaps: 4707
+Nr deq swaps: 5484
+Time (min): 117.7801
+Total rank error after: 497500
+ITERATION 4:
+Nr enq swaps: 2485
+Nr deq swaps: 3519
+Time (min): 73.8551
+Total rank error after: 491361
+ITERATION 5:
+Nr enq swaps: 1070
+Nr deq swaps: 1967
+Time (min): 38.537
+Total rank error after: 488462
+ITERATION 6:
+Nr enq swaps: 433
+Nr deq swaps: 949
+Time (min): 18.2729
+Total rank error after: 487238
+ITERATION 7:
+Nr enq swaps: 165
+Nr deq swaps: 395
+Time (min): 7.467
+Total rank error after: 486767
+ITERATION 8:
+Nr enq swaps: 69
+Nr deq swaps: 131
+Time (min): 2.7489
+Total rank error after: 486603
+ITERATION 9:
+Nr enq swaps: 26
+Nr deq swaps: 47
+Time (min): 1.0313
+Total rank error after: 486562
+ITERATION 10:
+Nr enq swaps: 17
+Nr deq swaps: 23
+Time (min): 0.464
+Total rank error after: 486532
+ITERATION 11:
+Nr enq swaps: 8
+Nr deq swaps: 8
+Time (min): 0.1863
+Total rank error after: 486529
+ITERATION 12:
+Nr enq swaps: 7
+Nr deq swaps: 7
+Time (min): 0.1583
+Total rank error after: 486523
+ITERATION 13:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1222
+Total rank error after: 486527
+ITERATION 14:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.122
+Total rank error after: 486525
+ITERATION 15:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.0898
+Total rank error after: 486523
+ITERATION 16:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1384
+Total rank error after: 486527
+ITERATION 17:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1388
+Total rank error after: 486525
+ITERATION 18:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.102
+Total rank error after: 486523
+ITERATION 19:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1362
+Total rank error after: 486527
+ITERATION 20:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1507
+Total rank error after: 486525
+ITERATION 21:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1414
+Total rank error after: 486523
+ITERATION 22:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.0884
+Total rank error after: 486527
+ITERATION 23:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1408
+Total rank error after: 486525
+ITERATION 24:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1345
+Total rank error after: 486523
+ITERATION 25:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1139
+Total rank error after: 486527
+ITERATION 26:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1192
+Total rank error after: 486525
+ITERATION 27:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1401
+Total rank error after: 486523
+ITERATION 28:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.0943
+Total rank error after: 486527
+ITERATION 29:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1517
+Total rank error after: 486525
+ITERATION 30:
+Nr enq swaps: 6
+Nr deq swaps: 6
+Time (min): 0.1053
+Total rank error after: 486523
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-25000-dcbo-d2-n32-w32-c2.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 195
+Total rank error: 487835
+Mean rank error: 19.51
+Rank error variance: 447.62
+FAILED Timestamp tests failed!
+Multiple timestamps: 6792
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 817.0847781333333 minutes
