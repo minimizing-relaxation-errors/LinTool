@@ -1,0 +1,75 @@
+
+Initial total rank error: 289848
+ITERATION 1:
+Nr enq swaps: 4508
+Nr deq swaps: 4992
+Time (min): 60.9496
+Total rank error after: 264857
+ITERATION 2:
+Nr enq swaps: 3226
+Nr deq swaps: 3881
+Time (min): 26.7226
+Total rank error after: 253342
+ITERATION 3:
+Nr enq swaps: 2172
+Nr deq swaps: 2651
+Time (min): 16.2575
+Total rank error after: 247585
+ITERATION 4:
+Nr enq swaps: 1135
+Nr deq swaps: 1655
+Time (min): 9.2192
+Total rank error after: 244683
+ITERATION 5:
+Nr enq swaps: 460
+Nr deq swaps: 915
+Time (min): 4.4843
+Total rank error after: 243375
+ITERATION 6:
+Nr enq swaps: 189
+Nr deq swaps: 426
+Time (min): 2.3198
+Total rank error after: 242834
+ITERATION 7:
+Nr enq swaps: 69
+Nr deq swaps: 185
+Time (min): 0.8773
+Total rank error after: 242599
+ITERATION 8:
+Nr enq swaps: 30
+Nr deq swaps: 63
+Time (min): 0.3243
+Total rank error after: 242512
+ITERATION 9:
+Nr enq swaps: 10
+Nr deq swaps: 16
+Time (min): 0.0942
+Total rank error after: 242502
+ITERATION 10:
+Nr enq swaps: 8
+Nr deq swaps: 5
+Time (min): 0.0601
+Total rank error after: 242487
+ITERATION 11:
+Nr enq swaps: 2
+Nr deq swaps: 3
+Time (min): 0.0156
+Total rank error after: 242486
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-12500-dcbo-d2-n32-w32-c2_1.csv
+Number of put operations: 12500
+Number of get operations: 12500
+Max rank error: 195
+Total rank error: 243118
+Mean rank error: 19.45
+Rank error variance: 445.04
+FAILED Timestamp tests failed!
+Multiple timestamps: 3174
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 124.9884823 minutes

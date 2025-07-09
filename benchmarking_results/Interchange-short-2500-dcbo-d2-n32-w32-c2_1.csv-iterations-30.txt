@@ -1,0 +1,60 @@
+
+Initial total rank error: 55886
+ITERATION 1:
+Nr enq swaps: 518
+Nr deq swaps: 922
+Time (min): 1.2129
+Total rank error after: 52908
+ITERATION 2:
+Nr enq swaps: 330
+Nr deq swaps: 657
+Time (min): 0.6421
+Total rank error after: 51595
+ITERATION 3:
+Nr enq swaps: 187
+Nr deq swaps: 392
+Time (min): 0.3344
+Total rank error after: 50976
+ITERATION 4:
+Nr enq swaps: 67
+Nr deq swaps: 212
+Time (min): 0.1973
+Total rank error after: 50685
+ITERATION 5:
+Nr enq swaps: 19
+Nr deq swaps: 104
+Time (min): 0.0898
+Total rank error after: 50558
+ITERATION 6:
+Nr enq swaps: 6
+Nr deq swaps: 28
+Time (min): 0.0286
+Total rank error after: 50523
+ITERATION 7:
+Nr enq swaps: 1
+Nr deq swaps: 10
+Time (min): 0.0088
+Total rank error after: 50514
+ITERATION 8:
+Nr enq swaps: 1
+Nr deq swaps: 3
+Time (min): 0.003
+Total rank error after: 50510
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-2500-dcbo-d2-n32-w32-c2_1.csv
+Number of put operations: 2500
+Number of get operations: 2500
+Max rank error: 191
+Total rank error: 50598
+Mean rank error: 20.24
+Rank error variance: 512.04
+FAILED Timestamp tests failed!
+Multiple timestamps: 319
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 2.652964266666667 minutes

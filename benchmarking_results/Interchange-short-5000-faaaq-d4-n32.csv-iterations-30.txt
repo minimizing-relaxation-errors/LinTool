@@ -1,0 +1,35 @@
+
+Initial total rank error: 361
+ITERATION 1:
+Nr enq swaps: 10
+Nr deq swaps: 20
+Time (min): 3.2191
+Total rank error after: 324
+ITERATION 2:
+Nr enq swaps: 3
+Nr deq swaps: 14
+Time (min): 0.0407
+Total rank error after: 308
+ITERATION 3:
+Nr enq swaps: 1
+Nr deq swaps: 8
+Time (min): 0.0241
+Total rank error after: 299
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-5000-faaaq-d4-n32.csv
+Number of put operations: 5000
+Number of get operations: 5000
+Max rank error: 15
+Total rank error: 301
+Mean rank error: 0.06
+Rank error variance: 0.62
+FAILED Timestamp tests failed!
+Multiple timestamps: 303
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 3.6384758 minutes

@@ -1,0 +1,35 @@
+
+Initial total rank error: 230
+ITERATION 1:
+Nr enq swaps: 14
+Nr deq swaps: 19
+Time (min): 3.2583
+Total rank error after: 207
+ITERATION 2:
+Nr enq swaps: 2
+Nr deq swaps: 19
+Time (min): 0.0483
+Total rank error after: 186
+ITERATION 3:
+Nr enq swaps: 1
+Nr deq swaps: 5
+Time (min): 0.0156
+Total rank error after: 180
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-5000-faaaq-d8-n32.csv
+Number of put operations: 5000
+Number of get operations: 5000
+Max rank error: 10
+Total rank error: 181
+Mean rank error: 0.04
+Rank error variance: 0.21
+FAILED Timestamp tests failed!
+Multiple timestamps: 301
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 3.66468525 minutes

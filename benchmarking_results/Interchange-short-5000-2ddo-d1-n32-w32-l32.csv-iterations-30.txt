@@ -1,0 +1,75 @@
+
+Initial total rank error: 927738
+ITERATION 1:
+Nr enq swaps: 1447
+Nr deq swaps: 1858
+Time (min): 7.6876
+Total rank error after: 919422
+ITERATION 2:
+Nr enq swaps: 843
+Nr deq swaps: 1184
+Time (min): 3.1597
+Total rank error after: 916080
+ITERATION 3:
+Nr enq swaps: 529
+Nr deq swaps: 732
+Time (min): 2.1502
+Total rank error after: 914356
+ITERATION 4:
+Nr enq swaps: 304
+Nr deq swaps: 398
+Time (min): 1.274
+Total rank error after: 913487
+ITERATION 5:
+Nr enq swaps: 161
+Nr deq swaps: 205
+Time (min): 0.6701
+Total rank error after: 913018
+ITERATION 6:
+Nr enq swaps: 88
+Nr deq swaps: 84
+Time (min): 0.3566
+Total rank error after: 912826
+ITERATION 7:
+Nr enq swaps: 38
+Nr deq swaps: 40
+Time (min): 0.1612
+Total rank error after: 912744
+ITERATION 8:
+Nr enq swaps: 23
+Nr deq swaps: 26
+Time (min): 0.124
+Total rank error after: 912678
+ITERATION 9:
+Nr enq swaps: 14
+Nr deq swaps: 11
+Time (min): 0.0703
+Total rank error after: 912648
+ITERATION 10:
+Nr enq swaps: 10
+Nr deq swaps: 7
+Time (min): 0.0353
+Total rank error after: 912630
+ITERATION 11:
+Nr enq swaps: 9
+Nr deq swaps: 1
+Time (min): 0.0279
+Total rank error after: 912620
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-5000-2ddo-d1-n32-w32-l32.csv
+Number of put operations: 5000
+Number of get operations: 5000
+Max rank error: 884
+Total rank error: 912914
+Mean rank error: 182.58
+Rank error variance: 33022.41
+FAILED Timestamp tests failed!
+Multiple timestamps: 1246
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 16.39892001666667 minutes
