@@ -14,9 +14,9 @@ It is based on the code from the DCS Chalmers repository [semantic-relaxation-dc
 ## Ensure correct filepath setup
 In the _semantic-relaxation_ repository, we have added functionality to save start and end timestamps for enqueue and dequeue operations, for some queues (2Dd_optimized, d-cbo, faaaq).
 The timestamps are saved in CSV files which we mostly refer to as "timestamp files".
-Additionally, we print the linearization point timestamps defined by the authors of [semantic-relaxation-dcbo](https://github.com/dcs-chalmers/semantic-relaxation-dcbo) to a separate CSV file, and the results of that linearization to a text file.
+Additionally, we print the linearization point timestamps (defined by the original authors) to a separate CSV file, and the results of that linearization to a text file.
 
-Therefore, there are filepath dependencies between the _semantic-relaxation_ repository and this repository. 
+Therefore, there are filepath dependencies between _our_ [semantic-relaxation](https://github.com/minimizing-relaxation-errors/semantic-relaxation) repository and this repository. 
 The concerned filepaths are all defined in _sematic-relaxation > Include > relaxation_linearization_timestamp.c_. 
 The filepath for printing start and end timestamps should be set to the "timestamps" folder in this repo.
 The filepath for printing linearization point timestamps and the results of that linearization should be set to the "current_linearization_results" folder in this repo. 
