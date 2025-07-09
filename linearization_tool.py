@@ -169,7 +169,7 @@ if __name__=="__main__":
     if has_passed_tests: print_data_str += "\nPASSED All timestamp tests passed!"
     else: print_data_str += "\nFAILED Timestamp tests failed!\n" + test_str
 
-    f = open("benchmarking_temps/" + output_file_name + ".txt", "w")
+    f = open("benchmarking_results/" + output_file_name + ".txt", "w")
     f.write("\n" + out_str + "\n" + print_data_str + "\n" + time_diff_str)
     f.close()
 
