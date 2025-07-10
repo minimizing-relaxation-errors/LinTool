@@ -1,0 +1,55 @@
+
+Initial total rank error: 4475
+ITERATION 1:
+Nr enq swaps: 66
+Nr deq swaps: 93
+Time (min): 187.2418
+Total rank error after: 4376
+ITERATION 2:
+Nr enq swaps: 15
+Nr deq swaps: 79
+Time (min): 1.8664
+Total rank error after: 4276
+ITERATION 3:
+Nr enq swaps: 10
+Nr deq swaps: 30
+Time (min): 1.0269
+Total rank error after: 4246
+ITERATION 4:
+Nr enq swaps: 7
+Nr deq swaps: 22
+Time (min): 0.8267
+Total rank error after: 4221
+ITERATION 5:
+Nr enq swaps: 4
+Nr deq swaps: 14
+Time (min): 0.5266
+Total rank error after: 4198
+ITERATION 6:
+Nr enq swaps: 4
+Nr deq swaps: 8
+Time (min): 0.3176
+Total rank error after: 4188
+ITERATION 7:
+Nr enq swaps: 2
+Nr deq swaps: 4
+Time (min): 0.2329
+Total rank error after: 4182
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-37500-faaaq-d2-n32_1.csv
+Number of put operations: 37500
+Number of get operations: 37500
+Max rank error: 239
+Total rank error: 4188
+Mean rank error: 0.11
+Rank error variance: 3.61
+FAILED Timestamp tests failed!
+Multiple timestamps: 2903
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 218.71911493333334 minutes
