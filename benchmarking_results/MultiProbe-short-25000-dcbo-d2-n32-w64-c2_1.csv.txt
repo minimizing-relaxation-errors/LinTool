@@ -1,0 +1,18 @@
+
+
+
+Linearization method: MultiProbe
+File name: short-25000-dcbo-d2-n32-w64-c2_1.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 465
+Total rank error: 1162883
+Mean rank error: 46.52
+Rank error variance: 2178.26
+FAILED Timestamp tests failed!
+Multiple timestamps: 7003
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 0.16936233333333334 minutes

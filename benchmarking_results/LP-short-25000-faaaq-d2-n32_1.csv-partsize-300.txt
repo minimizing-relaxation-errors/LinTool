@@ -1,0 +1,22 @@
+
+Constraint violation is: 4.656612873077393e-10
+2617880 < 2617880.0 < 2618251
+Constraint violation is: 4.656612873077393e-10
+3014130 < 3014130.0 < 3014672
+
+
+Linearization method: LP
+File name: short-25000-faaaq-d2-n32_1.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 40
+Total rank error: 21862
+Mean rank error: 0.87
+Rank error variance: 4.53
+FAILED Timestamp tests failed!
+Multiple timestamps: 1580
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 3.1054370666666666 minutes

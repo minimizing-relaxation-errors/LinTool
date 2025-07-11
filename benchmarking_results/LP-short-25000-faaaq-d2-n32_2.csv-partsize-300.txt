@@ -1,0 +1,18 @@
+
+
+
+Linearization method: LP
+File name: short-25000-faaaq-d2-n32_2.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 59
+Total rank error: 37085
+Mean rank error: 1.48
+Rank error variance: 13.57
+FAILED Timestamp tests failed!
+Multiple timestamps: 1684
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 3.17478615 minutes

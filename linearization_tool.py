@@ -121,14 +121,16 @@ if __name__=="__main__":
             method = Linearization.ILP
             (puts, gets) = order_to_timestamp(operation_intervals, decided_ordering_dict)    # May throw exception
         case "lp":
-            (puts, gets, out_str) = windowed_linear_programming(operation_intervals, 300)
+            partial_size = 300
+            (puts, gets, out_str) = windowed_linear_programming(operation_intervals, partial_size)
             method = Linearization.LP
+            output_file_name = str(Linearization.LP.name) + "-" + filename + "-partsize-" + str(partial_size)
         case "mulpro":
+            method = Linearization.MultiProbe
             plot = False
             if not plot:
                 (puts, gets) = exhaustive_ratio(operation_intervals, False)
-                method = Linearization.MultiProbe
-            else:
+            else: # Can't plot and produce results file at once. Plotting causes error later as (puts,gets) have not been defined
                 res = exhaustive_ratio(get_timestamps_from_file(filename), plot)
                 plot_tries(res)
         case "interchange":
