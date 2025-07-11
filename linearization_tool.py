@@ -124,11 +124,11 @@ if __name__=="__main__":
             (puts, gets, out_str) = windowed_linear_programming(operation_intervals, 300)
             method = Linearization.LP
         case "mulpro":
+            method = Linearization.MultiProbe
             plot = False
             if not plot:
                 (puts, gets) = exhaustive_ratio(operation_intervals, False)
-                method = Linearization.MultiProbe
-            else:
+            else: # Can't plot and produce results file at once. Plotting causes error later as (puts,gets) have not been defined
                 res = exhaustive_ratio(get_timestamps_from_file(filename), plot)
                 plot_tries(res)
         case "interchange":

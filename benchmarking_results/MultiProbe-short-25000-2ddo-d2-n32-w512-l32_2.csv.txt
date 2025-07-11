@@ -1,0 +1,18 @@
+
+
+
+Linearization method: MultiProbe
+File name: short-25000-2ddo-d2-n32-w512-l32_2.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 1260
+Total rank error: 20240808
+Mean rank error: 809.63
+Rank error variance: 140850.64
+FAILED Timestamp tests failed!
+Multiple timestamps: 2814
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 1.0027402166666666 minutes
