@@ -1,0 +1,90 @@
+
+Initial total rank error: 20230247
+ITERATION 1:
+Nr enq swaps: 9204
+Nr deq swaps: 9772
+Time (min): 312.5306
+Total rank error after: 20176187
+ITERATION 2:
+Nr enq swaps: 5591
+Nr deq swaps: 6535
+Time (min): 157.9168
+Total rank error after: 20155654
+ITERATION 3:
+Nr enq swaps: 3661
+Nr deq swaps: 4696
+Time (min): 97.8135
+Total rank error after: 20144223
+ITERATION 4:
+Nr enq swaps: 2087
+Nr deq swaps: 3101
+Time (min): 61.395
+Total rank error after: 20137762
+ITERATION 5:
+Nr enq swaps: 1100
+Nr deq swaps: 1962
+Time (min): 43.0316
+Total rank error after: 20134183
+ITERATION 6:
+Nr enq swaps: 510
+Nr deq swaps: 1118
+Time (min): 22.9066
+Total rank error after: 20132294
+ITERATION 7:
+Nr enq swaps: 227
+Nr deq swaps: 621
+Time (min): 11.3425
+Total rank error after: 20131310
+ITERATION 8:
+Nr enq swaps: 101
+Nr deq swaps: 296
+Time (min): 5.2339
+Total rank error after: 20130856
+ITERATION 9:
+Nr enq swaps: 41
+Nr deq swaps: 126
+Time (min): 2.3601
+Total rank error after: 20130657
+ITERATION 10:
+Nr enq swaps: 13
+Nr deq swaps: 63
+Time (min): 0.9054
+Total rank error after: 20130575
+ITERATION 11:
+Nr enq swaps: 5
+Nr deq swaps: 34
+Time (min): 0.6401
+Total rank error after: 20130531
+ITERATION 12:
+Nr enq swaps: 4
+Nr deq swaps: 16
+Time (min): 0.3112
+Total rank error after: 20130515
+ITERATION 13:
+Nr enq swaps: 4
+Nr deq swaps: 9
+Time (min): 0.2186
+Total rank error after: 20130500
+ITERATION 14:
+Nr enq swaps: 1
+Nr deq swaps: 4
+Time (min): 0.1236
+Total rank error after: 20130495
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-25000-2ddo-d2-n32-w512-l32_2.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 1253
+Total rank error: 20132097
+Mean rank error: 805.28
+Rank error variance: 140048.01
+FAILED Timestamp tests failed!
+Multiple timestamps: 8592
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 747.2651738833333 minutes

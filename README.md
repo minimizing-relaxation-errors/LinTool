@@ -105,4 +105,5 @@ Note that linearization methods assume certain data files exist, according to th
 | Linearization file    | Interchange     |
 | Ordering file         | ILP<br>Ordering method    |
 
+**For full transparency, the Interchange method is quite inefficient. A file of 50 000 operations take around 10-15 hours to process with Interchange. Due to it's high complexity, smaller files saves much in computation time. A file of 20 000 operations take around 30 minutes.**
 
