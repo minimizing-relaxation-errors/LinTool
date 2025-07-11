@@ -1,0 +1,20 @@
+
+Constraint violation is: 9.313225746154785e-10
+4622224 < 4622224.0 < 4649377
+
+
+Linearization method: LP
+File name: short-25000-2ddo-d2-n32-w128-l32_1.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 1156
+Total rank error: 15682737
+Mean rank error: 627.31
+Rank error variance: 141227.91
+FAILED Timestamp tests failed!
+Multiple timestamps: 7976
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 3.1495500666666665 minutes

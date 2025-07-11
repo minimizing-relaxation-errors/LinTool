@@ -1,0 +1,18 @@
+
+
+
+Linearization method: LP
+File name: short-25000-dcbo-d2-n32-w512-c2_3.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 1146
+Total rank error: 7973463
+Mean rank error: 318.94
+Rank error variance: 72765.94
+FAILED Timestamp tests failed!
+Multiple timestamps: 6832
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 3.1983297166666667 minutes

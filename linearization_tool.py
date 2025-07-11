@@ -121,8 +121,10 @@ if __name__=="__main__":
             method = Linearization.ILP
             (puts, gets) = order_to_timestamp(operation_intervals, decided_ordering_dict)    # May throw exception
         case "lp":
-            (puts, gets, out_str) = windowed_linear_programming(operation_intervals, 300)
+            partial_size = 300
+            (puts, gets, out_str) = windowed_linear_programming(operation_intervals, partial_size)
             method = Linearization.LP
+            output_file_name = str(Linearization.LP.name) + "-" + filename + "-partsize-" + str(partial_size)
         case "mulpro":
             method = Linearization.MultiProbe
             plot = False
