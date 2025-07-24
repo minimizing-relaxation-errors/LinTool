@@ -1,0 +1,13 @@
+
+
+
+Linearization method: MultiProbe
+File name: short-10-dcbo-d2-n32-w32-c2_1.csv
+Number of put operations: 10
+Number of get operations: 10
+Max rank error: 4
+Total rank error: 21
+Mean rank error: 2.1
+Rank error variance: 2.1
+PASSED All timestamp tests passed!
+Time: 0.0 minutes

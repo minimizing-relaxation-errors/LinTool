@@ -1,0 +1,14 @@
+
+
+
+Linearization method: ILP
+File name: short-10-2ddo-d2-n32-w32-l32_1.csv
+Number of put operations: 10
+Number of get operations: 10
+Max rank error: 5
+Total rank error: 22
+Mean rank error: 2.2
+Rank error variance: 4.62
+PASSED All order tests!
+PASSED All timestamp tests passed!
+Time: 0.003610916666666667 minutes

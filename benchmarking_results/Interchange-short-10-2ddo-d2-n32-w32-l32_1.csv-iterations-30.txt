@@ -1,0 +1,20 @@
+
+Initial total rank error: 24
+ITERATION 1:
+Nr enq swaps: 0
+Nr deq swaps: 2
+Time (min): 0.0
+Total rank error after: 22
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-10-2ddo-d2-n32-w32-l32_1.csv
+Number of put operations: 10
+Number of get operations: 10
+Max rank error: 5
+Total rank error: 22
+Mean rank error: 2.2
+Rank error variance: 4.4
+PASSED All timestamp tests passed!
+Time: 0.00035105 minutes

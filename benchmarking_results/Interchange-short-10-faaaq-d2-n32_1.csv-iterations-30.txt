@@ -1,0 +1,20 @@
+
+Initial total rank error: 0
+ITERATION 1:
+Nr enq swaps: 0
+Nr deq swaps: 0
+Time (min): 0.0
+Total rank error after: 0
+Max number of iterations: 30
+Number of swaps stopping critera: 10
+
+Linearization method: Interchange
+File name: short-10-faaaq-d2-n32_1.csv
+Number of put operations: 10
+Number of get operations: 10
+Max rank error: 0
+Total rank error: 0
+Mean rank error: 0.0
+Rank error variance: 0.0
+PASSED All timestamp tests passed!
+Time: 0.00026071666666666667 minutes
