@@ -1,0 +1,40 @@
+
+Constraint violation is: 1.1004885891452432e-10
+4650 < 4650.0 < 5292
+Constraint violation is: 9.313225746154785e-10
+6843655 < 6844306.0 < 6844306
+Constraint violation is: 2.3283064365386963e-10
+1857053 < 1857053.0 < 1857744
+Constraint violation is: 9.313225746154785e-10
+6097482 < 6097482.0 < 6098123
+Constraint violation is: 2.3283064365386963e-10
+1480388 < 1480388.0 < 1481079
+Constraint violation is: 4.656612873077393e-10
+4053193 < 4053193.0 < 4053995
+Constraint violation is: 2.3283064365386963e-10
+1959982 < 1959982.0 < 1960613
+Constraint violation is: 4.656612873077393e-10
+3794503 < 3794503.0 < 3795194
+Constraint violation is: 4.656612873077393e-10
+3825886 < 3825886.0 < 3826617
+Constraint violation is: 1.1641532182693481e-10
+354082 < 354082.0 < 354463
+Constraint violation is: 5.820766091346741e-11
+341232 < 341232.0 < 341884
+
+
+Linearization method: LP
+File name: dcbo-d2-n32-w32-c2_1.csv
+Number of put operations: 88959
+Number of get operations: 88638
+Max rank error: 349
+Total rank error: 1976752
+Mean rank error: 22.3
+Rank error variance: 494.1
+FAILED Timestamp tests failed!
+Multiple timestamps: 23680
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: ['614400']
+Time: 7.466959716666667 minutes

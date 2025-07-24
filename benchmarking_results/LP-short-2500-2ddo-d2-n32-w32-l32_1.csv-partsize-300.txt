@@ -1,0 +1,18 @@
+
+
+
+Linearization method: LP
+File name: short-2500-2ddo-d2-n32-w32-l32_1.csv
+Number of put operations: 2500
+Number of get operations: 2500
+Max rank error: 949
+Total rank error: 571019
+Mean rank error: 228.41
+Rank error variance: 50792.27
+FAILED Timestamp tests failed!
+Multiple timestamps: 429
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 0.3043066 minutes

@@ -15,4 +15,4 @@ Enqueue not within interval (op values): []
 Dequeue not within interval (op values): []
 Enqueue not before dequeue: []
 Enqueue and dequeue have same timestamp: []
-Time: 3.1972512 minutes
+Time: 2.2572707833333334 minutes

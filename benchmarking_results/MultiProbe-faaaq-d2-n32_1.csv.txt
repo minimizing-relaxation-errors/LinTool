@@ -1,0 +1,18 @@
+
+
+
+Linearization method: MultiProbe
+File name: faaaq-d2-n32_1.csv
+Number of put operations: 49367
+Number of get operations: 48472
+Max rank error: 241
+Total rank error: 7696
+Mean rank error: 0.16
+Rank error variance: 3.25
+FAILED Timestamp tests failed!
+Multiple timestamps: 4147
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 0.7892252333333334 minutes

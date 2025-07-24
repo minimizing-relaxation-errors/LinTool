@@ -1,0 +1,34 @@
+
+Constraint violation is: 2.3283064365386963e-10
+653688 < 653688.0 < 656324
+Constraint violation is: 2.3283064365386963e-10
+1793195 < 1793195.0 < 1796002
+Constraint violation is: 4.69299266114831e-10
+11436 < 11436.0 < 11737
+Constraint violation is: 2.3283064365386963e-10
+2057469 < 2057469.0 < 2057780
+Constraint violation is: 2.3283064365386963e-10
+1185915 < 1185915.0 < 1186215
+Constraint violation is: 9.313225746154785e-10
+6973138 < 6973138.0 < 6973519
+Constraint violation is: 5.820766091346741e-11
+254691 < 254691.0 < 255002
+Constraint violation is: 4.656612873077393e-10
+3057522 < 3057522.0 < 3059888
+
+
+Linearization method: LP
+File name: 2ddo-d2-n32-w32-l32_1.csv
+Number of put operations: 65563
+Number of get operations: 64651
+Max rank error: 950
+Total rank error: 9314135
+Mean rank error: 144.07
+Rank error variance: 22797.32
+FAILED Timestamp tests failed!
+Multiple timestamps: 21998
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 5.892593383333334 minutes
