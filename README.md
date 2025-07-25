@@ -93,7 +93,21 @@ The function `unpickle(filename)` in `unpickle.py` returns the data from an exis
 The un_pickle function is called from linearization_tool before calling a linearization method that expects orders as input.
 
 # How to run
-Run the tool by calling the main file (`linearization_tool.py`) with input arguments `<filename> <linearization method>`. 
+Run the tool by calling the main file (`linearization_tool.py`) with input arguments `<filename> <linearization method>`, according to the naming table below.
+Note that "Timestamp approximation" simply calculates the rank error of an existing linearization file.
+
+| Method name | Input argument |
+| --------    | -------        |
+| Start | start |
+| End | end |
+| Mid | mid |
+| 25th | twofive |
+| 75th | sevenfive |
+| Integer Programming | ilp |
+| Linear programming | lp |
+| Multiple Probing | mulpro |
+| Ordering method | linord |
+| Timestamp approximation | ta |
 
 Example (Windows): `py linearization_tool.py dcbo-n16-d10-w8.csv start`
 
@@ -102,8 +116,8 @@ Note that linearization methods assume certain data files exist, according to th
 | File type             | Method    |
 | --------              | -------   |
 | Timestamp file        | End<br>Mid<br>Start<br>SeventyFive<br>TwentyFive<br>MultiProbe<br>LP<br>Interchange<br>Ordering method    |
-| Linearization file    | Interchange     |
-| Ordering file         | ILP<br>Ordering method    |
+| Linearization file    | Interchange<br> Timestamp approximation     |
+| Ordering file         | IP<br>Ordering method    |
 
 **For full transparency, the Interchange method is quite inefficient. A file of 50 000 operations take around 10-15 hours to process with Interchange. Due to it's high complexity, smaller files saves much in computation time. A file of 20 000 operations take around 30 minutes.**
 
