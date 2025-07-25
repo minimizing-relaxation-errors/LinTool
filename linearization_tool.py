@@ -33,7 +33,7 @@ from lin_methods.lin_try import exhaustive_ratio, plot_tries
 from lin_methods.lin_interchange import interchange
 from lin_methods.lin_ordering import ordering_lin
 
-from utils.compute_rank_error import compute_rank_error
+from utils.compute_rank_error import compute_rank_error, compute_rank_error_from_file
 from utils.un_pickle import un_pickle
 from utils.decided_ordering_to_timestamp import order_to_timestamp
 from utils.timestamp_from_file import get_timestamps_from_file, get_existing_lin
@@ -58,6 +58,7 @@ class Linearization(Enum):
     Interchange = auto()
     MultiProbe = auto()
     Order = auto()
+    TimeApprox = auto()
 
 # Returns readible string of the results
 def get_print_data(filename, results, lin_method: Linearization):
@@ -89,6 +90,13 @@ def format_result_per_item(puts, gets):
 
 if __name__=="__main__":
     if filename == "" or method_inp == "": sys.exit("Filename and/or method not specified")
+    # First check if timestamp approximation. If so, simply compute rank error of existing linearization file
+    if method_inp == "ta":
+        print_data_str = get_print_data(filename, compute_rank_error_from_file(filename), Linearization.TimeApprox)
+        f = open("benchmarking_results/" + str(Linearization.TimeApprox.name) + "-" + filename + ".txt", "w")
+        f.write(print_data_str)
+        f.close()
+        sys.exit("Finished timestamp approximation.")
     operation_intervals = get_timestamps_from_file(filename) # Called "timestamps" before
     results = None
     (puts,gets) = (None, None)

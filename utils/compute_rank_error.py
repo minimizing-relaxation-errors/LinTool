@@ -48,6 +48,17 @@ def compute_rank_error(puts, gets):
 
 	return (tot_put, tot_get, tot_rank_error, max_rank_error, mean_rank_error, rank_error_variance)
 
+def compute_rank_error_from_file(filename):
+	lin = get_existing_lin(filename)
+	gets = {}
+	puts = {}
+	for item, points in lin.items(): # points[0] is enqueue point, points[1] is dequeue point
+		puts[item] = points[0]
+		if points[1] != None:
+			gets[item] = points[1]
+	
+	return compute_rank_error(puts, gets)
+
 filename = ""
 if len(sys.argv) == 2:
     filename = sys.argv[1]
