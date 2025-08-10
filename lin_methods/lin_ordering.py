@@ -8,7 +8,8 @@ import random
 def ordering_lin(inp, time_inp):
     ## inp contains full possible positions for enq and deq short and long overlap only contain overlap
     short_overlaps, long_overlaps, split_overlaps, no_deqs = create_overlaps(inp)
-    ''' ## help print for the structure of the different inputs
+    #print(inp)
+    """## help print for the structure of the different inputs
     for i in short_overlaps:
         print("short_overlap: ", i, short_overlaps[i], "length: ", len(short_overlaps))
         break
@@ -24,7 +25,7 @@ def ordering_lin(inp, time_inp):
     for i in inp:
         print("inp: ", i, inp[i])
         break
-    '''
+    """
     nones = len(no_deqs)
     long_overlaps = dict(sorted(long_overlaps.items(), key=lambda x:len(x[1])))
     nq_index = [0]*len(inp) ## index arrays to keep track of which orders are assigned 0 if not assigned and the key of the dicts otherwise
@@ -235,13 +236,15 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
         if len(p) > 1:
             min = 1000
             item = None
+            
             for i in p[1:]:
                 if len(inp[i][1]) < min:
                     min = len(inp[i][1])
                     item = i
-            if not item in nq_index:
-                nq_index[p[0]] = item
-            keys.remove(item)
+            if not item in nq_index: ## this is true if item is None
+                nq_index[p[0]] = item 
+            if item != None:
+                keys.remove(item)
             # go through and assign one of them removing the potential from all other lists in the datastructure         
             for q in range(len(potentials)):
                 if item in potentials[q]:
@@ -267,9 +270,10 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
                 if len(inp[i][2]) < min:
                     min = len(inp[i][2])
                     item = i
-            if not item in dq_index:
+            if not item in dq_index and item != None: ## true if item is None 
                 dq_index[p[0]] = item
-            keys.remove(item)
+            if item != None:
+                keys.remove(item)
             for q in range(len(potentials)):
                 if item in potentials[q]:
                     potentials[q].remove(item)
