@@ -1,0 +1,25 @@
+
+
+
+Linearization method: Order
+File name: short-2500-dcbo-d2-n32-w32-c2_1.csv
+Number of put operations: 2500
+Number of get operations: 2500
+Max rank error: 190
+Total rank error: 53606
+Mean rank error: 21.44
+Rank error variance: 531.85
+FAILED Order tests failed!
+
+PASSED Test: Equal lengths
+FAILED Test: Orders in original dict
+PASSED Test: All tuples size 2
+PASSED Test: Enq orders assigned once
+PASSED Test: Deq orders assigned once
+FAILED Timestamp tests failed!
+Multiple timestamps: 1021
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 0.09792656666666667 minutes

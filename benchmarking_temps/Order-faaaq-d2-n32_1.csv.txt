@@ -1,0 +1,24 @@
+
+
+
+Linearization method: Order
+File name: faaaq-d2-n32_1.csv
+Number of put operations: 49367
+Number of get operations: 48472
+Max rank error: 245
+Total rank error: 263336
+Mean rank error: 5.43
+Rank error variance: 65.91
+FAILED Order tests failed!
+PASSED Test: Equal lengths
+FAILED Test: Orders in original dict
+PASSED Test: All tuples size 2
+PASSED Test: Enq orders assigned once
+PASSED Test: Deq orders assigned once
+FAILED Timestamp tests failed!
+Mutiple timestamps: 24195
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 131.4076235 minutes

@@ -1,0 +1,19 @@
+
+
+
+Linearization method: Order
+File name: short-5000-faaaq-d1-n32.csv
+Number of put operations: 5000
+Number of get operations: 5000
+Max rank error: 73
+Total rank error: 21447
+Mean rank error: 4.29
+Rank error variance: 53.65
+PASSED All order tests!
+FAILED Timestamp tests failed!
+Multiple timestamps: 1957
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 2.757454966666667 minutes

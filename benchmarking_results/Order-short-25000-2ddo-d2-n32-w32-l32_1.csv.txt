@@ -1,0 +1,25 @@
+
+
+
+Linearization method: Order
+File name: short-25000-2ddo-d2-n32-w32-l32_1.csv
+Number of put operations: 25000
+Number of get operations: 25000
+Max rank error: 949
+Total rank error: 3877316
+Mean rank error: 155.09
+Rank error variance: 26465.3
+FAILED Order tests failed!
+
+PASSED Test: Equal lengths
+FAILED Test: Orders in original dict
+PASSED Test: All tuples size 2
+PASSED Test: Enq orders assigned once
+PASSED Test: Deq orders assigned once
+FAILED Timestamp tests failed!
+Multiple timestamps: 16461
+Enqueue not within interval (op values): []
+Dequeue not within interval (op values): []
+Enqueue not before dequeue: []
+Enqueue and dequeue have same timestamp: []
+Time: 26.208185566666668 minutes

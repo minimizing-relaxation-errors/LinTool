@@ -1,0 +1,14 @@
+
+
+
+Linearization method: Order
+File name: short-10-faaaq-d2-n32_1.csv
+Number of put operations: 10
+Number of get operations: 10
+Max rank error: 0
+Total rank error: 0
+Mean rank error: 0.0
+Rank error variance: 0.0
+PASSED All order tests!
+PASSED All timestamp tests passed!
+Time: 5.516666666666667e-06 minutes

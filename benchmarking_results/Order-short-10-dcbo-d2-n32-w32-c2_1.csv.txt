@@ -1,0 +1,14 @@
+
+
+
+Linearization method: Order
+File name: short-10-dcbo-d2-n32-w32-c2_1.csv
+Number of put operations: 10
+Number of get operations: 10
+Max rank error: 4
+Total rank error: 18
+Mean rank error: 1.8
+Rank error variance: 1.96
+PASSED All order tests!
+PASSED All timestamp tests passed!
+Time: 0.00023583333333333334 minutes

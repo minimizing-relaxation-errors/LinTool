@@ -73,23 +73,29 @@ def check(order, time, inp):
         keys = list(sorted_ordering_dict.keys())
         for k in range(len(keys)):
             for j in range(k, len(keys)):
-                if time[keys[k]].enq_start >= time[keys[j]].enq_end and order[keys[k]][0] in inp[keys[j]][1] and order[keys[j]][0] in inp[keys[k]][1]:
-                    order_swp, order_keep = order[keys[k]][0], order[keys[k]][1]
-                    order.update({keys[k]: (order[keys[j]][0], order_keep)})
-                    order_keep = order[keys[j]][1]
-                    order.update({keys[j]: (order_swp, order_keep)})
-                    swaps+=1
+                if time[keys[k]].enq_start >= time[keys[j]].enq_end:
+                    if order[keys[k]][0] in inp[keys[j]][1] and order[keys[j]][0] in inp[keys[k]][1]:
+                        order_swp, order_keep = order[keys[k]][0], order[keys[k]][1]
+                        order.update({keys[k]: (order[keys[j]][0], order_keep)})
+                        order_keep = order[keys[j]][1]
+                        order.update({keys[j]: (order_swp, order_keep)})
+                        swaps+=1
+                    else:
+                        swaps+=1
         no_none = {k:v for k,v in order.items() if v[1] != None}
         sorted_ordering_dict = {k: v for k, v in sorted(no_none.items(), key=lambda item: item[1][1])}
         keys = list(sorted_ordering_dict.keys())
         for k in range(len(keys)):
             for j in range(k, len(keys)):
-                if time[keys[k]].deq_start >= time[keys[j]].deq_end and order[keys[k]][1] in inp[keys[j]][2] and order[keys[j]][1] in inp[keys[k]][2]:
-                    order_swp, order_keep = order[keys[k]][1], order[keys[k]][0]
-                    order.update({keys[k]: (order_keep, order[keys[j]][1])})
-                    order_keep = order[keys[j]][0]
-                    order.update({keys[j]: (order_keep, order_swp)})
-                    swaps+=1
+                if time[keys[k]].deq_start >= time[keys[j]].deq_end:
+                    if order[keys[k]][1] in inp[keys[j]][2] and order[keys[j]][1] in inp[keys[k]][2]:
+                        order_swp, order_keep = order[keys[k]][1], order[keys[k]][0]
+                        order.update({keys[k]: (order_keep, order[keys[j]][1])})
+                        order_keep = order[keys[j]][0]
+                        order.update({keys[j]: (order_keep, order_swp)})
+                        swaps+=1
+                    else:
+                        swaps+=1
     return order
 
 # assign items with no overlap (split) to available positions
@@ -136,6 +142,7 @@ def assign_no_overlap(split_overlaps, nq_index, dq_index, inp):
 def splitting_longs(longs, nq_index, dq_index, inp):
     longys = dict()
     keys = longs.keys()
+    #print(longs)
     for k in keys:
         longys.update({k: (longs[k][0], longs[k][0])})
     return longys, nq_index, dq_index
@@ -173,7 +180,7 @@ def create_overlaps(inp):
                     overlap = overlap + tuple([e]) # add all overlapping timestamps to a tuple 
                 #else: pass
         if overlap == (): # if there are no overlapping
-            min = 10000
+            min = 100000
             for e in enqs:
                 for d in deqs:
                     if d != None:
@@ -189,17 +196,23 @@ def create_overlaps(inp):
     long_overlaps = dict()
     nones = dict() # items with no dequeue
     split_overlap = dict()
+    num = 0
     for value in sort.keys():
         (pos, enqs, deqs) = sort[value]
         if len(pos) == 1:
             short_overlaps.update({value: (pos[0],pos[0])}) # add so that all tuples have length 2 (for enq, deq). 
         elif None in pos:
+            print(pos)
             nones.update({value: pos})
         elif len(pos) == 2:
             if abs(pos[0] - pos[1]) != -1:
                 split_overlap.update({value: (pos[0], pos[1])}) # add the closest pair ones. to the 
-        else:
+        elif len(pos) > 2:
             long_overlaps.update({value: pos})
+        else: 
+            print(value, pos, "\n", inp[value])
+            num+=1
+            print(num)
     return short_overlaps, long_overlaps, split_overlap, nones
 
 # loops through indices at the end of nq where there is no corresponding dq
@@ -208,6 +221,7 @@ def preassign_no_deqs_at_end(no_deqs, nq_index, dq_index_len):
     for n in range(dq_index_len, len(nq_index)):
         for item in no_deqs.items():
             if n in item[1] and nq_index[n] == 0:
+                print("preass:", item)
                 nq_index[n] = item[0]
                 no_deqs.pop(item[0])
                 break
@@ -234,7 +248,7 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
         if len(p) == 1:
             no_pots.append(p[0])
         if len(p) > 1:
-            min = 1000
+            min = 100000
             item = None
             
             for i in p[1:]:
@@ -242,6 +256,7 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
                     min = len(inp[i][1])
                     item = i
             if not item in nq_index: ## this is true if item is None
+                print(item, "assign rest ❌❌❌")
                 nq_index[p[0]] = item 
             if item != None:
                 keys.remove(item)
@@ -285,6 +300,8 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
                 for p in poss:
                     if p not in nq_index:
                         nq_index[n] = p
+                        if p == None:
+                            print(p, "assign to zero p🤏🤏🤏")
                         ass = True
                         break
                 if not ass:
@@ -312,16 +329,18 @@ def assign_to_zero(shorts, longs, no_deq, nq_index, dq_index, inp, pot_per_nq, p
 # corresponds to all of the items that could go in that index in the ordering
 def pot_per_pos(inp, num_nq, num_dq): 
     nq = []
-    for i in range(num_nq):
+    for i in range(num_nq+1):
         nq.append([])
     dq = []
-    for i in range(num_dq):
+    for i in range(num_dq+1):
         dq.append([])
     for k in inp.keys():
         for n in inp[k][1]:
             nq[n].append(k)
         for d in inp[k][2]:
             if d != None:
+                #print(inp[k])
+                #print(num_dq)
                 dq[d].append(k)
             else: pass
     return nq, dq
@@ -329,18 +348,24 @@ def pot_per_pos(inp, num_nq, num_dq):
 # nq_index and dq_index into shape of dictionary required from "get timestamp from order" function.
 def into_dict(nq_index, dq_index): 
     dic = dict()
-
+    if None in nq_index:
+        print("nq")
+    if None in dq_index:
+        print("dq: ")
     for n in range(len(nq_index)):
         for d in range(len(dq_index)):
             if nq_index[n] == dq_index[d]:
                 dic.update({nq_index[n]: (n, d)})
         if nq_index[n] not in dic.keys():
             dic.update({nq_index[n]: (n, None)})
+    if None in dic.keys():
+        print(dic[None])
     return dic
 
 # test that the output size is the same as the input size 
 def test(inp, dic):
     for d in dic.keys():
+        #print(d)
         if not dic[d][0] in inp[d][1]:
             print("nq: ",d, ": ",dic[d], inp[d])
         if not dic[d][1] in inp[d][2]:
