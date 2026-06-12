@@ -135,7 +135,7 @@ if __name__=="__main__":
             output_file_name = str(Linearization.LP.name) + "-" + filename + "-partsize-" + str(partial_size)
         case "mulpro":
             method = Linearization.MultiProbe
-            plot = False
+            plot = True
             if not plot:
                 (puts, gets) = exhaustive_ratio(operation_intervals, False)
             else: # Can't plot and produce results file at once. Plotting causes error later as (puts,gets) have not been defined

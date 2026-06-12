@@ -2,18 +2,18 @@
 
 
 Linearization method: Order
-File name: short-5000-dcbo-d4-n32-w32-c2.csv
+File name: short-5000-faaaq-d8-n32.csv
 Number of put operations: 5000
 Number of get operations: 5000
-Max rank error: 195
-Total rank error: 108162
-Mean rank error: 21.63
-Rank error variance: 470.35
+Max rank error: 79
+Total rank error: 21166
+Mean rank error: 4.23
+Rank error variance: 53.77
 PASSED All order tests!
 FAILED Timestamp tests failed!
-Multiple timestamps: 2985
+Multiple timestamps: 1988
 Enqueue not within interval (op values): []
 Dequeue not within interval (op values): []
 Enqueue not before dequeue: []
 Enqueue and dequeue have same timestamp: []
-Time: 1.0449382333333332 minutes
+Time: 1.6114476666666666 minutes

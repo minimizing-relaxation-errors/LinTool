@@ -11,4 +11,4 @@ Mean rank error: 2.3
 Rank error variance: 5.12
 PASSED All order tests!
 PASSED All timestamp tests passed!
-Time: 8.076666666666666e-05 minutes
+Time: 3.816666666666667e-06 minutes

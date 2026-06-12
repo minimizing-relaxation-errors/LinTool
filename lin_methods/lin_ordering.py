@@ -81,6 +81,10 @@ def check(order, time, inp):
                         order.update({keys[j]: (order_swp, order_keep)})
                         swaps+=1
                     else:
+                        #while time[keys[k]].enq_start >= time[keys[j]].enq_end:
+                        #    if able start able to switch earlier, swap with order -1 and swap%2 == 0
+                        #    if able end to switch later, swap with order -1 and swap%2 ==
+                        print("🎉🎉🎉")    
                         swaps+=1
         no_none = {k:v for k,v in order.items() if v[1] != None}
         sorted_ordering_dict = {k: v for k, v in sorted(no_none.items(), key=lambda item: item[1][1])}
